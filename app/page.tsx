@@ -6,10 +6,10 @@ type Visual = { title: string; detail: string; image: string; position?: string 
 const images = {
   beijing: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1800&q=86",
   xian: "https://images.unsplash.com/photo-1591122947157-26bad3a117d2?auto=format&fit=crop&w=1600&q=86",
-  zhangjiajie: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1800&q=86",
+  zhangjiajie: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Zhangjiajie-Hunan-China-Wulingyuan-01.jpg?width=1800",
   chengdu: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=1400&q=86",
   chongqing: "https://images.unsplash.com/photo-1548919973-5cef591cdbc9?auto=format&fit=crop&w=1600&q=86",
-  guilin: "https://images.unsplash.com/photo-1537531383496-f4749b8032cf?auto=format&fit=crop&w=1600&q=86",
+  guilin: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Li%20River%2C%20Guilin%2C%20China%2C%20July%202014.JPG?width=1800",
   food: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1400&q=84",
   family: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=84",
   shanghai: "https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?auto=format&fit=crop&w=1600&q=86",
@@ -64,8 +64,8 @@ export default function Home() {
       </div>
       <div className="heroMosaic" aria-label="Scenes from across China">
         <div className="mosaicMain" style={{backgroundImage:`url('${images.zhangjiajie}')`}}><span>Zhangjiajie</span></div>
-        <div style={{backgroundImage:`url('${images.guilin}')`}}><span>Guilin</span></div>
-        <div style={{backgroundImage:`url('${images.shanghai}')`}}><span>Shanghai</span></div>
+        <div className="mosaicGuilin" style={{backgroundImage:`url('${images.guilin}')`}}><span>Guilin</span></div>
+        <div className="mosaicShanghai" style={{backgroundImage:`url('${images.shanghai}')`}}><span>Shanghai</span></div>
       </div>
     </section>
 

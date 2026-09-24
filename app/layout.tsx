@@ -11,6 +11,7 @@ export default function RootLayout({children}:{children:React.ReactNode}) {
     <header className="siteHeader">
       <Link href="/" className="brand" aria-label="Seek China Travel home"><span className="brandMark">S<span>C</span>T</span><span className="brandWords"><b>SEEK CHINA</b><small>TRAVEL</small></span></Link>
       <nav className="mainNav" aria-label="Main navigation"><Link href="/">Home</Link><Link href="/tours">Tours</Link><Link href="/destinations">Destinations</Link><a href="/#guide">Travel Guide</a><a href="#contact">Contact Us</a></nav>
+      <details className="mobileMenu"><summary aria-label="Open navigation"><span></span><span></span><span></span></summary><nav aria-label="Mobile navigation"><Link href="/">Home</Link><Link href="/tours">Tours</Link><Link href="/destinations">Destinations</Link><a href="/#guide">Travel Guide</a><a href="#contact">Contact Us</a></nav></details>
       <Link className="headerCta" href="/quote">Get a Quote <span>↗</span></Link>
     </header>
     {children}

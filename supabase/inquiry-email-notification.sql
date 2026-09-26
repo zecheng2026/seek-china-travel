@@ -1,0 +1,11 @@
+-- New inquiry email notification (Supabase Database Webhook)
+-- This project is a static Next.js export, so notification delivery should be
+-- configured in Supabase rather than exposing an email provider key in the browser.
+--
+-- After merging this PR:
+-- 1. In Supabase, create a Database Webhook for public.inquiries / INSERT.
+-- 2. Point it to a Supabase Edge Function (recommended) that sends the email.
+-- 3. Store the email provider API key as an Edge Function secret, never NEXT_PUBLIC_*.
+--
+-- The website inquiry itself already persists safely in public.inquiries.
+-- This file intentionally does not create a trigger that embeds secrets in SQL.

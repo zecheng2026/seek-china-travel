@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { createClient } from "../../utils/supabase/client";
 
@@ -136,6 +136,68 @@ function isLongField(field: string, value: unknown) {
   return /description|content|summary|intro|overview/i.test(field) || (typeof value === "string" && value.length > 80);
 }
 
+
+function RichTextEditor({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  const supabase = useMemo(() => createClient(), []);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== value) editorRef.current.innerHTML = value;
+  }, [value]);
+
+  function sync() {
+    onChange(editorRef.current?.innerHTML ?? "");
+  }
+  function command(name: string, commandValue?: string) {
+    editorRef.current?.focus();
+    document.execCommand(name, false, commandValue);
+    sync();
+  }
+  function addLink() {
+    const url = window.prompt("请输入链接地址，例如 https://example.com");
+    if (url) command("createLink", url);
+  }
+  async function addImage(file?: File) {
+    if (!file) return;
+    setUploading(true); setError("");
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const path = "content/" + Date.now() + "-" + safeName;
+    const { error: uploadError } = await supabase.storage.from("website-media").upload(path, file, { upsert: false });
+    if (uploadError) setError("图片上传失败：" + uploadError.message);
+    else {
+      const { data } = supabase.storage.from("website-media").getPublicUrl(path);
+      command("insertImage", data.publicUrl);
+    }
+    setUploading(false);
+  }
+
+  return <div className="richField">
+    <span className="richLabel">{label}</span>
+    <div className="richEditor">
+      <div className="richToolbar" onMouseDown={(e) => { if ((e.target as HTMLElement).tagName !== "INPUT") e.preventDefault(); }}>
+        <select aria-label="段落样式" defaultValue="p" onChange={(e) => command("formatBlock", e.target.value)}>
+          <option value="p">正文</option><option value="h2">标题 2</option><option value="h3">标题 3</option><option value="blockquote">引用</option>
+        </select>
+        <button type="button" title="粗体" onClick={() => command("bold")}><b>B</b></button>
+        <button type="button" title="斜体" onClick={() => command("italic")}><i>I</i></button>
+        <button type="button" title="下划线" onClick={() => command("underline")}><u>U</u></button>
+        <button type="button" title="项目符号" onClick={() => command("insertUnorderedList")}>• 列表</button>
+        <button type="button" title="编号列表" onClick={() => command("insertOrderedList")}>1. 列表</button>
+        <button type="button" title="插入链接" onClick={addLink}>🔗 链接</button>
+        <label className="richImageButton">{uploading ? "上传中…" : "▧ 图片"}<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" disabled={uploading} onChange={(e) => addImage(e.target.files?.[0])}/></label>
+        <button type="button" title="撤销" onClick={() => command("undo")}>↶</button>
+        <button type="button" title="重做" onClick={() => command("redo")}>↷</button>
+        <button type="button" title="清除格式" onClick={() => command("removeFormat")}>清除格式</button>
+      </div>
+      <div ref={editorRef} className="richCanvas" contentEditable suppressContentEditableWarning onInput={sync} data-placeholder="在这里编辑英文详细介绍…"/>
+    </div>
+    {error && <small className="richError">{error}</small>}
+    <small className="richHint">支持标题、粗体、斜体、列表、链接和正文图片；图片会上传到网站媒体库。</small>
+  </div>;
+}
+
 function DestinationManager({ rows, loading, message, onRefresh }: { rows: RecordRow[]; loading: boolean; message: string; onRefresh: () => void }) {
   const supabase = useMemo(() => createClient(), []);
   const [editing, setEditing] = useState<RecordRow | null>(null);
@@ -203,7 +265,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
         const url = typeof draft[field] === "string" ? String(draft[field]) : "";
         return <div className="destinationImageBox" key={field}><span>{destinationLabel(field)}</span>{url ? <img src={url} alt="" /> : <div className="destinationImageEmpty">暂无图片</div>}<div><label className="destinationUpload">{uploading === field ? "上传中…" : "上传 / 更换图片"}<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" disabled={!!uploading} onChange={(e) => uploadImage(field,e.target.files?.[0])}/></label>{url && <button onClick={() => setDraft({...draft,[field]:""})}>移除</button>}</div><input value={url} placeholder="或粘贴图片 URL" onChange={(e) => setDraft({...draft,[field]:e.target.value})}/></div>
       })}</div></div>}
-      {longFields.length > 0 && <div className="destinationCard"><div className="destinationCardTitle"><b>目的地内容</b><span>这里的文字将用于英文游客页面。</span></div><div className="destinationLongFields">{longFields.map((field) => <label key={field}><span>{destinationLabel(field)}</span><textarea rows={field === "short_description" ? 4 : 9} value={formatValue(draft[field]) === "—" ? "" : formatValue(draft[field])} onChange={(e) => setDraft({...draft,[field]:e.target.value})}/><small>{String(draft[field] ?? "").length} 个字符</small></label>)}</div></div>}
+      {longFields.length > 0 && <div className="destinationCard"><div className="destinationCardTitle"><b>目的地内容</b><span>简短介绍使用纯文本；详细介绍支持排版、链接和正文图片。</span></div><div className="destinationLongFields">{longFields.map((field) => field === "short_description" || /summary/i.test(field) ? <label key={field}><span>{destinationLabel(field)}</span><textarea rows={4} value={formatValue(draft[field]) === "—" ? "" : formatValue(draft[field])} onChange={(e) => setDraft({...draft,[field]:e.target.value})}/><small>{String(draft[field] ?? "").length} 个字符</small></label> : <RichTextEditor key={field} label={destinationLabel(field)} value={formatValue(draft[field]) === "—" ? "" : formatValue(draft[field])} onChange={(value) => setDraft((current) => ({...current,[field]:value}))} />)}</div></div>}
       {toggleFields.length > 0 && <div className="destinationCard"><div className="destinationCardTitle"><b>前台设置</b><span>控制目的地是否发布、推荐及其他展示状态。</span></div><div className="destinationToggles">{toggleFields.map((field) => <label key={field}><div><b>{destinationLabel(field)}</b><small>{/featured/.test(field) ? "开启后可用于首页或推荐区域。" : "控制该内容在网站上的展示状态。"}</small></div><input type="checkbox" checked={Boolean(draft[field])} onChange={(e) => setDraft({...draft,[field]:e.target.checked})}/></label>)}</div></div>}
       <div className="destinationBottomActions"><button onClick={() => setEditing(null)}>取消</button><button className="adminPrimary" disabled={saving} onClick={save}>{saving ? "正在保存…" : "保存目的地"}</button></div>
     </>}

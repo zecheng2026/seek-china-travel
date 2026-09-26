@@ -70,7 +70,7 @@ export default function AdminPage() {
   return <main className="adminShell">
     <aside className="adminSidebar">
       <div className="adminBrand"><span>S<span>C</span>T</span><div><b>SEEK CHINA</b><small>管理后台</small></div></div>
-      <nav aria-label="Admin navigation">{sections.map(([label, key]) => <button className={active === key ? "active" : ""} key={key} onClick={() => setActive(key)}><span>{navIcon(key)}</span>{label}</button>)}</nav>
+      <nav aria-label="Admin navigation">{sections.map(([label, key]) => <button className={active === key ? "active" : ""} key={key} onClick={() => setActive(key)}><span>{navIcon(key as string)}</span>{label}</button>)}</nav>
       <div className="adminAccount"><small>当前登录</small><span title={session.user.email}>{session.user.email}</span><button onClick={() => supabase.auth.signOut()}>退出登录</button></div>
     </aside>
     <section className="adminWorkspace">

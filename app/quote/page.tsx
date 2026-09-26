@@ -5,7 +5,7 @@ import { createClient } from "../../utils/supabase/client";
 
 export default function Quote(){
  const supabase=useMemo(()=>createClient(),[]);
- const [tour,setTour]=useState("");const [destination,setDestination]=useState("");const [sending,setSending]=useState(false);
+ const [tour,setTour]=useState("");const [destination,setDestination]=useState("");const [sending,setSending]=useState(false); const isTourInquiry=Boolean(tour);
  const [result,setResult]=useState<"idle"|"success"|"error">("idle");const [startedAt]=useState(()=>Date.now());
  useEffect(()=>{const params=new URLSearchParams(window.location.search);setTour(params.get("tour")??"");setDestination(params.get("destination")??"");},[]);
  async function submit(e:FormEvent<HTMLFormElement>){
@@ -18,7 +18,7 @@ export default function Quote(){
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
    full_name:get("name"),email:get("email"),phone:get("phone"),whatsapp:get("phone"),
-   destination:[get("destinations"),get("tour_name")&&"Interested tour: "+get("tour_name")].filter(Boolean).join(" · "),
+   destination:isTourInquiry ? "Tour: "+get("tour_name") : [get("destinations"),get("tour_name")&&"Interested tour: "+get("tour_name")].filter(Boolean).join(" · "),
    message:[get("message"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
    source:"website",status:"new"
   });
@@ -35,8 +35,8 @@ export default function Quote(){
  <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>
  <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
- <label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
- <label className="full">Interested tour<select name="tour_name" value={tour} onChange={e=>setTour(e.target.value)}><option value="">Please select</option><option value="Historical & Cultural">Historical & Cultural</option><option value="Natural Scenery">Natural Scenery</option><option value="Geological Wonders">Geological Wonders</option><option value="Folk & Ethnic Culture">Folk & Ethnic Culture</option><option value="Museum & Exhibition">Museum & Exhibition</option><option value="Theme & Amusement">Theme & Amusement</option><option value="Wellness Resort">Wellness Resort</option><option value="City Landmark">City Landmark</option><option value="Others">Others</option></select></label>
+ {isTourInquiry ? <label className="full">Tour name<input name="tour_name" value={tour} readOnly /></label> : <><label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
+ <label className="full">Interested tour<select name="tour_name" value={tour} onChange={e=>setTour(e.target.value)}><option value="">Please select</option><option value="Historical & Cultural">Historical & Cultural</option><option value="Natural Scenery">Natural Scenery</option><option value="Geological Wonders">Geological Wonders</option><option value="Folk & Ethnic Culture">Folk & Ethnic Culture</option><option value="Museum & Exhibition">Museum & Exhibition</option><option value="Theme & Amusement">Theme & Amusement</option><option value="Wellness Resort">Wellness Resort</option><option value="City Landmark">City Landmark</option><option value="Others">Others</option></select></label></>}
  <label className="full">What kind of trip are you imagining? *<textarea name="message" rows={5} required maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
  <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>
  {result==="error"&&<p className="quoteError full" role="alert">Your request could not be sent. Please try again later.</p>}

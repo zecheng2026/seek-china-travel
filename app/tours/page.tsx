@@ -5,7 +5,8 @@ import { createClient } from "../../utils/supabase/client";
 import ManagedHero from "../components/ManagedHero";
 
 type Tour=Record<string,unknown>;
-function plainText(value:unknown){return String(value??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();}\nfunction money(value:unknown){const n=Number(value);return Number.isFinite(n)?new Intl.NumberFormat("en-US").format(n):String(value??"");}
+function plainText(value:unknown){return String(value??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();}
+function money(value:unknown){const n=Number(value);return Number.isFinite(n)?new Intl.NumberFormat("en-US").format(n):String(value??"");}
 export default function Tours(){
  const supabase=useMemo(()=>createClient(),[]);const [items,setItems]=useState<Tour[]>([]);const [loading,setLoading]=useState(true);
  useEffect(()=>{supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).then(({data})=>{setItems((data as Tour[]|null)??[]);setLoading(false);});},[supabase]);

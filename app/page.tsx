@@ -34,7 +34,7 @@ export default function Home() {
   const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]);
   useEffect(()=>{supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).limit(3).then(({data})=>setLiveTours((data as Record<string,unknown>[]|null)??[]));},[supabase]);
   return <main>
-    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,buttonText:"Plan Your China Trip",buttonLink:"/quote"}} />
+    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
     <nav className="v1Search" aria-label="Start planning a China journey">
       <Link href="/quote"><small>WHERE</small><b>Choose a destination</b><span>⌄</span></Link>

@@ -263,7 +263,8 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
   const fields = editing ? Object.keys(draft).filter((key) => !["id","created_at","updated_at"].includes(key)) : [];
   const imageFields = fields.filter((field) => field === "hero_image_url");
   const toggleFields = fields.filter((field) => typeof draft[field] === "boolean" || /^(is_|featured$|published$)/.test(field));
-  const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url"];\n  const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field) && !hiddenDestinationFields.includes(field));
+  const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url"];
+  const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field) && !hiddenDestinationFields.includes(field));
   const primaryFields = textFields.filter((field) => !isLongField(field,draft[field]));
   const longFields = textFields.filter((field) => isLongField(field,draft[field]));
 

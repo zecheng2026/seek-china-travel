@@ -6,7 +6,6 @@ import { createClient } from "../../../utils/supabase/client";
 
 type Row=Record<string,unknown>;
 function Html({value}:{value:unknown}){if(!value)return null;return <div className="tourHtml" dangerouslySetInnerHTML={{__html:String(value)}}/>}
-export function generateStaticParams(){return [{slug:"cms-tour"}];}
 export default function TourDetail(){
  const params=useParams();const slug=String(params.slug??"");const supabase=useMemo(()=>createClient(),[]);const [tour,setTour]=useState<Row|null>(null);const [days,setDays]=useState<Row[]>([]);const [loading,setLoading]=useState(true);
  useEffect(()=>{if(!slug)return;supabase.from("tours").select("*").eq("slug",slug).eq("is_published",true).maybeSingle().then(async({data})=>{const row=data as Row|null;setTour(row);if(row?.id!=null){const {data:dayRows}=await supabase.from("tour_days").select("*").eq("tour_id",row.id).order("day_number",{ascending:true});setDays((dayRows as Row[]|null)??[]);}setLoading(false);});},[slug,supabase]);

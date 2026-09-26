@@ -1,0 +1,18 @@
+"use client";
+import Link from "next/link";
+import {useEffect,useMemo,useState} from "react";
+import {createClient} from "../../utils/supabase/client";
+type Row=Record<string,unknown>;
+function Html({value}:{value:unknown}){if(!value)return null;return <div className="tourHtml" dangerouslySetInnerHTML={{__html:String(value)}}/>}
+export default function DestinationDetail(){
+ const supabase=useMemo(()=>createClient(),[]);const [slug,setSlug]=useState("");const [destination,setDestination]=useState<Row|null>(null);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(true);
+ useEffect(()=>{setSlug(new URLSearchParams(window.location.search).get("slug")??"");},[]);
+ useEffect(()=>{if(!slug)return;setLoading(true);supabase.from("destinations").select("*").eq("slug",slug).maybeSingle().then(async({data})=>{const row=data as Row|null;setDestination(row);if(row){const name=String(row.name??"");const {data:tourRows}=await supabase.from("tours").select("*").eq("is_published",true).ilike("destination","%"+name+"%").order("sort_order",{ascending:true}).limit(3);setTours((tourRows as Row[]|null)??[]);}setLoading(false);});},[slug,supabase]);
+ if(loading)return <main className="tourLoading"><p>Loading destination…</p></main>;
+ if(!destination)return <main className="tourLoading"><div><h1>Destination not found</h1><p>This destination may not be available yet.</p><Link href="/destinations" className="btn">Explore Destinations →</Link></div></main>;
+ const name=String(destination.name??"China");const image=String(destination.hero_image_url??destination.image_url??destination.cover_image_url??destination.featured_image_url??"");const intro=destination.short_description??destination.description;
+ return <main className="destinationDetail"><section className="destinationDetailHero" style={image?{backgroundImage:"url('"+image+"')"}:undefined}><div className="journeyHeroShade"/><div className="journeyHeroContent"><Link href="/destinations" className="journeyBack">← All Destinations</Link><p className="journeysKicker">EXPLORE CHINA</p><h1>{name}</h1>{Boolean(intro)&&<p>{String(intro).replace(/<[^>]*>/g," ")}</p>}<Link href={"/quote?destination="+encodeURIComponent(name)} className="btn">Plan My {name} Trip →</Link></div></section>
+ <section className="destinationDetailBody"><article className="journeyMain"><section className="journeySection journeyOverview"><p className="journeysKicker">DISCOVER {name.toUpperCase()}</p><h2>Why visit {name}?</h2><Html value={destination.description??destination.content??destination.short_description}/></section>
+ {tours.length>0&&<section className="journeySection"><p className="journeysKicker">RECOMMENDED JOURNEYS</p><h2>Explore {name} with us</h2><div className="destinationTourCards">{tours.map((t,i)=>{const title=String(t.name??t.title??"China Journey");const ti=String(t.hero_image_url??t.image_url??t.cover_image_url??"");return <Link key={String(t.id??i)} href={"/tour?slug="+encodeURIComponent(String(t.slug??""))} className="destinationTourCard">{ti&&<img src={ti} alt={title}/>}<div><small>PRIVATE JOURNEY</small><h3>{title}</h3><span>View journey →</span></div></Link>})}</div></section>}
+ </article><aside className="journeySidebar"><div className="journeyPlanCard"><p className="journeysKicker">PLAN YOUR TRIP</p><h3>Ready to explore {name}?</h3><p>Tell us your dates, group size and interests. Our China travel team will shape the journey around you.</p><Link href={"/quote?destination="+encodeURIComponent(name)} className="btn">Plan My Trip →</Link><ul><li>Private & flexible planning</li><li>Professional local guides</li><li>Clear pricing, no forced shopping</li></ul></div></aside></section></main>;
+}

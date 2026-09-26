@@ -81,12 +81,12 @@ export default function AdminPage() {
 function Login() {
   const supabase = useMemo(() => createClient(), []);
   const [email, setEmail] = useState("");
-  const [password, set密码] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   async function submit(event: FormEvent) {
     event.preventDefault(); setBusy(true); setMessage("");
-    const { error } = await supabase.auth.signInWith密码({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) setMessage(error.message);
     setBusy(false);
   }
@@ -94,7 +94,7 @@ function Login() {
     <div className="adminLoginBrand"><b>S<span>C</span>T</b><div>SEEK CHINA<small>网站管理系统</small></div></div>
     <p className="adminKicker">SECURE 管理后台</p><h1>欢迎回来</h1><p>登录后管理 SEEK CHINA TRAVEL 网站。</p>
     <label>邮箱<input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="name@seekchinatravel.com" /></label>
-    <label>密码<input required type="password" value={password} onChange={(e) => set密码(e.target.value)} autoComplete="current-password" placeholder="••••••••" /></label>
+    <label>密码<input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" placeholder="••••••••" /></label>
     {message && <p className="adminError" role="alert">{message}</p>}
     <button className="adminPrimary" disabled={busy}>{busy ? "正在登录…" : "安全登录"}<span>→</span></button>
     <small className="adminSecurity">由 Supabase Auth 提供登录保护，数据权限由 RLS 安全策略控制。</small>

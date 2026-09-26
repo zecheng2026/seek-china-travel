@@ -36,12 +36,12 @@ export default function Home() {
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
-    <section className="homeStrengthBar" aria-label="SEEK CHINA TRAVEL company strengths">
-      <div><strong>500+</strong><span>Professional Guides</span></div>
-      <div><strong>15+</strong><span>Locations Across China</span></div>
-      <div><strong>120,000+</strong><span>Travelers Served Annually</span></div>
-      <div><strong>140+</strong><span>Selected Hotels & Stays</span></div>
-      <Link href="/about">Why Travel With SCT <span>→</span></Link>
+    <section className="homeStrengthBar homeServiceBar" aria-label="SEEK CHINA TRAVEL professional services">
+      <div><strong>China Travel Concierge</strong><span>Personal support for planning and managing private trips in China.</span></div>
+      <div><strong>Fully Managed China Trips</strong><span>End-to-end support for multi-city China journeys, from planning to daily coordination.</span></div>
+      <div><strong>China Itinerary Planning</strong><span>Route advice, daily schedules, city pacing, and practical travel structure.</span></div>
+      <div><strong>Driver &amp; Guide Service</strong><span>Reliable private drivers and professional English guides for selected travel days.</span></div>
+      <div><strong>Private China Tours</strong><span>Well-designed private city tours for travelers, families, and small groups.</span></div>
     </section>
 
     <section className="v1Section">

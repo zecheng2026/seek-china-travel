@@ -1,5 +1,6 @@
 "use client";
-import Link from "next/link";\nimport {usePathname} from "next/navigation";
+import Link from "next/link";
+import {usePathname} from "next/navigation";
 import {useEffect,useMemo,useState} from "react";
 import {createClient} from "../../utils/supabase/client";
 type Item={label:string;href:string};

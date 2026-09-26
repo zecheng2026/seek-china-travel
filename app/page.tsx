@@ -36,12 +36,12 @@ export default function Home() {
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
-    <section className="homeStrengthBar homeServiceBar visualServiceBar" aria-label="SEEK CHINA TRAVEL professional services">
-      <article><div className="serviceVisual" style={{backgroundImage:"url('"+images.guilin+"')"}}><i>◎</i></div><div><strong>China Travel Concierge</strong><span>Personal support for planning your private China journey.</span></div></article>
-      <article><div className="serviceVisual" style={{backgroundImage:"url('"+images.beijing+"')"}}><i>▦</i></div><div><strong>Fully Managed Trips</strong><span>Multi-city journeys managed from planning to daily coordination.</span></div></article>
-      <article><div className="serviceVisual" style={{backgroundImage:"url('"+images.xian+"')"}}><i>⌖</i></div><div><strong>Itinerary Planning</strong><span>Smart routes, daily schedules and a comfortable travel pace.</span></div></article>
-      <article><div className="serviceVisual" style={{backgroundImage:"url('"+images.chongqing+"')"}}><i>◆</i></div><div><strong>Driver &amp; Guide</strong><span>Private drivers and professional English-speaking local guides.</span></div></article>
-      <article><div className="serviceVisual" style={{backgroundImage:"url('"+images.zhangjiajie+"')"}}><i>●</i></div><div><strong>Private China Tours</strong><span>Well-designed experiences for couples, families and small groups.</span></div></article>
+    <section className="homeStrengthBar homeServiceBar serviceIconBar" aria-label="SEEK CHINA TRAVEL professional services">
+      <article><span className="serviceIcon" aria-hidden="true">☏</span><strong>China Travel Concierge</strong></article>
+      <article><span className="serviceIcon" aria-hidden="true">✈</span><strong>Fully Managed China Trips</strong></article>
+      <article><span className="serviceIcon" aria-hidden="true">⌖</span><strong>China Itinerary Planning</strong></article>
+      <article><span className="serviceIcon" aria-hidden="true">▣</span><strong>Driver &amp; Guide Service</strong></article>
+      <article><span className="serviceIcon" aria-hidden="true">♟</span><strong>Private China Tours</strong></article>
     </section>
 
     <section className="v1Section">

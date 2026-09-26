@@ -5,16 +5,16 @@ import type { Session } from "@supabase/supabase-js";
 import { createClient } from "../../utils/supabase/client";
 
 const sections = [
-  ["Dashboard", "dashboard"],
-  ["Website Settings", "site_settings"],
-  ["Homepage", "homepage_sections"],
-  ["Destinations", "destinations"],
-  ["Tours", "tours"],
-  ["Travel Guides", "travel_guides"],
-  ["Media Library", "media"],
-  ["Inquiries", "inquiries"],
-  ["Customers", "customers"],
-  ["Bookings", "bookings"],
+  ["控制台", "dashboard"],
+  ["网站设置", "site_settings"],
+  ["首页管理", "homepage_sections"],
+  ["目的地管理", "destinations"],
+  ["旅游线路", "tours"],
+  ["旅行攻略", "travel_guides"],
+  ["媒体库", "media"],
+  ["客户咨询", "inquiries"],
+  ["客户管理", "customers"],
+  ["订单管理", "bookings"],
 ] as const;
 
 type TableName = Exclude<(typeof sections)[number][1], "dashboard" | "media">;
@@ -60,20 +60,20 @@ export default function AdminPage() {
     if (session && active !== "dashboard" && active !== "media") loadTable(active);
   }, [active, loadTable, session]);
 
-  if (checking) return <main className="adminGate"><div className="adminLogin"><b className="adminLogo">SCT</b><p>Checking your secure session…</p></div></main>;
+  if (checking) return <main className="adminGate"><div className="adminLogin"><b className="adminLogo">SCT</b><p>正在验证登录状态…</p></div></main>;
   if (!session) return <Login />;
 
-  const title = sections.find((item) => item[1] === active)?.[0] ?? "Dashboard";
+  const title = sections.find((item) => item[1] === active)?.[0] ?? "控制台";
 
   return <main className="adminShell">
     <aside className="adminSidebar">
-      <div className="adminBrand"><span>S<span>C</span>T</span><div><b>SEEK CHINA</b><small>ADMIN PORTAL</small></div></div>
+      <div className="adminBrand"><span>S<span>C</span>T</span><div><b>SEEK CHINA</b><small>管理后台</small></div></div>
       <nav aria-label="Admin navigation">{sections.map(([label, key]) => <button className={active === key ? "active" : ""} key={key} onClick={() => setActive(key)}><span>{navIcon(key)}</span>{label}</button>)}</nav>
-      <div className="adminAccount"><small>SIGNED IN AS</small><span title={session.user.email}>{session.user.email}</span><button onClick={() => supabase.auth.signOut()}>Sign out</button></div>
+      <div className="adminAccount"><small>当前登录</small><span title={session.user.email}>{session.user.email}</span><button onClick={() => supabase.auth.signOut()}>退出登录</button></div>
     </aside>
     <section className="adminWorkspace">
-      <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> Connected to Supabase</span></header>
-      {active === "dashboard" ? <Dashboard onNavigate={setActive} /> : active === "media" ? <MediaLibrary /> : <Collection title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
+      <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> 数据库已连接</span></header>
+      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "media" ? <MediaLibrary /> : <Collection title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
     </section>
   </main>;
 }
@@ -91,27 +91,27 @@ function Login() {
     setBusy(false);
   }
   return <main className="adminGate"><form className="adminLogin" onSubmit={submit}>
-    <div className="adminLoginBrand"><b>S<span>C</span>T</b><div>SEEK CHINA<small>TRAVEL ADMINISTRATION</small></div></div>
-    <p className="adminKicker">SECURE ADMIN PORTAL</p><h1>Welcome back</h1><p>Sign in to manage the SEEK CHINA TRAVEL website.</p>
-    <label>Email address<input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="name@seekchinatravel.com" /></label>
-    <label>Password<input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" placeholder="••••••••" /></label>
+    <div className="adminLoginBrand"><b>S<span>C</span>T</b><div>SEEK CHINA<small>网站管理系统</small></div></div>
+    <p className="adminKicker">SECURE 管理后台</p><h1>欢迎回来</h1><p>登录后管理 SEEK CHINA TRAVEL 网站。</p>
+    <label>邮箱<input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="name@seekchinatravel.com" /></label>
+    <label>密码<input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" placeholder="••••••••" /></label>
     {message && <p className="adminError" role="alert">{message}</p>}
-    <button className="adminPrimary" disabled={busy}>{busy ? "Signing in…" : "Sign in securely"}<span>→</span></button>
-    <small className="adminSecurity">Protected by Supabase Auth. Data access is enforced by your Row Level Security policies.</small>
+    <button className="adminPrimary" disabled={busy}>{busy ? "正在登录…" : "安全登录"}<span>→</span></button>
+    <small className="adminSecurity">由 Supabase Auth 提供登录保护，数据权限由 RLS 安全策略控制。</small>
   </form></main>;
 }
 
-function Dashboard({ onNavigate }: { onNavigate: (key: (typeof sections)[number][1]) => void }) {
-  const cards = [["Destinations", "Manage places and highlights", "destinations"], ["Tours", "Curate journeys and itineraries", "tours"], ["Inquiries", "Review new travel requests", "inquiries"], ["Media", "Upload website photography", "media"]] as const;
-  return <><section className="adminWelcome"><div><p>CONTENT &amp; OPERATIONS</p><h2>Your website, all in one place.</h2><span>Manage travel content and customer activity while keeping the live experience consistent.</span></div><div className="adminWelcomeMark">中国</div></section>
-  <div className="adminQuick"><h2>Quick access</h2><div>{cards.map(([name, description, key], index) => <button key={name} onClick={() => onNavigate(key)}><b>0{index + 1}</b><h3>{name}</h3><p>{description}</p><span>Open section →</span></button>)}</div></div>
-  <section className="adminNotice"><span>●</span><div><b>Static-first and secure</b><p>The admin runs entirely in the browser for Cloudflare Pages. Supabase Auth and RLS remain responsible for protecting every record.</p></div></section></>;
+function 控制台({ onNavigate }: { onNavigate: (key: (typeof sections)[number][1]) => void }) {
+  const cards = [["目的地管理", "管理目的地与亮点", "destinations"], ["旅游线路", "管理线路与行程", "tours"], ["客户咨询", "查看新的旅行咨询", "inquiries"], ["Media", "上传网站图片", "media"]] as const;
+  return <><section className="adminWelcome"><div><p>内容与运营</p><h2>一个后台，管理整个网站。</h2><span>集中管理旅游内容、客户咨询和网站运营，英文前台保持不变。</span></div><div className="adminWelcomeMark">中国</div></section>
+  <div className="adminQuick"><h2>快捷入口</h2><div>{cards.map(([name, description, key], index) => <button key={name} onClick={() => onNavigate(key)}><b>0{index + 1}</b><h3>{name}</h3><p>{description}</p><span>进入管理 →</span></button>)}</div></div>
+  <section className="adminNotice"><span>●</span><div><b>安全稳定</b><p>后台运行于 Cloudflare Pages，Supabase Auth 与 RLS 负责保护数据访问。</p></div></section></>;
 }
 
 function Collection({ title, rows, loading, message, onRefresh }: { title: string; rows: RecordRow[]; loading: boolean; message: string; onRefresh: () => void }) {
   const columns = rows.length ? Object.keys(rows[0]).slice(0, 6) : [];
-  return <section className="adminPanel"><header><div><h2>{title}</h2><p>Live records from the Supabase public schema.</p></div><button onClick={onRefresh}>↻ Refresh</button></header>
-    {message ? <div className="adminEmpty error"><b>Could not load this section</b><p>{message}</p><small>Check this user&apos;s RLS policy in Supabase.</small></div> : loading ? <div className="adminEmpty">Loading records…</div> : rows.length === 0 ? <div className="adminEmpty"><b>No records yet</b><p>There is nothing to display, or your RLS policy does not expose any rows.</p></div> : <div className="adminTableWrap"><table><thead><tr>{columns.map((column) => <th key={column}>{column.replaceAll("_", " ")}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={String(row.id ?? index)}>{columns.map((column) => <td key={column} title={formatValue(row[column])}>{formatValue(row[column])}</td>)}</tr>)}</tbody></table></div>}
+  return <section className="adminPanel"><header><div><h2>{title}</h2><p>实时读取 Supabase 数据库记录。</p></div><button onClick={onRefresh}>↻ 刷新</button></header>
+    {message ? <div className="adminEmpty error"><b>无法加载此模块</b><p>{message}</p><small>请检查该账号在 Supabase 中的 RLS 权限。</small></div> : loading ? <div className="adminEmpty">正在加载数据…</div> : rows.length === 0 ? <div className="adminEmpty"><b>暂无数据</b><p>当前没有可显示的数据，或 RLS 权限尚未开放。</p></div> : <div className="adminTableWrap"><table><thead><tr>{columns.map((column) => <th key={column}>{column.replaceAll("_", " ")}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={String(row.id ?? index)}>{columns.map((column) => <td key={column} title={formatValue(row[column])}>{formatValue(row[column])}</td>)}</tr>)}</tbody></table></div>}
   </section>;
 }
 
@@ -128,7 +128,7 @@ function MediaLibrary() {
     if (error) setResult(`Error: ${error.message}`); else setResult(supabase.storage.from("website-media").getPublicUrl(path).data.publicUrl);
     setUploading(false);
   }
-  return <section className="adminPanel"><header><div><h2>Media Library</h2><p>Upload optimized website images to the <code>website-media</code> bucket.</p></div></header><form className="mediaUpload" onSubmit={upload}><div><b>Upload a website image</b><p>JPG, PNG, WebP or AVIF. Your Storage policies control upload access.</p></div><input name="file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" required /><button className="adminPrimary" disabled={uploading}>{uploading ? "Uploading…" : "Upload image"}</button></form>{result && <div className={result.startsWith("Error:") ? "mediaResult error" : "mediaResult"}><b>{result.startsWith("Error:") ? "Upload failed" : "Public URL ready"}</b><p>{result}</p>{!result.startsWith("Error:") && <button onClick={() => navigator.clipboard.writeText(result)}>Copy URL</button>}</div>}</section>;
+  return <section className="adminPanel"><header><div><h2>媒体库</h2><p>上传网站图片到 <code>website-media</code> 存储桶。</p></div></header><form className="mediaUpload" onSubmit={upload}><div><b>上传网站图片</b><p>支持 JPG、PNG、WebP、AVIF，上传权限由 Storage 安全策略控制。</p></div><input name="file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" required /><button className="adminPrimary" disabled={uploading}>{uploading ? "正在上传…" : "上传图片"}</button></form>{result && <div className={result.startsWith("Error:") ? "mediaResult error" : "mediaResult"}><b>{result.startsWith("Error:") ? "上传失败" : "图片地址已生成"}</b><p>{result}</p>{!result.startsWith("Error:") && <button onClick={() => navigator.clipboard.writeText(result)}>复制图片地址</button>}</div>}</section>;
 }
 
 function navIcon(key: string) {

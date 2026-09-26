@@ -20,6 +20,8 @@ const sections = [
 type TableName = Exclude<(typeof sections)[number][1], "dashboard" | "media">;
 type RecordRow = Record<string, unknown>;
 
+const editableTables = new Set(["site_settings", "homepage_sections", "destinations", "tours", "travel_guides"]);
+
 function formatValue(value: unknown) {
   if (value == null) return "—";
   if (typeof value === "object") return JSON.stringify(value);
@@ -73,7 +75,7 @@ export default function AdminPage() {
     </aside>
     <section className="adminWorkspace">
       <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> 数据库已连接</span></header>
-      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "media" ? <MediaLibrary /> : <Collection title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
+      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "media" ? <MediaLibrary /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
     </section>
   </main>;
 }
@@ -108,30 +110,49 @@ function 控制台({ onNavigate }: { onNavigate: (key: (typeof sections)[number]
   <section className="adminNotice"><span>●</span><div><b>安全稳定</b><p>后台运行于 Cloudflare Pages，Supabase Auth 与 RLS 负责保护数据访问。</p></div></section></>;
 }
 
-function Collection({ title, rows, loading, message, onRefresh }: { title: string; rows: RecordRow[]; loading: boolean; message: string; onRefresh: () => void }) {
-  const columns = rows.length ? Object.keys(rows[0]).slice(0, 6) : [];
-  return <section className="adminPanel"><header><div><h2>{title}</h2><p>实时读取 Supabase 数据库记录。</p></div><button onClick={onRefresh}>↻ 刷新</button></header>
-    {message ? <div className="adminEmpty error"><b>无法加载此模块</b><p>{message}</p><small>请检查该账号在 Supabase 中的 RLS 权限。</small></div> : loading ? <div className="adminEmpty">正在加载数据…</div> : rows.length === 0 ? <div className="adminEmpty"><b>暂无数据</b><p>当前没有可显示的数据，或 RLS 权限尚未开放。</p></div> : <div className="adminTableWrap"><table><thead><tr>{columns.map((column) => <th key={column}>{column.replaceAll("_", " ")}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={String(row.id ?? index)}>{columns.map((column) => <td key={column} title={formatValue(row[column])}>{formatValue(row[column])}</td>)}</tr>)}</tbody></table></div>}
+function Collection({ table, title, rows, loading, message, onRefresh }: { table: TableName; title: string; rows: RecordRow[]; loading: boolean; message: string; onRefresh: () => void }) {
+  const supabase = useMemo(() => createClient(), []);
+  const [editing, setEditing] = useState<RecordRow | null>(null);
+  const [draft, setDraft] = useState<RecordRow>({});
+  const [saving, setSaving] = useState(false);
+  const [actionMessage, setActionMessage] = useState("");
+  const columns = rows.length ? Object.keys(rows[0]).slice(0, 7) : [];
+  const canEdit = editableTables.has(table);
+
+  function openEditor(row?: RecordRow) {
+    setActionMessage("");
+    setEditing(row ?? {});
+    setDraft(row ? { ...row } : {});
+  }
+
+  async function save() {
+    setSaving(true); setActionMessage("");
+    const payload = Object.fromEntries(Object.entries(draft).filter(([key]) => !["id", "created_at", "updated_at"].includes(key)));
+    const id = editing?.id;
+    const query = id == null ? supabase.from(table).insert(payload) : supabase.from(table).update(payload).eq("id", id);
+    const { error } = await query;
+    if (error) setActionMessage(error.message); else { setEditing(null); onRefresh(); }
+    setSaving(false);
+  }
+
+  async function remove(row: RecordRow) {
+    if (row.id == null || !confirm("确定删除这条记录吗？此操作无法撤销。")) return;
+    const { error } = await supabase.from(table).delete().eq("id", row.id);
+    if (error) setActionMessage(error.message); else onRefresh();
+  }
+
+  const fields = editing ? Object.keys(editing).filter((key) => !["id", "created_at", "updated_at"].includes(key)) : [];
+  return <section className="adminPanel"><header><div><h2>{title}</h2><p>{canEdit ? "可直接新增、编辑和删除 Supabase 数据库内容。" : "实时读取 Supabase 数据库记录。"}</p></div><div style={{display:"flex",gap:8}}>{canEdit && <button onClick={() => openEditor()}>＋ 新增</button>}<button onClick={onRefresh}>↻ 刷新</button></div></header>
+    {(message || actionMessage) && <div className="adminEmpty error"><b>操作未完成</b><p>{message || actionMessage}</p><small>请检查该账号的 Supabase RLS 写入权限。</small></div>}
+    {editing && <div className="mediaUpload" style={{display:"block"}}><div style={{marginBottom:16}}><b>{editing.id == null ? "新增内容" : "编辑内容"}</b><p>后台字段为中文操作界面；面向游客的内容请继续填写英文。</p></div>
+      {fields.length === 0 ? <p>此表暂无现有记录可推断字段。请先在 Supabase 建立首条记录，之后即可在这里编辑。</p> : <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:14}}>{fields.map((field) => {
+        const value = draft[field]; const isBool = typeof value === "boolean"; const isLong = typeof value === "string" && (value.length > 80 || /description|content|summary|subtitle/i.test(field));
+        return <label key={field} style={{display:"grid",gap:6,fontSize:13,fontWeight:700}}>{field.replaceAll("_"," ")}
+          {isBool ? <select value={String(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value === "true"})}><option value="true">是</option><option value="false">否</option></select> : isLong ? <textarea rows={4} value={formatValue(value) === "—" ? "" : formatValue(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value})} /> : <input value={formatValue(value) === "—" ? "" : formatValue(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value})} />}
+        </label>})}</div>}
+      <div style={{display:"flex",gap:10,marginTop:18}}><button className="adminPrimary" disabled={saving || fields.length === 0} onClick={save}>{saving ? "正在保存…" : "保存"}</button><button onClick={() => setEditing(null)}>取消</button></div>
+    </div>}
+    {loading ? <div className="adminEmpty">正在加载数据…</div> : rows.length === 0 ? <div className="adminEmpty"><b>暂无数据</b><p>当前没有可显示的数据。</p>{canEdit && <button onClick={() => openEditor()}>新增第一条内容</button>}</div> : <div className="adminTableWrap"><table><thead><tr>{columns.map((column) => <th key={column}>{column.replaceAll("_", " ")}</th>)}{canEdit && <th>操作</th>}</tr></thead><tbody>{rows.map((row, index) => <tr key={String(row.id ?? index)}>{columns.map((column) => <td key={column} title={formatValue(row[column])}>{formatValue(row[column])}</td>)}{canEdit && <td><div style={{display:"flex",gap:8}}><button onClick={() => openEditor(row)}>编辑</button><button onClick={() => remove(row)}>删除</button></div></td>}</tr>)}</tbody></table></div>}
   </section>;
 }
 
-function MediaLibrary() {
-  const supabase = useMemo(() => createClient(), []);
-  const [uploading, setUploading] = useState(false);
-  const [result, setResult] = useState("");
-  async function upload(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); const input = event.currentTarget.elements.namedItem("file") as HTMLInputElement; const file = input.files?.[0]; if (!file) return;
-    setUploading(true); setResult("");
-    const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
-    const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}-${safeName}`;
-    const { error } = await supabase.storage.from("website-media").upload(path, file, { contentType: file.type, upsert: false });
-    if (error) setResult(`Error: ${error.message}`); else setResult(supabase.storage.from("website-media").getPublicUrl(path).data.publicUrl);
-    setUploading(false);
-  }
-  return <section className="adminPanel"><header><div><h2>媒体库</h2><p>上传网站图片到 <code>website-media</code> 存储桶。</p></div></header><form className="mediaUpload" onSubmit={upload}><div><b>上传网站图片</b><p>支持 JPG、PNG、WebP、AVIF，上传权限由 Storage 安全策略控制。</p></div><input name="file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" required /><button className="adminPrimary" disabled={uploading}>{uploading ? "正在上传…" : "上传图片"}</button></form>{result && <div className={result.startsWith("Error:") ? "mediaResult error" : "mediaResult"}><b>{result.startsWith("Error:") ? "上传失败" : "图片地址已生成"}</b><p>{result}</p>{!result.startsWith("Error:") && <button onClick={() => navigator.clipboard.writeText(result)}>复制图片地址</button>}</div>}</section>;
-}
-
-function navIcon(key: string) {
-  const icons: Record<string, string> = { dashboard: "⌂", site_settings: "⚙", homepage_sections: "◇", destinations: "⌖", tours: "✈", travel_guides: "▤", media: "▧", inquiries: "✉", customers: "♙", bookings: "✓" };
-  return icons[key] ?? "•";
-}

@@ -31,8 +31,8 @@ const tours = [
 ];
 
 export default function Home() {
-  const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]);
-  useEffect(()=>{supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).limit(3).then(({data})=>setLiveTours((data as Record<string,unknown>[]|null)??[]));},[supabase]);
+  const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]); const [liveDestinations,setLiveDestinations]=useState<Record<string,unknown>[]>([]);
+  useEffect(()=>{Promise.all([supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).limit(3),supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}).limit(6)]).then(([t,d])=>{setLiveTours((t.data as Record<string,unknown>[]|null)??[]);setLiveDestinations((d.data as Record<string,unknown>[]|null)??[]);});},[supabase]);
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
@@ -45,12 +45,12 @@ export default function Home() {
 
     <section className="v1Section">
       <header className="v1SectionHead"><div><p className="v1Eyebrow red">POPULAR DESTINATIONS</p><h2>Where will China take you?</h2></div><Link href="/destinations">View all destinations →</Link></header>
-      <div className="v1DestinationGrid">{destinations.map(({name,image}) => <Link href="/destinations" className="v1Destination" key={name} style={{backgroundImage:`linear-gradient(180deg,transparent 35%,rgba(3,31,57,.88)),url('${image}')`}}><span>Explore</span><h3>{name}</h3></Link>)}</div>
+      <div className="v1DestinationGrid">{(liveDestinations.length?liveDestinations:destinations).map((item:any,index:number)=>{const name=String(item.name??item.title??"China");const image=String(item.hero_image_url??item.image_url??item.cover_image_url??item.image??"");return <Link href={"/quote?destination="+encodeURIComponent(name)} className="v1Destination" key={String(item.id??name??index)} style={image?{backgroundImage:"linear-gradient(180deg,transparent 35%,rgba(3,31,57,.88)),url('"+image+"')"}:undefined}><span>Explore</span><h3>{name}</h3></Link>})}</div>
     </section>
 
     <section className="v1Section v1Soft">
       <header className="v1SectionHead"><div><p className="v1Eyebrow red">HANDPICKED JOURNEYS</p><h2>China trips travelers love</h2></div><Link href="/tours">See all tours →</Link></header>
-      <div className="v1TourGrid">{tours.map((tour) => <article className="v1Tour" key={tour.title}><Link href={`/tours/${tour.slug}`} className="v1TourImage" style={{backgroundImage:`linear-gradient(180deg,transparent 55%,rgba(3,31,57,.68)),url('${tour.image}')`}}><span>{tour.place}</span></Link><div className="v1TourBody"><small>{tour.days} · PRIVATE TOUR</small><h3>{tour.title}</h3><p>{tour.description}</p><Link href={`/tours/${tour.slug}`}>View journey →</Link></div></article>)}</div>
+      <div className="v1TourGrid">{(liveTours.length?liveTours:tours).map((tour:any,index:number)=>{const title=String(tour.name??tour.title??"China Journey");const slug=String(tour.slug??"");const image=String(tour.hero_image_url??tour.image_url??tour.cover_image_url??tour.image??"");const place=String(tour.destination??tour.place??"China");const days=String(tour.duration_days?tour.duration_days+" Days":tour.days??"");const description=String(tour.description??tour.subtitle??"A thoughtfully designed private China journey.").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim().slice(0,150);return <article className="v1Tour" key={String(tour.id??title??index)}><Link href={"/tour?slug="+encodeURIComponent(slug)} className="v1TourImage" style={image?{backgroundImage:"linear-gradient(180deg,transparent 55%,rgba(3,31,57,.68)),url('"+image+"')"}:undefined}><span>{place}</span></Link><div className="v1TourBody"><small>{days} · PRIVATE TOUR</small><h3>{title}</h3><p>{description}</p><Link href={"/tour?slug="+encodeURIComponent(slug)}>View journey →</Link></div></article>})}</div>
     </section>
 
     <section className="v1Section v1Why"><p className="v1Eyebrow red">WHY TRAVEL WITH SCT</p><h2>China made simple, personal and memorable.</h2><div className="v1Features"><article><b>01</b><h3>Local expertise</h3><p>Travel with specialists who understand the destinations, logistics and culture.</p></article><article><b>02</b><h3>Designed around you</h3><p>Adjust hotels, pace, experiences and destinations before you confirm.</p></article><article><b>03</b><h3>Support throughout</h3><p>One travel team from planning through the end of your China journey.</p></article><article><b>04</b><h3>Clear pricing</h3><p>Know what is included before booking, with no forced shopping stops.</p></article></div></section>

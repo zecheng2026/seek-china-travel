@@ -123,8 +123,8 @@ function 控制台({ onNavigate }: { onNavigate: (key: (typeof sections)[number]
 const destinationLabels: Record<string, string> = {
   name: "目的地英文名称", slug: "URL 标识", country: "国家", region: "所属区域",
   short_description: "简短介绍", description: "详细介绍", content: "详细内容",
-  hero_image_url: "封面 / Banner 图片", image_url: "封面图片", cover_image_url: "封面图片",
-  featured_image_url: "推荐图片", is_featured: "首页推荐", featured: "首页推荐",
+  hero_image_url: "目的地主图", image_url: "旧图片字段", cover_image_url: "旧图片字段",
+  featured_image_url: "旧图片字段", is_featured: "首页推荐", featured: "首页推荐",
   is_published: "发布到网站", published: "发布到网站", sort_order: "显示顺序", display_order: "显示顺序",
 };
 function destinationLabel(field: string) {
@@ -261,9 +261,10 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
   }
 
   const fields = editing ? Object.keys(draft).filter((key) => !["id","created_at","updated_at"].includes(key)) : [];
-  const imageFields = fields.filter(isImageField);
+  const imageFields: string[] = fields.filter((field) => field === "hero_image_url");
   const toggleFields = fields.filter((field) => typeof draft[field] === "boolean" || /^(is_|featured$|published$)/.test(field));
-  const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field));
+  const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url"];
+  const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field) && !hiddenDestinationFields.includes(field));
   const primaryFields = textFields.filter((field) => !isLongField(field,draft[field]));
   const longFields = textFields.filter((field) => isLongField(field,draft[field]));
 
@@ -274,7 +275,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
       <div className="destinationCard"><div className="destinationCardTitle"><b>基本信息</b><span>用于前台页面标题、链接和目的地分类。</span></div><div className="destinationFormGrid">
         {primaryFields.map((field) => <label key={field}><span>{destinationLabel(field)}</span><input value={formatValue(draft[field]) === "—" ? "" : formatValue(draft[field])} placeholder={field === "slug" ? "例如：chongqing" : ""} onChange={(e) => setDraft({...draft,[field]:e.target.value})}/>{field === "slug" && <small>建议只使用小写英文和短横线，例如 zhangjiajie。</small>}</label>)}
       </div></div>
-      {imageFields.length > 0 && <div className="destinationCard"><div className="destinationCardTitle"><b>图片管理</b><span>直接上传目的地封面、Banner 或推荐图片。</span></div><div className="destinationImages">{imageFields.map((field) => {
+      {imageFields.length > 0 && <div className="destinationCard"><div className="destinationCardTitle"><b>图片管理</b><span>只需维护一张目的地主图；首页卡片和目的地详情页会共用这张图片。</span></div><div className="destinationImages">{imageFields.map((field) => {
         const url = typeof draft[field] === "string" ? String(draft[field]) : "";
         return <div className="destinationImageBox" key={field}><span>{destinationLabel(field)}</span>{url ? <img src={url} alt="" /> : <div className="destinationImageEmpty">暂无图片</div>}<div><label className="destinationUpload">{uploading === field ? "上传中…" : "上传 / 更换图片"}<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" disabled={!!uploading} onChange={(e) => uploadImage(field,e.target.files?.[0])}/></label>{url && <button onClick={() => setDraft({...draft,[field]:""})}>移除</button>}</div><input value={url} placeholder="或粘贴图片 URL" onChange={(e) => setDraft({...draft,[field]:e.target.value})}/></div>
       })}</div></div>}
@@ -291,7 +292,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
       const imageKey = Object.keys(row).find(isImageField);
       const imageUrl = imageKey && typeof row[imageKey] === "string" ? String(row[imageKey]) : "";
       const desc = String(row.short_description ?? row.description ?? "");
-      return <article key={String(row.id ?? index)}>{imageUrl ? <img src={imageUrl} alt="" /> : <div className="destinationThumb">{String(row.name ?? "?").slice(0,1)}</div>}<div className="destinationListBody"><div><h3>{row.slug ? <a href={"/quote?destination="+encodeURIComponent(String(row.name??""))} target="_blank" rel="noopener noreferrer" title="新窗口打开前台对应页面">{String(row.name ?? "未命名目的地")} ↗</a> : String(row.name ?? "未命名目的地")}</h3><span>{String(row.region ?? row.country ?? "China")}</span></div><p>{desc || "暂未填写目的地介绍。"}</p><small>/{String(row.slug ?? "")}</small></div><div className="destinationRowActions"><button onClick={() => openEditor(row)}>编辑</button><button className="danger" onClick={() => remove(row)}>删除</button></div></article>
+      return <article key={String(row.id ?? index)}>{imageUrl ? <img src={imageUrl} alt="" /> : <div className="destinationThumb">{String(row.name ?? "?").slice(0,1)}</div>}<div className="destinationListBody"><div><h3>{row.slug ? <a href={"/destination?slug="+encodeURIComponent(String(row.slug))} target="_blank" rel="noopener noreferrer" title="新窗口打开前台对应页面">{String(row.name ?? "未命名目的地")} ↗</a> : String(row.name ?? "未命名目的地")}</h3><span>{String(row.region ?? row.country ?? "China")}</span></div><p>{desc || "暂未填写目的地介绍。"}</p><small>/{String(row.slug ?? "")}</small></div><div className="destinationRowActions"><button onClick={() => openEditor(row)}>编辑</button><button className="danger" onClick={() => remove(row)}>删除</button></div></article>
     })}</div>}
   </section>;
 }

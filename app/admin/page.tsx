@@ -164,3 +164,38 @@ function Collection({ table, title, rows, loading, message, onRefresh }: { table
   </section>;
 }
 
+
+function MediaLibrary() {
+  const supabase = useMemo(() => createClient(), []);
+  const [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+
+  async function upload() {
+    if (!file) return;
+    setBusy(true); setMessage("");
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const path = Date.now() + "-" + safeName;
+    const { error } = await supabase.storage.from("website-media").upload(path, file, { upsert: false });
+    if (error) setMessage(error.message);
+    else {
+      const { data } = supabase.storage.from("website-media").getPublicUrl(path);
+      setMessage("上传成功：" + data.publicUrl);
+      setFile(null);
+    }
+    setBusy(false);
+  }
+
+  return <section className="adminPanel">
+    <header><div><h2>媒体库</h2><p>上传网站图片到 Supabase Storage 的 website-media 存储桶。</p></div></header>
+    <div className="mediaUpload" style={{display:"block"}}>
+      <label style={{display:"grid",gap:8,fontWeight:700}}>选择图片
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/svg+xml" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+      </label>
+      {file && <p>已选择：{file.name}</p>}
+      <button className="adminPrimary" disabled={!file || busy} onClick={upload}>{busy ? "正在上传…" : "上传图片"}</button>
+      {message && <p style={{marginTop:12,wordBreak:"break-all"}}>{message}</p>}
+    </div>
+  </section>;
+}
+

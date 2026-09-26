@@ -36,12 +36,12 @@ export default function Home() {
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
-    <section className="homeStrengthBar homeServiceBar serviceIconBar" aria-label="SEEK CHINA TRAVEL professional services">
-      <article><span className="serviceIcon" aria-hidden="true">☏</span><strong>China Travel Concierge</strong></article>
-      <article><span className="serviceIcon" aria-hidden="true">✈</span><strong>Fully Managed China Trips</strong></article>
-      <article><span className="serviceIcon" aria-hidden="true">⌖</span><strong>China Itinerary Planning</strong></article>
-      <article><span className="serviceIcon" aria-hidden="true">▣</span><strong>Driver &amp; Guide Service</strong></article>
-      <article><span className="serviceIcon" aria-hidden="true">♟</span><strong>Private China Tours</strong></article>
+    <section className="homeStrengthBar homeServiceBar serviceIconBar serviceIconBarExact" aria-label="SEEK CHINA TRAVEL professional services">
+      <article><span className="serviceIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 25v-4a12 12 0 0 1 24 0v4"/><rect x="8" y="23" width="7" height="12" rx="3"/><rect x="33" y="23" width="7" height="12" rx="3"/><path d="M34 35c-2 5-7 7-12 7"/><circle cx="20" cy="40" r="2"/><circle className="accentFill" cx="38" cy="13" r="7"/><path className="accentStroke" d="M35 13h.1M38 13h.1M41 13h.1"/></svg></span><strong>China Travel Concierge</strong></article>
+      <article><span className="serviceIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="13" width="24" height="29" rx="3"/><path d="M17 13V8h10v5M16 42v3M29 42v3"/><path className="accentStroke" d="M31 10l11-5-4 10 4 4-3 3-4-4-10 4 6-12z"/></svg></span><strong>Fully Managed China Trips</strong></article>
+      <article><span className="serviceIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 17l11-4 12 4 11-4v26l-11 4-12-4-11 4V17zM18 13v26M30 17v26"/><path className="accentFill" d="M24 4c-5 0-9 4-9 9 0 7 9 15 9 15s9-8 9-15c0-5-4-9-9-9z"/><circle cx="24" cy="13" r="3" fill="#fff" stroke="none"/></svg></span><strong>China Itinerary Planning</strong></article>
+      <article><span className="serviceIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 29l4-11h21l5 11v10H5V29zM10 18l3-6h14l3 6M10 29h20M10 39v4M30 39v4"/><circle cx="12" cy="34" r="2"/><circle cx="28" cy="34" r="2"/><circle cx="40" cy="14" r="4"/><path d="M40 18v16M36 24h8M37 34l-2 9M43 34l2 9"/><path className="accentFill" d="M43 19v-8l8 4-8 4z"/></svg></span><strong>Driver & Guide Service</strong></article>
+      <article><span className="serviceIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="17" r="6"/><circle cx="32" cy="17" r="6"/><circle cx="25" cy="12" r="6"/><path d="M8 39v-7c0-5 4-9 10-9s10 4 10 9v7M22 39v-8c0-6 4-10 10-10s10 4 10 10v8"/><path className="accentFill" d="M35 7V1l10 3-10 3z"/><path className="accentStroke" d="M35 7v8"/></svg></span><strong>Private China Tours</strong></article>
     </section>
 
     <section className="v1Section">

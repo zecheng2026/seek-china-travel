@@ -1,4 +1,8 @@
+"use client";
 import Link from "next/link";
+import {useEffect,useMemo,useState} from "react";
+import ManagedHero from "./components/ManagedHero";
+import {createClient} from "../utils/supabase/client";
 
 // Placeholder photography is centralized here so the final client images are easy to replace.
 const images = {
@@ -27,17 +31,10 @@ const tours = [
 ];
 
 export default function Home() {
+  const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]);
+  useEffect(()=>{supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).limit(3).then(({data})=>setLiveTours((data as Record<string,unknown>[]|null)??[]));},[supabase]);
   return <main>
-    <section className="v1Hero" aria-labelledby="hero-title" style={{backgroundImage:`url('${images.hero}')`}}>
-      <div className="v1HeroShade" aria-hidden="true" />
-      <div className="v1HeroContent">
-        <p className="v1Eyebrow">DISCOVER CHINA. YOUR WAY.</p>
-        <h1 id="hero-title">Explore <span>Real China</span></h1>
-        <p className="v1Lead">Tailor-made China journeys designed around your pace, interests and travel style.</p>
-        <ul className="v1Trust"><li>Private &amp; Small Groups</li><li>Premium Hotels</li><li>Professional Local Guides</li><li>No Hidden Costs</li></ul>
-        <div className="v1HeroActions"><Link className="pillButton" href="/quote">Plan Your China Trip <span>→</span></Link><Link className="heroTextLink" href="/tours">Explore Tours <span>→</span></Link></div>
-      </div>
-    </section>
+    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
     <nav className="v1Search" aria-label="Start planning a China journey">
       <Link href="/quote"><small>WHERE</small><b>Choose a destination</b><span>⌄</span></Link>

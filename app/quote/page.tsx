@@ -6,12 +6,14 @@ import { createClient } from "../../utils/supabase/client";
 export default function Quote(){
  const supabase=useMemo(()=>createClient(),[]);
  const [tour,setTour]=useState("");const [sending,setSending]=useState(false);
- const [result,setResult]=useState<"idle"|"success"|"error">("idle");
+ const [result,setResult]=useState<"idle"|"success"|"error">("idle");const [startedAt]=useState(()=>Date.now());
  useEffect(()=>{setTour(new URLSearchParams(window.location.search).get("tour")??"");},[]);
  async function submit(e:FormEvent<HTMLFormElement>){
   e.preventDefault();if(sending)return;
   const form=e.currentTarget;const fd=new FormData(form);
   const get=(key:string)=>String(fd.get(key)??"").trim();
+  if(get("website"))return;
+  if(Date.now()-startedAt<2500){setResult("error");return;}
   if(!get("name")||!get("email")||!get("message"))return;
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
@@ -27,7 +29,7 @@ export default function Quote(){
  return <main><ManagedHero pageKey="quote" className="quoteHero" defaults={{eyebrow:"TAILOR-MADE CHINA",title:"Plan Your China Trip",subtitle:"Share your ideas with us and start building a China journey around you.",image:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=86",overlay:52}}/>
  <section className="formWrap"><div className="quoteIntro"><p className="journeysKicker">YOUR JOURNEY STARTS HERE</p><h2>Tell us about your trip</h2><p>Share a few details and our China travel team can prepare a personalized itinerary.</p></div>
  {result==="success"?<div className="quoteSuccess" role="status"><h2>Thank you for your inquiry!</h2><p>We've received your trip details. Our team will be in touch using your contact information.</p><button type="button" className="btn" onClick={()=>setResult("idle")}>Plan another trip →</button></div>:
- <form className="quoteForm" onSubmit={submit}>
+ <form className="quoteForm" onSubmit={submit}><label className="quoteTrap" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>
  <label>Your name *<input name="name" required maxLength={120} placeholder="Your full name"/></label>
  <label>Email *<input name="email" type="email" required maxLength={254} placeholder="you@example.com"/></label>
  <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>

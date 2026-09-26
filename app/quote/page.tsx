@@ -1,2 +1,43 @@
+"use client";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import ManagedHero from "../components/ManagedHero";
-export default function Quote(){return <main><ManagedHero pageKey="quote" className="quoteHero" defaults={{eyebrow:"TAILOR-MADE CHINA",title:"Plan Your China Trip",subtitle:"Share your ideas with us and start building a China journey around you.",image:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=86",overlay:52}} /><section className="formWrap"><form className="quoteForm"><label>Name<input placeholder="Your name"/></label><label>Email<input type="email" placeholder="you@example.com"/></label><label>WhatsApp / Phone<input placeholder="+65 ..."/></label><label>Travel dates<input placeholder="e.g. March 10–18, 2027"/></label><label>Travelers<select><option>2 travelers</option><option>1 traveler</option><option>3–5 travelers</option><option>6+ travelers</option></select></label><label>Destinations<input placeholder="Beijing, Xi'an, Zhangjiajie..."/></label><label className="full">What kind of trip are you imagining?<textarea rows={5} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label><button type="button" className="btn full">Request My Trip Plan →</button><p className="formNote full">Prototype: connect this button to Netlify Forms / CRM before production launch.</p></form></section></main>}
+import { createClient } from "../../utils/supabase/client";
+
+export default function Quote(){
+ const supabase=useMemo(()=>createClient(),[]);
+ const [tour,setTour]=useState("");const [sending,setSending]=useState(false);
+ const [result,setResult]=useState<"idle"|"success"|"error">("idle");
+ useEffect(()=>{setTour(new URLSearchParams(window.location.search).get("tour")??"");},[]);
+ async function submit(e:FormEvent<HTMLFormElement>){
+  e.preventDefault();if(sending)return;
+  const form=e.currentTarget;const fd=new FormData(form);
+  const get=(key:string)=>String(fd.get(key)??"").trim();
+  if(!get("name")||!get("email")||!get("message"))return;
+  setSending(true);setResult("idle");
+  const {error}=await supabase.from("inquiries").insert({
+   name:get("name"),email:get("email"),phone:get("phone"),
+   travel_dates:get("travel_dates"),travelers:get("travelers"),
+   destinations:get("destinations"),tour_name:get("tour_name"),
+   message:get("message"),source:"website",status:"new"
+  });
+  setSending(false);
+  if(error){setResult("error");return;}
+  setResult("success");form.reset();
+ }
+ return <main><ManagedHero pageKey="quote" className="quoteHero" defaults={{eyebrow:"TAILOR-MADE CHINA",title:"Plan Your China Trip",subtitle:"Share your ideas with us and start building a China journey around you.",image:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=86",overlay:52}}/>
+ <section className="formWrap"><div className="quoteIntro"><p className="journeysKicker">YOUR JOURNEY STARTS HERE</p><h2>Tell us about your trip</h2><p>Share a few details and our China travel team can prepare a personalized itinerary.</p></div>
+ {result==="success"?<div className="quoteSuccess" role="status"><h2>Thank you for your inquiry!</h2><p>We've received your trip details. Our team will be in touch using your contact information.</p><button type="button" className="btn" onClick={()=>setResult("idle")}>Plan another trip →</button></div>:
+ <form className="quoteForm" onSubmit={submit}>
+ <label>Your name *<input name="name" required maxLength={120} placeholder="Your full name"/></label>
+ <label>Email *<input name="email" type="email" required maxLength={254} placeholder="you@example.com"/></label>
+ <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>
+ <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
+ <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
+ <label>Destinations<input name="destinations" maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
+ <label className="full">Interested tour<input name="tour_name" value={tour} onChange={e=>setTour(e.target.value)} maxLength={200} placeholder="Optional — choose a tour or leave blank"/></label>
+ <label className="full">What kind of trip are you imagining? *<textarea name="message" rows={5} required maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
+ <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>
+ {result==="error"&&<p className="quoteError full" role="alert">Your request could not be sent. Please try again later.</p>}
+ <button type="submit" className="btn full quoteSubmit" disabled={sending}>{sending?"Sending your inquiry…":"Request My Trip Plan →"}</button>
+ </form>}</section></main>;
+}

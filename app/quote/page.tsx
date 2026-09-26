@@ -5,9 +5,9 @@ import { createClient } from "../../utils/supabase/client";
 
 export default function Quote(){
  const supabase=useMemo(()=>createClient(),[]);
- const [tour,setTour]=useState("");const [sending,setSending]=useState(false);
+ const [tour,setTour]=useState("");const [destination,setDestination]=useState("");const [sending,setSending]=useState(false);
  const [result,setResult]=useState<"idle"|"success"|"error">("idle");const [startedAt]=useState(()=>Date.now());
- useEffect(()=>{setTour(new URLSearchParams(window.location.search).get("tour")??"");},[]);
+ useEffect(()=>{const params=new URLSearchParams(window.location.search);setTour(params.get("tour")??"");setDestination(params.get("destination")??"");},[]);
  async function submit(e:FormEvent<HTMLFormElement>){
   e.preventDefault();if(sending)return;
   const form=e.currentTarget;const fd=new FormData(form);
@@ -35,7 +35,7 @@ export default function Quote(){
  <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>
  <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
- <label>Destinations<input name="destinations" maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
+ <label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
  <label className="full">Interested tour<input name="tour_name" value={tour} onChange={e=>setTour(e.target.value)} maxLength={200} placeholder="Optional — choose a tour or leave blank"/></label>
  <label className="full">What kind of trip are you imagining? *<textarea name="message" rows={5} required maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
  <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>

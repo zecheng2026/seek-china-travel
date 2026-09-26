@@ -36,12 +36,13 @@ export default function Home() {
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
-    <nav className="v1Search" aria-label="Start planning a China journey">
-      <Link href="/quote"><small>WHERE</small><b>Choose a destination</b><span>⌄</span></Link>
-      <Link href="/quote"><small>WHEN</small><b>Your travel dates</b><span>⌄</span></Link>
-      <Link href="/quote"><small>TRAVELERS</small><b>2 Guests</b><span>⌄</span></Link>
-      <Link href="/quote" className="v1SearchButton">Explore Trips <span>→</span></Link>
-    </nav>
+    <section className="homeStrengthBar" aria-label="SEEK CHINA TRAVEL company strengths">
+      <div><strong>500+</strong><span>Professional Guides</span></div>
+      <div><strong>15+</strong><span>Locations Across China</span></div>
+      <div><strong>120,000+</strong><span>Travelers Served Annually</span></div>
+      <div><strong>140+</strong><span>Selected Hotels & Stays</span></div>
+      <Link href="/about">Why Travel With SCT <span>→</span></Link>
+    </section>
 
     <section className="v1Section">
       <header className="v1SectionHead"><div><p className="v1Eyebrow red">POPULAR DESTINATIONS</p><h2>Where will China take you?</h2></div><Link href="/destinations">View all destinations →</Link></header>

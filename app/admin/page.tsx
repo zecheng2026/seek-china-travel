@@ -129,8 +129,20 @@ function Collection({ table, title, rows, loading, message, onRefresh }: { table
 
   function openEditor(row?: RecordRow) {
     setActionMessage("");
-    setEditing(row ?? {});
-    setDraft(row ? { ...row } : {});
+    if (row) {
+      setEditing(row);
+      setDraft({ ...row });
+      return;
+    }
+    const template = rows[0]
+      ? Object.fromEntries(
+          Object.entries(rows[0])
+            .filter(([key]) => !["id", "created_at", "updated_at"].includes(key))
+            .map(([key, value]) => [key, typeof value === "boolean" ? false : ""])
+        )
+      : {};
+    setEditing({});
+    setDraft(template);
   }
 
   async function save() {
@@ -149,11 +161,11 @@ function Collection({ table, title, rows, loading, message, onRefresh }: { table
     if (error) setActionMessage(error.message); else onRefresh();
   }
 
-  const fields = editing ? Object.keys(editing).filter((key) => !["id", "created_at", "updated_at"].includes(key)) : [];
+  const fields = editing ? Object.keys(draft).filter((key) => !["id", "created_at", "updated_at"].includes(key)) : [];
   return <section className="adminPanel"><header><div><h2>{title}</h2><p>{canEdit ? "可直接新增、编辑和删除 Supabase 数据库内容。" : "实时读取 Supabase 数据库记录。"}</p></div><div style={{display:"flex",gap:8}}>{canEdit && <button onClick={() => openEditor()}>＋ 新增</button>}<button onClick={onRefresh}>↻ 刷新</button></div></header>
     {(message || actionMessage) && <div className="adminEmpty error"><b>操作未完成</b><p>{message || actionMessage}</p><small>请检查该账号的 Supabase RLS 写入权限。</small></div>}
     {editing && <div className="mediaUpload" style={{display:"block"}}><div style={{marginBottom:16}}><b>{editing.id == null ? "新增内容" : "编辑内容"}</b><p>后台字段为中文操作界面；面向游客的内容请继续填写英文。</p></div>
-      {fields.length === 0 ? <p>此表暂无现有记录可推断字段。请先在 Supabase 建立首条记录，之后即可在这里编辑。</p> : <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:14}}>{fields.map((field) => {
+      {fields.length === 0 ? <p>暂时无法读取字段结构，请先刷新页面后重试。</p> : <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:14}}>{fields.map((field) => {
         const value = draft[field]; const isBool = typeof value === "boolean"; const isLong = typeof value === "string" && (value.length > 80 || /description|content|summary|subtitle/i.test(field));
         return <label key={field} style={{display:"grid",gap:6,fontSize:13,fontWeight:700}}>{field.replaceAll("_"," ")}
           {isBool ? <select value={String(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value === "true"})}><option value="true">是</option><option value="false">否</option></select> : isLong ? <textarea rows={4} value={formatValue(value) === "—" ? "" : formatValue(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value})} /> : <input value={formatValue(value) === "—" ? "" : formatValue(value)} onChange={(e) => setDraft({...draft,[field]:e.target.value})} />}

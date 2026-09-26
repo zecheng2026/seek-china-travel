@@ -7,7 +7,8 @@ import { createClient } from "../../utils/supabase/client";
 const sections = [
   ["控制台", "dashboard"],
   ["网站设置", "site_settings"],
-  ["首页管理", "homepage_sections"],\n  ["关于我们", "about_us"],
+  ["首页管理", "homepage_sections"],
+  ["关于我们", "about_us"],
   ["目的地管理", "destinations"],
   ["旅游线路", "tours"],
   ["旅行攻略", "travel_guides"],

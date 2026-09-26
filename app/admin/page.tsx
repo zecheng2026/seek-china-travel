@@ -21,6 +21,14 @@ type TableName = Exclude<(typeof sections)[number][1], "dashboard" | "media">;
 type RecordRow = Record<string, unknown>;
 
 const editableTables = new Set(["site_settings", "homepage_sections", "destinations", "tours", "travel_guides"]);
+function navIcon(key: string) {
+  const icons: Record<string, string> = {
+    dashboard: "⌂", site_settings: "⚙", homepage_sections: "◇", destinations: "✦",
+    tours: "✈", travel_guides: "▤", media: "▦", inquiries: "✉", customers: "♟", bookings: "✓",
+  };
+  return icons[key] ?? "•";
+}
+
 
 function formatValue(value: unknown) {
   if (value == null) return "—";

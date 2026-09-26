@@ -15,10 +15,10 @@ export default function Quote(){
   if(!get("name")||!get("email")||!get("message"))return;
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
-   name:get("name"),email:get("email"),phone:get("phone"),
-   travel_dates:get("travel_dates"),travelers:get("travelers"),
-   destinations:get("destinations"),tour_name:get("tour_name"),
-   message:get("message"),source:"website",status:"new"
+   full_name:get("name"),email:get("email"),phone:get("phone"),whatsapp:get("phone"),
+   destination:[get("destinations"),get("tour_name")&&"Interested tour: "+get("tour_name")].filter(Boolean).join(" · "),
+   message:[get("message"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
+   source:"website",status:"new"
   });
   setSending(false);
   if(error){setResult("error");return;}

@@ -142,6 +142,7 @@ function RichTextEditor({ label, value, onChange }: { label: string; value: stri
   const editorRef = useRef<HTMLDivElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== value) editorRef.current.innerHTML = value;
@@ -158,6 +159,16 @@ function RichTextEditor({ label, value, onChange }: { label: string; value: stri
   function addLink() {
     const url = window.prompt("请输入链接地址，例如 https://example.com");
     if (url) command("createLink", url);
+  }
+  function styleImage(width?: string, align?: "left" | "center" | "right") {
+    if (!selectedImage) return;
+    if (width) { selectedImage.style.width = width; selectedImage.style.maxWidth = "100%"; selectedImage.style.height = "auto"; }
+    if (align) {
+      selectedImage.style.display = "block";
+      selectedImage.style.marginLeft = align === "left" ? "0" : align === "center" ? "auto" : "auto";
+      selectedImage.style.marginRight = align === "right" ? "0" : align === "center" ? "auto" : "auto";
+    }
+    sync();
   }
   async function addImage(file?: File) {
     if (!file) return;
@@ -191,10 +202,11 @@ function RichTextEditor({ label, value, onChange }: { label: string; value: stri
         <button type="button" title="重做" onClick={() => command("redo")}>↷</button>
         <button type="button" title="清除格式" onClick={() => command("removeFormat")}>清除格式</button>
       </div>
-      <div ref={editorRef} className="richCanvas" contentEditable suppressContentEditableWarning onInput={sync} data-placeholder="在这里编辑英文详细介绍…"/>
+      {selectedImage && <div className="richImageTools"><b>已选择图片</b><span>大小</span>{["25%","50%","75%","100%"].map((size) => <button type="button" key={size} onClick={() => styleImage(size)}>{size}</button>)}<i/><span>对齐</span><button type="button" onClick={() => styleImage(undefined,"left")}>左</button><button type="button" onClick={() => styleImage(undefined,"center")}>居中</button><button type="button" onClick={() => styleImage(undefined,"right")}>右</button><button type="button" className="richImageDone" onClick={() => setSelectedImage(null)}>完成</button></div>}
+      <div ref={editorRef} className="richCanvas" contentEditable suppressContentEditableWarning onInput={sync} onClick={(e) => { const target = e.target as HTMLElement; setSelectedImage(target.tagName === "IMG" ? target as HTMLImageElement : null); }} data-placeholder="在这里编辑英文详细介绍…"/>
     </div>
     {error && <small className="richError">{error}</small>}
-    <small className="richHint">支持标题、粗体、斜体、列表、链接和正文图片；图片会上传到网站媒体库。</small>
+    <small className="richHint">支持标题、粗体、斜体、列表、链接和正文图片；点击正文图片可调整 25% / 50% / 75% / 100% 大小及对齐方式。</small>
   </div>;
 }
 

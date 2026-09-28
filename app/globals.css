@@ -171,12 +171,12 @@
 .homeManagedHero{background-size:cover;background-position:center}
 @media(max-width:680px){.managedHero,.homeManagedHero,.toursManagedHero,.destinationsManagedHero,.guideHero{min-height:450px;height:450px;aspect-ratio:auto}}
 
-/* Homepage Hero is a finished artwork: preserve the entire image without cropping. */
+/* Homepage Hero: always fill the full viewport width so the blue fallback background never shows at the sides. */
 .homeManagedHero{
   min-height:0!important;
   height:auto!important;
   aspect-ratio:3/1!important;
-  background-size:contain!important;
+  background-size:cover!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
 }
@@ -185,7 +185,7 @@
     min-height:0!important;
     height:auto!important;
     aspect-ratio:3/1!important;
-    background-size:contain!important;
+    background-size:cover!important;
     background-position:center!important;
   }
 }

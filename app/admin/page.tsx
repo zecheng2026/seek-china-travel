@@ -302,8 +302,8 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     {(message || actionMessage) && <div className="adminEmpty error"><b>操作未完成</b><p>{message || actionMessage}</p></div>}
     {loading ? <div className="adminEmpty">正在加载目的地…</div> : rows.length === 0 ? <div className="adminEmpty"><b>还没有目的地</b><p>点击“新增目的地”创建第一条内容。</p><button onClick={() => openEditor()}>＋ 新增目的地</button></div> :
     <div className="destinationList">{rows.map((row,index) => {
-      const imageKey = Object.keys(row).find(isImageField);
-      const imageUrl = imageKey && typeof row[imageKey] === "string" ? String(row[imageKey]) : "";
+      const imageUrl = String(row.hero_image_url ?? row.image_url ?? row.cover_image_url ?? row.featured_image_url ?? "");
+      
       const desc = String(row.short_description ?? row.description ?? "");
       return <article key={String(row.id ?? index)}>{imageUrl ? <img src={imageUrl} alt="" /> : <div className="destinationThumb">{String(row.name ?? "?").slice(0,1)}</div>}<div className="destinationListBody"><div><h3>{row.slug ? <a href={"/destinations/"+encodeURIComponent(String(row.slug))} target="_blank" rel="noopener noreferrer" title="新窗口打开前台对应页面">{String(row.name ?? "未命名目的地")} ↗</a> : String(row.name ?? "未命名目的地")}</h3><span>{String(row.region ?? row.country ?? "China")}</span></div><p>{desc || "暂未填写目的地介绍。"}</p><small>/{String(row.slug ?? "")}</small></div><div className="destinationRowActions"><button onClick={() => openEditor(row)}>编辑</button><button className="danger" onClick={() => remove(row)}>删除</button></div></article>
     })}</div>}

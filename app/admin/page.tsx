@@ -427,37 +427,3 @@ function GuideManager({rows,loading,message,onRefresh}:{rows:RecordRow[];loading
  </section>;
  return <section className="adminPanel destinationManager"><header><div><h2>旅行攻略</h2><p>管理面向国际游客的中国旅行实用内容。</p></div><div className="destinationListActions"><button onClick={onRefresh}>↻ 刷新</button><button className="adminPrimary" onClick={()=>open()}>＋ 新增攻略</button></div></header>{(message||msg)&&<div className="adminEmpty error"><p>{message||msg}</p></div>}{loading?<div className="adminEmpty">正在加载旅行攻略…</div>:rows.length===0?<div className="adminEmpty"><b>还没有旅行攻略</b><p>点击“新增攻略”创建第一篇内容。</p></div>:<div className="destinationList">{rows.map((r,i)=><article key={String(r.id??i)}><div className="destinationThumb">文</div><div className="destinationListBody"><div><h3>{r.slug?<a href={"/guide?slug="+encodeURIComponent(String(r.slug))} target="_blank" rel="noopener noreferrer">{String(r.title??r.name??"未命名攻略")} ↗</a>:String(r.title??r.name??"未命名攻略")}</h3><span>{String(r.category??"Travel Guide")}</span></div><p>{String(r.summary??r.short_description??"")}</p></div><div className="destinationRowActions"><button onClick={()=>open(r)}>编辑</button><button className="danger" onClick={()=>remove(r)}>删除</button></div></article>)}</div>}</section>;}
 
-function MediaLibrary() {
-  const supabase = useMemo(() => createClient(), []);
-  const [file, setFile] = useState<File | null>(null);
-  const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
-
-  async function upload() {
-    if (!file) return;
-    setBusy(true); setMessage("");
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
-    const path = Date.now() + "-" + safeName;
-    const { error } = await supabase.storage.from("website-media").upload(path, file, { upsert: false });
-    if (error) setMessage(error.message);
-    else {
-      const { data } = supabase.storage.from("website-media").getPublicUrl(path);
-      setMessage("上传成功：" + data.publicUrl);
-      setFile(null);
-    }
-    setBusy(false);
-  }
-
-  return <section className="adminPanel">
-    <header><div><h2>媒体库</h2><p>上传网站图片到 Supabase Storage 的 website-media 存储桶。</p></div></header>
-    <div className="mediaUpload" style={{display:"block"}}>
-      <label style={{display:"grid",gap:8,fontWeight:700}}>选择图片
-        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/svg+xml" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-      </label>
-      {file && <p>已选择：{file.name}</p>}
-      <button className="adminPrimary" disabled={!file || busy} onClick={upload}>{busy ? "正在上传…" : "上传图片"}</button>
-      {message && <p style={{marginTop:12,wordBreak:"break-all"}}>{message}</p>}
-    </div>
-  </section>;
-}
-

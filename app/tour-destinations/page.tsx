@@ -4,11 +4,12 @@ import {useEffect,useMemo,useState} from "react";
 import {createClient} from "../../utils/supabase/client";
 type Row=Record<string,unknown>;
 function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim()}
+function destinationKey(v:unknown){return String(v??"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[’‘`´\']/g,"").replace(/[^a-zA-Z0-9]+/g,"").toLowerCase()}
 function money(v:unknown){const n=Number(v);return Number.isFinite(n)?new Intl.NumberFormat("en-US").format(n):String(v??"")}
 export default function RegionTours(){
  const supabase=useMemo(()=>createClient(),[]);const [slug,setSlug]=useState("");const [destination,setDestination]=useState<Row|null>(null);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(true);
  useEffect(()=>{setSlug(new URLSearchParams(window.location.search).get("slug")??"")},[]);
- useEffect(()=>{if(!slug)return;setLoading(true);supabase.from("destinations").select("*").eq("slug",slug).maybeSingle().then(async({data})=>{const d=data as Row|null;setDestination(d);if(!d){setLoading(false);return}const {data:all}=await supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true});const name=String(d.name??"").trim().toLowerCase();setTours(((all as Row[]|null)??[]).filter(t=>String(t.destination_id??"")===String(d.id??"")||String(t.destination??"").trim().toLowerCase()===name));setLoading(false)});},[slug,supabase]);
+ useEffect(()=>{if(!slug)return;setLoading(true);supabase.from("destinations").select("*").eq("slug",slug).maybeSingle().then(async({data})=>{const d=data as Row|null;setDestination(d);if(!d){setLoading(false);return}const {data:all}=await supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true});const name=String(d.name??"").trim();setTours(((all as Row[]|null)??[]).filter(t=>String(t.destination_id??"")===String(d.id??"")||destinationKey(t.destination)===destinationKey(name)));setLoading(false)});},[slug,supabase]);
  if(loading)return <main className="tourLoading"><p>Loading journeys…</p></main>;
  if(!destination)return <main className="tourLoading"><div><h1>Destination not found</h1><Link href="/tours" className="btn">Explore All Destinations →</Link></div></main>;
  const name=String(destination.name??"China");const image=String(destination.hero_image_url??destination.image_url??destination.cover_image_url??"");const intro=plain(destination.short_description??destination.description??"Private journeys designed to help you experience this destination at your own pace.");

@@ -1,9 +1,6 @@
+import type {Metadata} from "next";
 import TourDetailClient from "./TourDetailClient";
-
-export function generateStaticParams() {
-  return [{ slug: "cms-tour" }];
-}
-
-export default function TourDetailPage() {
-  return <TourDetailClient />;
-}
+import {createBuildClient,siteUrl} from "../../../utils/supabase/build";
+export async function generateStaticParams(){const s=createBuildClient();const {data}=await s.from("tours").select("slug").eq("is_published",true);return (data??[]).filter(x=>x.slug).map(x=>({slug:String(x.slug)}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const s=createBuildClient();const {data}=await s.from("tours").select("*").eq("slug",slug).eq("is_published",true).maybeSingle();if(!data)return {title:"China Tour | SEEK CHINA TRAVEL"};const title=String(data.seo_title??data.name??data.title??"Private China Tour");const description=String(data.seo_description??data.subtitle??data.short_description??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160)||"Private and tailor-made China journey by SEEK CHINA TRAVEL.";const image=String(data.hero_image_url??data.cover_image_url??"");return {title:title+" | SEEK CHINA TRAVEL",description,alternates:{canonical:siteUrl+"/tours/"+slug},openGraph:{title,description,url:siteUrl+"/tours/"+slug,type:"website",images:image?[{url:image}]:[]}}}
+export default async function TourDetailPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;return <TourDetailClient slug={slug}/>}

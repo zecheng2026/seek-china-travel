@@ -257,7 +257,7 @@
 
 /* About Us Hero: stronger text contrast over photography. */
 .aboutPage .managedHeroShade{
-  background:linear-gradient(90deg,rgba(3,27,48,.78) 0%,rgba(3,27,48,.58) 46%,rgba(3,27,48,.18) 78%,rgba(3,27,48,.04) 100%)!important;
+  background:rgba(3,27,48,.22)!important;
 }
 .aboutPage .managedHeroEyebrow{color:#ff8b8f!important}
 .aboutPage .managedHero h1{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.22)}

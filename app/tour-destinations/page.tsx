@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import {useEffect,useMemo,useState} from "react";
-import {createClient} from "../../../utils/supabase/client";
+import {createClient} from "../../utils/supabase/client";
 type Row=Record<string,unknown>;
 function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim()}
 function money(v:unknown){const n=Number(v);return Number.isFinite(n)?new Intl.NumberFormat("en-US").format(n):String(v??"")}

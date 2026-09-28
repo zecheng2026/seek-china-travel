@@ -233,7 +233,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const inferred = rows[0] ? Object.fromEntries(Object.entries(rows[0])
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
       .map(([key,value]) => [key, typeof value === "boolean" ? false : ""])) : {};
-    const template: RecordRow = {...inferred,name:"",slug:"",short_description:String(inferred.short_description??""),description:String(inferred.description??""),hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
+    const template: RecordRow = {...inferred,name:"",slug:"",short_description:String(inferred.short_description??""),description:String(inferred.description??""),highlights:inferred.highlights??[],hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
     setEditing({}); setDraft(template);
   }
 
@@ -256,10 +256,10 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const name=String(draft.name??"").trim(); const slug=String(draft.slug??"").trim();
     if(!name){setActionMessage("请先填写目的地英文名称。");setSaving(false);return;}
     if(!slug){setActionMessage("请先填写 URL 标识（slug）。");setSaving(false);return;}
-    const normalizedDraft={...draft,name,slug};
+    const normalizedDraft={...draft,name,slug,highlights:draft.highlights??[]};
     const payload = Object.fromEntries(Object.entries(normalizedDraft)
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
-      .map(([key,value]) => [key, value === "" ? null : value]));
+      .map(([key,value]) => [key, value === "" ? (key==="highlights"?[]:null) : value]));
     const id = editing?.id;
     const query = id == null ? supabase.from("destinations").insert(payload) : supabase.from("destinations").update(payload).eq("id", id);
     const { error } = await query;

@@ -312,7 +312,9 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
 
 
 const tourLabels: Record<string,string> = {name:"线路英文名称",title:"线路英文名称",slug:"URL 标识",subtitle:"线路副标题",destination:"目的地",destination_id:"目的地 ID",duration:"行程天数",duration_days:"行程天数",days:"行程天数",price:"价格",price_from:"起价",original_price:"原价",currency:"币种",short_description:"线路简介（旧字段）",description:"线路介绍",content:"详细内容",highlights:"行程亮点",included:"费用包含",includes:"费用包含",excluded:"费用不含",excludes:"费用不含",hotel:"住宿说明",hotels:"住宿说明",meals:"餐食说明",hero_image_url:"线路封面",image_url:"线路封面",cover_image_url:"线路封面",important_notes:"重要提示",suitable_for:"适合人群",hotel_description:"住宿说明",meals_description:"餐食说明",transportation_description:"交通说明",is_featured:"首页推荐",featured:"首页推荐",is_published:"发布到网站",published:"发布到网站",sort_order:"显示顺序",display_order:"显示顺序"};
-function normalizeSlug(value:unknown){return String(value??"").trim().toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/&/g," and ").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").replace(/-{2,}/g,"-");}\n\nfunction tourLabel(field:string){return tourLabels[field]??field.replaceAll("_"," ");}
+function normalizeSlug(value:unknown){return String(value??"").trim().toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/&/g," and ").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").replace(/-{2,}/g,"-");}
+
+function tourLabel(field:string){return tourLabels[field]??field.replaceAll("_"," ");}
 
 function TourManager({rows,loading,message,onRefresh}:{rows:RecordRow[];loading:boolean;message:string;onRefresh:()=>void}){
  const supabase=useMemo(()=>createClient(),[]);const [editing,setEditing]=useState<RecordRow|null>(null);const [draft,setDraft]=useState<RecordRow>({});const [days,setDays]=useState<RecordRow[]>([]);const [daysLoading,setDaysLoading]=useState(false);const [saving,setSaving]=useState(false);const [uploading,setUploading]=useState("");const [actionMessage,setActionMessage]=useState("");const [savedDayId,setSavedDayId]=useState<unknown>(null);

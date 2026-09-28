@@ -34,7 +34,7 @@ export default function Home() {
   const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]); const [liveDestinations,setLiveDestinations]=useState<Record<string,unknown>[]>([]); const [liveGuides,setLiveGuides]=useState<Record<string,unknown>[]>([]);
   useEffect(()=>{Promise.all([supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true}).limit(3),supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}).limit(6),supabase.from("travel_guides").select("*").order("created_at",{ascending:false}).limit(3)]).then(([t,d,g])=>{setLiveTours((t.data as Record<string,unknown>[]|null)??[]);setLiveDestinations((d.data as Record<string,unknown>[]|null)??[]);setLiveGuides(((g.data as Record<string,unknown>[]|null)??[]).filter(x=>x.is_published!==false&&x.is_active!==false));});},[supabase]);
   return <main>
-    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:images.hero,overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
+    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:"",overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
 
 

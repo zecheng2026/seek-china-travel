@@ -195,3 +195,15 @@
   .siteHeader .brandCustom{min-width:335px;flex-basis:335px}
   .siteHeader .brandCustom img{width:335px;max-width:335px;height:64px;max-height:64px}
 }
+
+/* Mobile homepage Hero: restore the original cover-style natural crop. */
+@media(max-width:680px){
+  .homeManagedHero{
+    min-height:540px!important;
+    height:540px!important;
+    aspect-ratio:auto!important;
+    background-size:cover!important;
+    background-position:62% center!important;
+    background-repeat:no-repeat!important;
+  }
+}

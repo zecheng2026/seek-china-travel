@@ -13,13 +13,12 @@ const sections = [
   ["目的地管理", "destinations"],
   ["旅游线路", "tours"],
   ["旅行攻略", "travel_guides"],
-  ["媒体库", "media"],
   ["客户咨询", "inquiries"],
   ["客户管理", "customers"],
   ["订单管理", "bookings"],
 ] as const;
 
-type TableName = Exclude<(typeof sections)[number][1], "dashboard" | "media" | "about_us" | "contact_us">;
+type TableName = Exclude<(typeof sections)[number][1], "dashboard" | "about_us" | "contact_us">;
 type RecordRow = Record<string, unknown>;
 
 const editableTables = new Set(["site_settings", "homepage_sections", "destinations", "tours", "travel_guides"]);
@@ -27,7 +26,7 @@ const heroPages=[["home","首页"],["tours","Tours 页面"],["destinations","Des
 function navIcon(key: string) {
   const icons: Record<string, string> = {
     dashboard: "⌂", site_settings: "⚙", homepage_sections: "◇", about_us: "◎", contact_us: "☎", destinations: "✦",
-    tours: "✈", travel_guides: "▤", media: "▦", inquiries: "✉", customers: "♟", bookings: "✓",
+    tours: "✈", travel_guides: "▤", inquiries: "✉", customers: "♟", bookings: "✓",
   };
   return icons[key] ?? "•";
 }
@@ -70,7 +69,7 @@ export default function AdminPage() {
   }, [supabase]);
 
   useEffect(() => {
-    if (session && active !== "dashboard" && active !== "media" && active !== "about_us" && active !== "contact_us") loadTable(active);
+    if (session && active !== "dashboard" && active !== "about_us" && active !== "contact_us") loadTable(active);
   }, [active, loadTable, session]);
 
   if (checking) return <main className="adminGate"><div className="adminLogin"><b className="adminLogo">SCT</b><p>正在验证登录状态…</p></div></main>;
@@ -86,7 +85,7 @@ export default function AdminPage() {
     </aside>
     <section className="adminWorkspace">
       <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> 数据库已连接</span></header>
-      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "media" ? <MediaLibrary /> : active === "homepage_sections" ? <HeroManager rows={rows} onRefresh={() => loadTable("homepage_sections")} /> : active === "destinations" ? <DestinationManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("destinations")} /> : active === "tours" ? <TourManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("tours")} /> : active === "site_settings" ? <SiteChromeManager /> : active === "about_us" ? <AboutManager /> : active === "contact_us" ? <ContactManager /> : active === "travel_guides" ? <GuideManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "inquiries" ? <InquiryManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("inquiries")} /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
+      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "homepage_sections" ? <HeroManager rows={rows} onRefresh={() => loadTable("homepage_sections")} /> : active === "destinations" ? <DestinationManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("destinations")} /> : active === "tours" ? <TourManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("tours")} /> : active === "site_settings" ? <SiteChromeManager /> : active === "about_us" ? <AboutManager /> : active === "contact_us" ? <ContactManager /> : active === "travel_guides" ? <GuideManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "inquiries" ? <InquiryManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("inquiries")} /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
     </section>
   </main>;
 }
@@ -121,7 +120,7 @@ function Login() {
 }
 
 function 控制台({ onNavigate }: { onNavigate: (key: (typeof sections)[number][1]) => void }) {
-  const cards = [["目的地管理", "管理目的地与亮点", "destinations"], ["旅游线路", "管理线路与行程", "tours"], ["客户咨询", "查看新的旅行咨询", "inquiries"], ["Media", "上传网站图片", "media"]] as const;
+  const cards = [["目的地管理", "管理目的地与亮点", "destinations"], ["旅游线路", "管理线路与行程", "tours"], ["客户咨询", "查看新的旅行咨询", "inquiries"]] as const;
   return <><section className="adminWelcome"><div><p>内容与运营</p><h2>一个后台，管理整个网站。</h2><span>集中管理旅游内容、客户咨询和网站运营，英文前台保持不变。</span></div><div className="adminWelcomeMark">中国</div></section>
   <div className="adminQuick"><h2>快捷入口</h2><div>{cards.map(([name, description, key], index) => <button key={name} onClick={() => onNavigate(key)}><b>0{index + 1}</b><h3>{name}</h3><p>{description}</p><span>进入管理 →</span></button>)}</div></div>
   <section className="adminNotice"><span>●</span><div><b>安全稳定</b><p>后台运行于 Cloudflare Pages，Supabase Auth 与 RLS 负责保护数据访问。</p></div></section></>;

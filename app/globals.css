@@ -257,7 +257,7 @@
 
 /* About Us Hero: stronger text contrast over photography. */
 .aboutPage .managedHeroShade{
-  background:rgba(3,27,48,.22)!important;
+  background:transparent!important;
 }
 .aboutPage .managedHeroEyebrow{color:#ff8b8f!important}
 .aboutPage .managedHero h1{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.22)}

@@ -237,3 +237,28 @@
 @media(max-width:680px){
   .managedHero:not(.homeManagedHero) .managedHeroContent{width:calc(100% - 40px)}
 }
+
+
+/* Inner-page Hero refinement: keep immersive imagery without filling the viewport. Home remains unchanged. */
+.managedHero:not(.homeManagedHero){
+  height:clamp(360px,42vw,540px)!important;
+  min-height:360px!important;
+  aspect-ratio:auto!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+.managedHero:not(.homeManagedHero)::before{display:none!important}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero){
+    height:clamp(320px,72vw,430px)!important;
+    min-height:320px!important;
+  }
+}
+
+/* About Us Hero: stronger text contrast over photography. */
+.aboutPage .managedHeroShade{
+  background:linear-gradient(90deg,rgba(3,27,48,.78) 0%,rgba(3,27,48,.58) 46%,rgba(3,27,48,.18) 78%,rgba(3,27,48,.04) 100%)!important;
+}
+.aboutPage .managedHeroEyebrow{color:#ff8b8f!important}
+.aboutPage .managedHero h1{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.22)}
+.aboutPage .managedHeroContent>p:not(.managedHeroEyebrow){color:#f2f6f8!important;text-shadow:0 1px 8px rgba(0,0,0,.2)}

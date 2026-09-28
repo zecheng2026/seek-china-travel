@@ -1,0 +1,3 @@
+/destinations/:slug /destination?slug=:slug 200
+/travel-guide/:slug /guide?slug=:slug 200
+/tours/:slug /tour?slug=:slug 200

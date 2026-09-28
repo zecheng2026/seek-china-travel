@@ -1,0 +1,30 @@
+# SEEK CHINA TRAVEL (SCT)
+> Private and tailor-made China journeys for international travelers.
+
+SEEK CHINA TRAVEL is a China-based travel company focused on private and tailor-made journeys across China. The website provides destination guides, sample itineraries, practical China travel information, and trip-planning inquiry options.
+
+## Primary website
+- https://seekchinatravel.com/
+
+## Main sections
+- Tours: https://seekchinatravel.com/tours
+- Destinations: https://seekchinatravel.com/destinations
+- China Travel Guide: https://seekchinatravel.com/travel-guide
+- About SEEK CHINA TRAVEL: https://seekchinatravel.com/about
+- Contact: https://seekchinatravel.com/contact
+- Plan a China Trip: https://seekchinatravel.com/quote
+
+## Services
+- Private China tours
+- Tailor-made China itineraries
+- Multi-city China journeys
+- Local guides and private transportation
+- Hotel, attraction and trip logistics planning
+- China travel advice for international visitors
+
+## Brand
+SEEK CHINA TRAVEL is also referred to as SCT.
+Brand slogan: Discover China. Your Way.
+
+## Content guidance
+For current itineraries, destination information, inclusions, pricing and availability, use the corresponding live page on seekchinatravel.com as the source of truth.

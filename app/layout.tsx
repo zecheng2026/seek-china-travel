@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import "./globals.css";
 import SiteChrome from "./components/SiteChrome";
-export const metadata:Metadata={metadataBase:new URL("https://seekchinatravel.com"),title:{default:"SEEK CHINA TRAVEL | Discover China. Your Way.",template:"%s"},description:"Private and tailor-made China journeys created by local experts for curious travelers.",openGraph:{siteName:"SEEK CHINA TRAVEL",type:"website",locale:"en_US"}};
+export const metadata:Metadata={metadataBase:new URL("https://seekchinatravel.com"),title:{default:"SEEK CHINA TRAVEL | Discover China. Your Way.",template:"%s"},description:"Private and tailor-made China journeys created by local experts for curious travelers.",openGraph:{siteName:"SEEK CHINA TRAVEL",type:"website",locale:"en_US"},robots:{index:true,follow:true},keywords:["China travel","China private tours","China tailor-made tours","China travel agency","private China tours","China itinerary"]};
 const organizationJsonLd={"@context":"https://schema.org","@type":"TravelAgency","name":"SEEK CHINA TRAVEL","alternateName":"SCT","url":"https://seekchinatravel.com","description":"Private and tailor-made China journeys created by local experts for international travelers.","areaServed":{"@type":"Country","name":"China"}};
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organizationJsonLd)}}/><SiteChrome>{children}</SiteChrome></body></html>}

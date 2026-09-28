@@ -1,0 +1,6 @@
+import type {Metadata} from "next";
+import GuideDetail from "./GuideDetailClient";
+import {createBuildClient,siteUrl} from "../../../utils/supabase/build";
+export async function generateStaticParams(){const s=createBuildClient();const {data}=await s.from("travel_guides").select("slug").eq("is_published",true);return (data??[]).filter(x=>x.slug).map(x=>({slug:String(x.slug)}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const s=createBuildClient();const {data}=await s.from("travel_guides").select("*").eq("slug",slug).maybeSingle();if(!data)return {title:"China Travel Guide | SEEK CHINA TRAVEL"};const title=String(data.seo_title??data.title??data.name??"China Travel Guide");const description=String(data.seo_description??data.short_description??data.description??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160)||"Practical China travel advice from SEEK CHINA TRAVEL.";return {title:title+" | SEEK CHINA TRAVEL",description,alternates:{canonical:siteUrl+"/travel-guide/"+slug},openGraph:{title,description,url:siteUrl+"/travel-guide/"+slug,type:"article"}}}
+export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params;return <GuideDetail slug={slug}/>}

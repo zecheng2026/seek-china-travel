@@ -262,3 +262,15 @@
 .aboutPage .managedHeroEyebrow{color:#ff8b8f!important}
 .aboutPage .managedHero h1{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.22)}
 .aboutPage .managedHeroContent>p:not(.managedHeroEyebrow){color:#f2f6f8!important;text-shadow:0 1px 8px rgba(0,0,0,.2)}
+
+
+/* Home Hero mobile crop: preserve the left-side artwork/text area of the uploaded banner. */
+@media(max-width:800px){
+  .homeManagedHero{background-position:38% center!important}
+}
+@media(max-width:520px){
+  .homeManagedHero{background-position:30% center!important}
+}
+
+/* Avoid showing the bundled fallback Hero while CMS content is loading. */
+.homeManagedHero:not(.heroReady){background-color:#eef3f6!important}

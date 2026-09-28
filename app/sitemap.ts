@@ -1,3 +1,5 @@
+export const dynamic = "force-static";
+export const revalidate = false;
 import type {MetadataRoute} from "next";
 import {createBuildClient,siteUrl} from "../utils/supabase/build";
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{const s=createBuildClient();const now=new Date();const base=["","/tours","/destinations","/travel-guide","/about","/contact","/quote"].map(path=>({url:siteUrl+path,lastModified:now,changeFrequency:"weekly" as const,priority:path===""?1:.8}));const [d,t,g]=await Promise.all([s.from("destinations").select("slug,updated_at").eq("is_active",true),s.from("tours").select("slug,updated_at").eq("is_published",true),s.from("travel_guides").select("slug,updated_at").eq("is_published",true)]);const rows=(items:any[]|null,prefix:string,priority:number)=>(items??[]).filter(x=>x.slug).map(x=>({url:siteUrl+prefix+x.slug,lastModified:x.updated_at?new Date(x.updated_at):now,changeFrequency:"weekly" as const,priority}));return [...base,...rows(d.data,"/destinations/",.8),...rows(t.data,"/tours/",.9),...rows(g.data,"/travel-guide/",.7)]}

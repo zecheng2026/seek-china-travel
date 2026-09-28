@@ -6,7 +6,7 @@ type Row=Record<string,unknown>;
 function Html({value}:{value:unknown}){if(!value)return null;return <div className="tourHtml" dangerouslySetInnerHTML={{__html:String(value)}}/>}
 export default function DestinationDetail(){
  const supabase=useMemo(()=>createClient(),[]);const [slug,setSlug]=useState("");const [destination,setDestination]=useState<Row|null>(null);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(true);
- useEffect(()=>{setSlug(new URLSearchParams(window.location.search).get("slug")??"");},[]);
+ useEffect(()=>{setSlug(new URLSearchParams(window.location.search).get("slug")??decodeURIComponent(window.location.pathname.split("/").filter(Boolean).pop()??""));},[]);
  useEffect(()=>{if(!slug)return;setLoading(true);supabase.from("destinations").select("*").eq("slug",slug).maybeSingle().then(async({data})=>{const row=data as Row|null;setDestination(row);if(row){const name=String(row.name??"");const {data:allTours}=await supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true});const matches=((allTours as Row[]|null)??[]).filter(t=>String(t.destination_id??"")===String(row.id??"")||String(t.destination??"").trim().toLowerCase()===name.trim().toLowerCase()).slice(0,3);setTours(matches);}setLoading(false);});},[slug,supabase]);
  if(loading)return <main className="tourLoading"><p>Loading destination…</p></main>;
  if(!destination)return <main className="tourLoading"><div><h1>Destination not found</h1><p>This destination may not be available yet.</p><Link href="/destinations" className="btn">Explore Destinations →</Link></div></main>;

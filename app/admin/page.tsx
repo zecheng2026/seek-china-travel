@@ -233,7 +233,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const inferred = rows[0] ? Object.fromEntries(Object.entries(rows[0])
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
       .map(([key,value]) => [key, typeof value === "boolean" ? false : ""])) : {};
-    const template: RecordRow = {...inferred,name:"",slug:"",short_description:String(inferred.short_description??""),description:String(inferred.description??""),highlights:inferred.highlights??[],hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
+    const template: RecordRow = {...inferred,name:"",slug:"",country:String(inferred.country??"China")||"China",short_description:String(inferred.short_description??""),description:String(inferred.description??""),highlights:inferred.highlights??[],hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
     setEditing({}); setDraft(template);
   }
 
@@ -256,7 +256,8 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const name=String(draft.name??"").trim(); const slug=String(draft.slug??"").trim();
     if(!name){setActionMessage("请先填写目的地英文名称。");setSaving(false);return;}
     if(!slug){setActionMessage("请先填写 URL 标识（slug）。");setSaving(false);return;}
-    const normalizedDraft={...draft,name,slug,highlights:draft.highlights??[]};
+    const country=String(draft.country??"China").trim()||"China";
+    const normalizedDraft={...draft,name,slug,country,highlights:draft.highlights??[]};
     const payload = Object.fromEntries(Object.entries(normalizedDraft)
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
       .map(([key,value]) => [key, key==="highlights" && (value===""||value==null) ? [] : value]));
@@ -414,8 +415,8 @@ function Collection({ table, title, rows, loading, message, onRefresh }: { table
 
 
 function GuideManager({rows,loading,message,onRefresh}:{rows:RecordRow[];loading:boolean;message:string;onRefresh:()=>void}){const supabase=useMemo(()=>createClient(),[]);const [editing,setEditing]=useState<RecordRow|null>(null);const [draft,setDraft]=useState<RecordRow>({});const [saving,setSaving]=useState(false);const [uploading,setUploading]=useState(false);const [msg,setMsg]=useState("");
- function open(row?:RecordRow){setMsg("");if(row){setEditing(row);setDraft({...row});return;}const template:RecordRow=rows[0]?Object.fromEntries(Object.entries(rows[0]).filter(([k])=>!["id","created_at","updated_at"].includes(k)).map(([k,v])=>[k,typeof v==="boolean"?false:""])):{title:"",slug:"",category:"",summary:"",content:"",image_url:"",is_published:false};setEditing({});setDraft(template);}
- async function upload(file?:File){if(!file)return;setUploading(true);const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"-");const path="travel-guides/"+Date.now()+"-"+safe;const {error}=await supabase.storage.from("website-media").upload(path,file);if(error)setMsg(error.message);else{const {data}=supabase.storage.from("website-media").getPublicUrl(path);setDraft(d=>({...d,[imageField||"image_url"]:data.publicUrl}));}setUploading(false);}
+ function open(row?:RecordRow){setMsg("");if(row){setEditing(row);setDraft({...row});return;}const template:RecordRow=rows[0]?Object.fromEntries(Object.entries(rows[0]).filter(([k])=>!["id","created_at","updated_at"].includes(k)).map(([k,v])=>[k,typeof v==="boolean"?false:""])):{title:"",slug:"",category:"",summary:"",content:"",is_published:false};setEditing({});setDraft(template);}
+ async function upload(file?:File){if(!file)return;if(!imageField){setMsg("当前 travel_guides 数据表没有可用的图片字段，请先保存攻略文字内容。");return;}setUploading(true);const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"-");const path="travel-guides/"+Date.now()+"-"+safe;const {error}=await supabase.storage.from("website-media").upload(path,file);if(error)setMsg(error.message);else{const {data}=supabase.storage.from("website-media").getPublicUrl(path);setDraft(d=>({...d,[imageField]:data.publicUrl}));}setUploading(false);}
  async function save(){setSaving(true);setMsg("");const guideTitle=String(draft.title??draft.name??"").trim();const guideSlug=String(draft.slug??"").trim();if(!guideTitle){setMsg("请先填写攻略英文标题。");setSaving(false);return;}if(!guideSlug){setMsg("请先填写 URL 标识（slug）。");setSaving(false);return;}const payload=Object.fromEntries(Object.entries(draft).filter(([k,v])=>!["id","created_at","updated_at"].includes(k)&&!(editing?.id==null&&["hero_image_url","image_url","cover_image_url"].includes(k)&&!v)).map(([k,v])=>[k,v]));const q=editing?.id==null?supabase.from("travel_guides").insert(payload):supabase.from("travel_guides").update(payload).eq("id",editing.id);const {error}=await q;if(error)setMsg(error.message);else{setEditing(null);onRefresh();}setSaving(false);}
  async function remove(row:RecordRow){if(row.id==null||!confirm("确定删除这篇旅行攻略吗？"))return;const {error}=await supabase.from("travel_guides").delete().eq("id",row.id);if(error)setMsg(error.message);else onRefresh();}
  const fields=editing?Object.keys(draft).filter(k=>!["id","created_at","updated_at"].includes(k)):[];const imageField=fields.find(k=>["hero_image_url","image_url","cover_image_url"].includes(k));const titleKey=fields.includes("title")?"title":fields.includes("name")?"name":"";const summaryKey=fields.find(k=>["summary","short_description","subtitle"].includes(k));const contentKey=fields.find(k=>["content","description"].includes(k));const hidden=new Set([imageField,titleKey,summaryKey,contentKey].filter(Boolean));const other=fields.filter(k=>!hidden.has(k));

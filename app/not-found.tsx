@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound(){return <main className="tourLoading"><div><p className="journeysKicker">404 · PAGE NOT FOUND</p><h1>We couldn't find this page.</h1><p>The page may have moved, or the link may no longer be available.</p><div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}><Link href="/" className="btn">Back to Home →</Link><Link href="/tours" className="btn">Explore China Tours →</Link></div></div></main>}

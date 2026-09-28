@@ -214,7 +214,9 @@
   min-height:0!important;
   height:auto!important;
   aspect-ratio:auto!important;
-  background-image:none!important;
+  background-size:100% 100%!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
   position:relative;
   overflow:hidden;
 }

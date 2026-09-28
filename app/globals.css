@@ -189,3 +189,9 @@
     background-position:center!important;
   }
 }
+
+/* Slightly reduce the SCT header logo while preserving the current header layout. */
+@media(min-width:1101px){
+  .siteHeader .brandCustom{min-width:335px;flex-basis:335px}
+  .siteHeader .brandCustom img{width:335px;max-width:335px;height:64px;max-height:64px}
+}

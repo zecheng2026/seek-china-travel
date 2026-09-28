@@ -262,3 +262,13 @@
 .aboutPage .managedHeroEyebrow{color:#ff8b8f!important}
 .aboutPage .managedHero h1{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.22)}
 .aboutPage .managedHeroContent>p:not(.managedHeroEyebrow){color:#f2f6f8!important;text-shadow:0 1px 8px rgba(0,0,0,.2)}
+
+
+/* Homepage Hero: use the dedicated mobile artwork uploaded in Admin on phones. */
+@media(max-width:680px){
+  .homeManagedHero{
+    background-image:var(--home-mobile-hero)!important;
+    background-size:cover!important;
+    background-position:center!important;
+  }
+}

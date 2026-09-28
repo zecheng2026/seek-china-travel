@@ -264,11 +264,16 @@
 .aboutPage .managedHeroContent>p:not(.managedHeroEyebrow){color:#f2f6f8!important;text-shadow:0 1px 8px rgba(0,0,0,.2)}
 
 
-/* Homepage Hero: use the dedicated mobile artwork uploaded in Admin on phones. */
+/* Homepage Hero: use the dedicated mobile artwork and preserve the full vertical composition on phones. */
 @media(max-width:680px){
   .homeManagedHero{
     background-image:var(--home-mobile-hero)!important;
-    background-size:cover!important;
-    background-position:center!important;
+    min-height:0!important;
+    height:auto!important;
+    aspect-ratio:9/16!important;
+    background-size:contain!important;
+    background-position:center top!important;
+    background-repeat:no-repeat!important;
+    background-color:#eef3f6!important;
   }
 }

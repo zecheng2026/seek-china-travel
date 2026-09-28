@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import {useEffect,useMemo,useState} from "react";
-import {createClient} from "../../utils/supabase/client";
+import {createClient} from "../../../utils/supabase/client";
 type Row=Record<string,unknown>;
 function Html({value}:{value:unknown}){if(!value)return null;return <div className="tourHtml" dangerouslySetInnerHTML={{__html:String(value)}}/>}
 export default function DestinationDetail({slug:slugProp}:{slug?:string}){

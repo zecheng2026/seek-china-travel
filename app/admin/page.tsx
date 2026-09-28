@@ -233,7 +233,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const inferred = rows[0] ? Object.fromEntries(Object.entries(rows[0])
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
       .map(([key,value]) => [key, typeof value === "boolean" ? false : ""])) : {};
-    const template: RecordRow = {name:"",slug:"",short_description:"",description:"",hero_image_url:"",sort_order:0,is_active:true,...inferred,name:"",slug:""};
+    const template: RecordRow = {...inferred,name:"",slug:"",short_description:String(inferred.short_description??""),description:String(inferred.description??""),hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
     setEditing({}); setDraft(template);
   }
 

@@ -207,3 +207,31 @@
     background-repeat:no-repeat!important;
   }
 }
+
+
+/* Inner-page Hero: preserve each uploaded image's natural aspect ratio instead of a fixed height. */
+.managedHero:not(.homeManagedHero){
+  min-height:0!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  background-image:none!important;
+  position:relative;
+  overflow:hidden;
+}
+.managedHero:not(.homeManagedHero)::before{
+  content:"";
+  display:block;
+  width:100%;
+  aspect-ratio:var(--hero-aspect, 16/6);
+}
+.managedHero:not(.homeManagedHero) .managedHeroContent,
+.managedHero:not(.homeManagedHero) .managedHeroShade{position:absolute}
+.managedHero:not(.homeManagedHero) .managedHeroContent{inset:0;margin:auto;width:min(1180px,calc(100% - 64px));display:flex;flex-direction:column;justify-content:center;padding:0}
+.managedHero:not(.homeManagedHero) .managedHeroShade{inset:0}
+
+/* About Us typography follows the same site typography as other sections. */
+.aboutPage,.aboutPage p,.aboutPage span,.aboutPage a,.aboutPage h1,.aboutPage h2,.aboutPage h3,.aboutPage strong{font-family:inherit}
+.aboutPage .managedHero h1{font:800 clamp(44px,6vw,76px)/1.03 "Manrope",sans-serif;letter-spacing:-2.7px}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent{width:calc(100% - 40px)}
+}

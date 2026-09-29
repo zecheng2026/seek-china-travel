@@ -340,3 +340,35 @@
 .tourCatalogBody i{font-style:normal;margin-left:5px}
 @media(max-width:900px){.tourCatalogIntro{grid-template-columns:1fr;gap:34px}.tourCatalogGrid{grid-template-columns:1fr}}
 @media(max-width:600px){.tourCatalogIntro{padding:58px 20px 34px}.tourCatalogWrap{padding:10px 20px 70px}.tourCatalogCard{grid-template-columns:1fr;min-height:0}.tourCatalogImage{min-height:230px}.tourCatalogBody{min-height:245px}.tourCatalogStats span{padding:18px 8px}.tourCatalogStats b{font-size:23px}}
+
+
+/* Tours grouped by destination */
+.tourDestinationNav{position:sticky;top:0;z-index:8;max-width:1180px;margin:0 auto 22px;padding:14px 32px;background:rgba(255,255,255,.96);border-top:1px solid #e0e7eb;border-bottom:1px solid #e0e7eb;backdrop-filter:blur(10px)}
+.tourDestinationNav>span{display:block;margin-bottom:10px;color:#8a9aa5;font-size:8px;font-weight:800;letter-spacing:1.2px}
+.tourDestinationNav>div{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+.tourDestinationNav a{flex:0 0 auto;padding:9px 13px;border:1px solid #dbe5ea;border-radius:999px;color:#244a64;text-decoration:none;font-size:10px;font-weight:750;background:#fff}
+.tourDestinationNav a:first-child{background:var(--blue);border-color:var(--blue);color:#fff}
+.tourDestinationNav small{margin-left:5px;opacity:.65}
+.tourGroupedWrap{max-width:1180px;margin:auto;padding:20px 32px 100px}
+.tourRegionGroup{scroll-margin-top:95px;padding:58px 0 68px;border-bottom:1px solid #dfe7eb}
+.tourRegionGroup:first-child{padding-top:25px}
+.tourRegionGroup:last-child{border-bottom:0}
+.tourRegionGroupHead{display:flex;justify-content:space-between;align-items:end;gap:50px;margin-bottom:27px}
+.tourRegionGroupHead>div{max-width:690px}
+.tourRegionGroupHead h2{margin:7px 0 10px;color:var(--blue);font:780 clamp(32px,4vw,44px)/1 "Manrope";letter-spacing:-1.5px}
+.tourRegionGroupHead>div>p:last-child{margin:0;color:#687c89;font-size:13px;line-height:1.7}
+.tourRegionGroupHead>a{flex:0 0 auto;padding-bottom:4px;color:var(--red);font-size:11px;font-weight:800;text-decoration:none}
+.tourRegionGroupHead i,.tourGroupedBody i{font-style:normal}
+.tourGroupedGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.tourGroupedCard{overflow:hidden;border:1px solid #dfe7eb;border-radius:14px;background:#fff;text-decoration:none;box-shadow:0 10px 30px rgba(8,47,75,.055);transition:.25s ease}
+.tourGroupedCard:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(8,47,75,.11)}
+.tourGroupedImage{position:relative;height:220px;background:#dce6eb center/cover no-repeat}
+.tourGroupedImage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,31,52,.03),rgba(4,31,52,.3))}
+.tourGroupedImage span{position:absolute;z-index:1;left:16px;top:16px;padding:8px 10px;border-radius:999px;background:#fff;color:var(--blue);font-size:8px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+.tourGroupedBody{padding:23px;min-height:225px;display:flex;flex-direction:column}
+.tourGroupedBody>div{display:flex;justify-content:space-between;gap:10px;color:#8b9aa5;font-size:8px;font-weight:800;letter-spacing:.8px}
+.tourGroupedBody h3{margin:15px 0 10px;color:var(--blue);font:750 20px/1.3 "Manrope";letter-spacing:-.5px}
+.tourGroupedBody p{margin:0;color:#697d8a;font-size:11px;line-height:1.7}
+.tourGroupedBody strong{margin-top:auto;padding-top:20px;color:var(--red);font-size:10px}
+@media(max-width:900px){.tourGroupedGrid{grid-template-columns:1fr 1fr}.tourGroupedCard:nth-child(3){display:none}}
+@media(max-width:600px){.tourDestinationNav{padding:12px 20px}.tourGroupedWrap{padding:10px 20px 70px}.tourRegionGroup{padding:44px 0 52px}.tourRegionGroupHead{display:block}.tourRegionGroupHead>a{display:inline-block;margin-top:18px}.tourGroupedGrid{grid-template-columns:1fr}.tourGroupedCard:nth-child(3){display:block}.tourGroupedImage{height:215px}}

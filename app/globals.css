@@ -379,3 +379,9 @@
 .admin .richToolbar{position:sticky;top:10px;z-index:30;background:rgba(246,248,250,.98);box-shadow:0 6px 16px rgba(8,47,75,.08);backdrop-filter:blur(8px)}
 .admin .richImageTools{position:sticky;top:58px;z-index:29;box-shadow:0 5px 12px rgba(8,47,75,.06)}
 @media(max-width:600px){.admin .richToolbar{top:6px}.admin .richImageTools{top:54px}}
+
+
+/* Robust floating rich-text toolbar: JS toggles fixed mode while its editor is in view. */
+.adminShell .richToolbarFloating{position:fixed!important;top:10px!important;z-index:1000!important;background:#f6f8fa!important;box-shadow:0 8px 24px rgba(8,47,75,.16)!important;border:1px solid #dbe4e9;border-radius:8px}
+.adminShell .richToolbarSpacer{height:48px}
+@media(max-width:600px){.adminShell .richToolbarFloating{top:6px!important}}

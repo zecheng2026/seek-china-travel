@@ -375,7 +375,7 @@
 
 
 /* Keep every admin rich-text toolbar visible while editing long content. */
-.admin .richEditor{overflow:visible}
-.admin .richToolbar{position:sticky;top:10px;z-index:30;background:rgba(246,248,250,.98);box-shadow:0 6px 16px rgba(8,47,75,.08);backdrop-filter:blur(8px)}
-.admin .richImageTools{position:sticky;top:58px;z-index:29;box-shadow:0 5px 12px rgba(8,47,75,.06)}
-@media(max-width:600px){.admin .richToolbar{top:6px}.admin .richImageTools{top:54px}}
+.adminShell .richEditor{overflow:visible}
+.adminShell .richToolbar{position:sticky;top:10px;z-index:30;background:rgba(246,248,250,.98);box-shadow:0 6px 16px rgba(8,47,75,.08);backdrop-filter:blur(8px)}
+.adminShell .richImageTools{position:sticky;top:58px;z-index:29;box-shadow:0 5px 12px rgba(8,47,75,.06)}
+@media(max-width:600px){.adminShell .richToolbar{top:6px}.adminShell .richImageTools{top:54px}}

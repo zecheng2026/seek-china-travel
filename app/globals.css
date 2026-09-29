@@ -277,3 +277,15 @@
     background-color:#eef3f6!important;
   }
 }
+
+
+/* About Us landmark/value block: four-column editorial layout inspired by the supplied reference. */
+.aboutPage .aboutVisualBreak{height:520px;align-items:flex-end;padding-bottom:58px}
+.aboutPage .aboutValues{max-width:1160px;margin:-1px auto 0;padding:0;gap:0;background:#fff;position:relative;z-index:2;box-shadow:0 16px 45px rgba(8,47,75,.08)}
+.aboutPage .aboutValues article{min-height:240px;padding:34px 28px 32px;border-right:1px solid #e5edf2;background:#fff}
+.aboutPage .aboutValues article:last-child{border-right:0}
+.aboutPage .aboutValues article>span:first-child{width:40px;height:40px;border-radius:9px;background:var(--red);color:#fff}
+.aboutPage .aboutValues h3{margin:28px 0 12px;color:var(--blue);font-size:18px}
+.aboutPage .aboutValues p{margin:0;color:#65798a;line-height:1.65}
+@media(max-width:900px){.aboutPage .aboutValues{width:calc(100% - 48px);grid-template-columns:1fr 1fr}.aboutPage .aboutValues article:nth-child(2){border-right:0}.aboutPage .aboutValues article:nth-child(-n+2){border-bottom:1px solid #e5edf2}}
+@media(max-width:600px){.aboutPage .aboutVisualBreak{height:430px}.aboutPage .aboutValues{width:calc(100% - 40px);grid-template-columns:1fr}.aboutPage .aboutValues article{min-height:0;border-right:0;border-bottom:1px solid #e5edf2}.aboutPage .aboutValues article:last-child{border-bottom:0}}

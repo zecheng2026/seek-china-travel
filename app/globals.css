@@ -313,3 +313,30 @@
   .aboutTeam{padding-bottom:36px}
   .aboutTeam + .aboutDetail{padding-top:28px}
 }
+
+
+/* Tours index: itinerary-first editorial catalog, intentionally distinct from Destinations. */
+.tourCatalogIntro{max-width:1180px;margin:auto;padding:82px 32px 48px;display:grid;grid-template-columns:1.15fr .85fr;gap:80px;align-items:end}
+.tourCatalogIntro h2{margin:8px 0 16px;color:var(--blue);font:750 clamp(38px,5vw,58px)/1.04 "Manrope";letter-spacing:-2px}
+.tourCatalogIntro>div>p:last-child{max-width:650px;margin:0;color:#617786;font-size:15px;line-height:1.8}
+.tourCatalogStats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #dce5ea;border-bottom:1px solid #dce5ea}
+.tourCatalogStats span{padding:22px 14px;border-left:1px solid #dce5ea}
+.tourCatalogStats span:first-child{border-left:0}
+.tourCatalogStats b{display:block;color:var(--blue);font:800 28px "Manrope"}
+.tourCatalogStats small{display:block;margin-top:6px;color:#82929d;font-size:8px;font-weight:800;letter-spacing:1px}
+.tourCatalogWrap{max-width:1180px;margin:auto;padding:20px 32px 100px}
+.tourCatalogGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.tourCatalogCard{display:grid;grid-template-columns:44% 56%;min-height:310px;overflow:hidden;border:1px solid #dfe7eb;border-radius:15px;background:#fff;text-decoration:none;box-shadow:0 14px 36px rgba(8,47,75,.06);transition:.25s ease}
+.tourCatalogCard:hover{transform:translateY(-4px);box-shadow:0 20px 45px rgba(8,47,75,.11)}
+.tourCatalogImage{position:relative;min-height:310px;background:#dbe6eb center/cover no-repeat}
+.tourCatalogImage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,31,52,.08),rgba(4,31,52,.34))}
+.tourCatalogImage>span{position:absolute;z-index:1;left:18px;top:18px;padding:8px 10px;border-radius:999px;background:#fff;color:var(--blue);font-size:8px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+.tourCatalogImage>b{position:absolute;z-index:1;left:18px;bottom:16px;color:#fff;font:800 34px "Manrope"}
+.tourCatalogBody{padding:28px 25px;display:flex;flex-direction:column}
+.tourCatalogMeta{display:flex;justify-content:space-between;gap:10px;color:#8a9aa5;font-size:8px;font-weight:800;letter-spacing:1px}
+.tourCatalogBody h2{margin:17px 0 12px;color:var(--blue);font:750 23px/1.25 "Manrope";letter-spacing:-.7px}
+.tourCatalogBody p{margin:0;color:#667b89;font-size:12px;line-height:1.75}
+.tourCatalogBody strong{margin-top:auto;padding-top:22px;color:var(--red);font-size:11px}
+.tourCatalogBody i{font-style:normal;margin-left:5px}
+@media(max-width:900px){.tourCatalogIntro{grid-template-columns:1fr;gap:34px}.tourCatalogGrid{grid-template-columns:1fr}}
+@media(max-width:600px){.tourCatalogIntro{padding:58px 20px 34px}.tourCatalogWrap{padding:10px 20px 70px}.tourCatalogCard{grid-template-columns:1fr;min-height:0}.tourCatalogImage{min-height:230px}.tourCatalogBody{min-height:245px}.tourCatalogStats span{padding:18px 8px}.tourCatalogStats b{font-size:23px}}

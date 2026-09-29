@@ -385,3 +385,18 @@
 .adminShell .richToolbarFloating{position:fixed!important;top:10px!important;z-index:1000!important;background:#f6f8fa!important;box-shadow:0 8px 24px rgba(8,47,75,.16)!important;border:1px solid #dbe4e9;border-radius:8px}
 .adminShell .richToolbarSpacer{height:48px}
 @media(max-width:600px){.adminShell .richToolbarFloating{top:6px!important}}
+
+
+/* Inquiry and booking management */
+.recordActions{display:flex;justify-content:flex-end;gap:9px;margin-top:16px}
+.recordActions .danger,.destinationEditorActions .danger{color:#b42318;border-color:#f1b8b4;background:#fff}
+.recordDetailGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.recordDetailGrid>div{padding:14px 16px;border:1px solid #e4ebef;border-radius:10px;background:#f8fafb;min-width:0}
+.recordDetailGrid>div.wide{grid-column:1/-1}
+.recordDetailGrid b{display:block;margin-bottom:7px;color:#60788a;font-size:11px}
+.recordDetailGrid p{margin:0;color:#17364b;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.bookingList{display:grid;gap:12px;padding:20px}
+.bookingCard{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;border:1px solid #e2e9ed;border-radius:12px;background:#fff}
+.bookingCard h3{margin:5px 0;color:var(--blue)}
+.bookingCard p,.bookingCard small{margin:0;color:#718594}
+@media(max-width:700px){.recordDetailGrid{grid-template-columns:1fr}.recordDetailGrid>div.wide{grid-column:auto}.bookingCard{align-items:flex-start;flex-direction:column}.recordActions{justify-content:flex-start}}

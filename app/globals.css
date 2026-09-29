@@ -304,3 +304,12 @@
 .aboutTeamGrid article p{margin:8px 0 0;color:#738594;font-size:13px}
 @media(max-width:900px){.aboutTeamGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.aboutTeam{padding:65px 20px}.aboutTeamGrid{grid-template-columns:1fr}.aboutTeamGrid article{max-width:420px;width:100%;margin:auto}}
+
+
+/* Reduce the excessive gap between Core Team and the following About content block. */
+.aboutTeam{padding-bottom:48px}
+.aboutTeam + .aboutDetail{padding-top:36px}
+@media(max-width:560px){
+  .aboutTeam{padding-bottom:36px}
+  .aboutTeam + .aboutDetail{padding-top:28px}
+}

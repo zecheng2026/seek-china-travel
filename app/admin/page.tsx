@@ -148,6 +148,9 @@ function isLongField(field: string, value: unknown) {
 function RichTextEditor({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   const supabase = useMemo(() => createClient(), []);
   const editorRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const richEditorRef = useRef<HTMLDivElement>(null);
+  const [floatingToolbar, setFloatingToolbar] = useState<{left:number;width:number}|null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(null);
@@ -155,6 +158,25 @@ function RichTextEditor({ label, value, onChange }: { label: string; value: stri
   useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== value) editorRef.current.innerHTML = value;
   }, [value]);
+
+  useEffect(() => {
+    function updateFloatingToolbar() {
+      const shell = richEditorRef.current;
+      const toolbar = toolbarRef.current;
+      if (!shell || !toolbar) return;
+      const rect = shell.getBoundingClientRect();
+      const toolbarHeight = toolbar.offsetHeight || 48;
+      const shouldFloat = rect.top < 10 && rect.bottom > toolbarHeight + 20;
+      setFloatingToolbar(shouldFloat ? { left: rect.left, width: rect.width } : null);
+    }
+    updateFloatingToolbar();
+    window.addEventListener("scroll", updateFloatingToolbar, { passive: true });
+    window.addEventListener("resize", updateFloatingToolbar);
+    return () => {
+      window.removeEventListener("scroll", updateFloatingToolbar);
+      window.removeEventListener("resize", updateFloatingToolbar);
+    };
+  }, []);
 
   function sync() {
     onChange(editorRef.current?.innerHTML ?? "");
@@ -194,8 +216,9 @@ function RichTextEditor({ label, value, onChange }: { label: string; value: stri
 
   return <div className="richField">
     <span className="richLabel">{label}</span>
-    <div className="richEditor">
-      <div className="richToolbar" onMouseDown={(e) => { if ((e.target as HTMLElement).tagName !== "INPUT") e.preventDefault(); }}>
+    <div className="richEditor" ref={richEditorRef}>
+      {floatingToolbar && <div className="richToolbarSpacer" />}
+      <div ref={toolbarRef} className={"richToolbar"+(floatingToolbar?" richToolbarFloating":"")} style={floatingToolbar?{left:floatingToolbar.left,width:floatingToolbar.width}:undefined} onMouseDown={(e) => { if ((e.target as HTMLElement).tagName !== "INPUT") e.preventDefault(); }}>
         <select aria-label="段落样式" defaultValue="p" onChange={(e) => command("formatBlock", e.target.value)}>
           <option value="p">正文</option><option value="h2">标题 2</option><option value="h3">标题 3</option><option value="blockquote">引用</option>
         </select>

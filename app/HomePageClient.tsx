@@ -6,7 +6,7 @@ import {createClient} from "../utils/supabase/client";
 
 // Placeholder photography is centralized here so the final client images are easy to replace.
 const images = {
-  hero: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=86", // HERO IMAGE
+  hero: "", // HERO IMAGE is loaded from the admin configuration; keep empty to prevent legacy-image flash
   beijing: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1200&q=82", // BEIJING IMAGE
   xian: "https://images.unsplash.com/photo-1591122947157-26bad3a117d2?auto=format&fit=crop&w=1200&q=82", // XI'AN IMAGE
   zhangjiajie: "https://images.unsplash.com/photo-1537531383496-f4749b8032cf?auto=format&fit=crop&w=1200&q=82", // ZHANGJIAJIE IMAGE

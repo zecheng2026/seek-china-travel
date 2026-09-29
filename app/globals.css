@@ -400,3 +400,14 @@
 .bookingCard h3{margin:5px 0;color:var(--blue)}
 .bookingCard p,.bookingCard small{margin:0;color:#718594}
 @media(max-width:700px){.recordDetailGrid{grid-template-columns:1fr}.recordDetailGrid>div.wide{grid-column:auto}.bookingCard{align-items:flex-start;flex-direction:column}.recordActions{justify-content:flex-start}}
+
+
+/* Make Tours destination filter tabs more prominent and easier to scan. */
+.tourDestinationNav>span{font-size:10px;font-weight:800;letter-spacing:1.35px}
+.tourDestinationNav>div{gap:10px}
+.tourDestinationNav a{padding:11px 17px;font-size:13px;font-weight:750;letter-spacing:.1px}
+.tourDestinationNav small{margin-left:6px;font-size:11px;font-weight:700}
+@media(max-width:600px){
+  .tourDestinationNav a{padding:10px 15px;font-size:12px}
+  .tourDestinationNav small{font-size:10px}
+}

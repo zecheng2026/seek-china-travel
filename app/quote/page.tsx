@@ -26,7 +26,7 @@ export default function Quote(){
   if(error){setResult("error");return;}
   setResult("success");form.reset();
  }
- return <main><ManagedHero pageKey="quote" className="quoteHero" defaults={{eyebrow:"TAILOR-MADE CHINA",title:"Plan Your China Trip",subtitle:"Share your ideas with us and start building a China journey around you.",image:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=2200&q=86",overlay:52}}/>
+ return <main><ManagedHero pageKey="quote" className="quoteHero" defaults={{eyebrow:"TAILOR-MADE CHINA",title:"Plan Your China Trip",subtitle:"Share your ideas with us and start building a China journey around you.",image:"",overlay:52}}/>
  <section className="formWrap"><div className="quoteIntro"><p className="journeysKicker">YOUR JOURNEY STARTS HERE</p><h2>Tell us about your trip</h2><p>Share a few details and our China travel team can prepare a personalized itinerary.</p></div>
  {result==="success"?<div className="quoteSuccess" role="status"><h2>Thank you for your inquiry!</h2><p>We've received your trip details. Our team will be in touch using your contact information.</p><button type="button" className="btn" onClick={()=>setResult("idle")}>Plan another trip →</button></div>:
  <form className="quoteForm" onSubmit={submit}><label className="quoteTrap" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>

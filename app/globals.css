@@ -411,3 +411,13 @@
   .tourDestinationNav a{padding:10px 15px;font-size:12px}
   .tourDestinationNav small{font-size:10px}
 }
+
+
+/* Multi-destination tour management */
+.tourTypeChoice{margin:0 0 20px;padding:15px 17px;border:1px solid #dce7ed;border-radius:10px;background:#f7fafc}
+.tourTypeChoice label{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.tourTypeChoice input{width:18px;height:18px;margin-top:2px}
+.tourTypeChoice b{display:block;color:var(--blue);font-size:13px}
+.tourTypeChoice small{display:block;margin-top:5px;color:#718594;line-height:1.5}
+.tourMultiGroup{padding-top:30px}
+.tourMultiGroup .tourRegionGroupHead h2{max-width:760px}

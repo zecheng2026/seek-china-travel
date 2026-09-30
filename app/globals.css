@@ -421,3 +421,29 @@
 .tourTypeChoice small{display:block;margin-top:5px;color:#718594;line-height:1.5}
 .tourMultiGroup{padding-top:30px}
 .tourMultiGroup .tourRegionGroupHead h2{max-width:760px}
+
+/* Travel Guide: featured editorial cards + scannable article list */
+.guideFeatured{margin-top:34px}
+.guideSectionHead{display:flex;justify-content:space-between;align-items:end;gap:36px;margin:0 0 24px}
+.guideSectionHead h2{margin:5px 0 0;color:#0b3552;font:700 30px/1.2 "Manrope"}
+.guideSectionHead>p{max-width:440px;margin:0;color:#61717c;line-height:1.65}
+.guideBrowse{margin-top:64px;padding-top:44px;border-top:1px solid #dfe7eb}
+.guideList{display:grid}
+.guideListItem{display:grid;grid-template-columns:210px minmax(0,1fr) auto;align-items:center;gap:28px;padding:22px 0;border-bottom:1px solid #e4eaee;color:inherit;text-decoration:none}
+.guideListItem>img,.guideListPlaceholder{width:210px;height:126px;border-radius:10px;object-fit:cover;background:#e3edf2}
+.guideListPlaceholder{display:grid;place-items:center;color:#0b4268;font:800 14px "Manrope";letter-spacing:2px}
+.guideListCopy{min-width:0}
+.guideListCopy small{font:800 11px "Manrope";letter-spacing:1.2px;color:#c9272d}
+.guideListCopy h3{margin:7px 0 7px;color:#0b3552;font:700 21px/1.3 "Manrope"}
+.guideListCopy p{margin:0;color:#64727c;font-size:14px;line-height:1.6}
+.guideListItem>strong{white-space:nowrap;color:#0b3552;font:750 13px "Manrope"}
+.guideListItem:hover h3,.guideListItem:hover>strong{color:#c9272d}
+@media(max-width:760px){
+ .guideSectionHead{display:block}.guideSectionHead>p{margin-top:10px}
+ .guideBrowse{margin-top:46px;padding-top:34px}
+ .guideListItem{grid-template-columns:110px minmax(0,1fr);gap:16px;padding:18px 0}
+ .guideListItem>img,.guideListPlaceholder{width:110px;height:82px}
+ .guideListCopy h3{font-size:17px;margin:5px 0}
+ .guideListCopy p{display:none}
+ .guideListItem>strong{grid-column:2;font-size:12px;margin-top:-6px}
+}

@@ -8,7 +8,7 @@ function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/
 function destinationKey(v:unknown){return String(v??"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[’‘`´\']/g,"").replace(/[^a-zA-Z0-9]+/g,"").toLowerCase()}
 export default function Tours(){
  const supabase=useMemo(()=>createClient(),[]);const [destinations,setDestinations]=useState<Row[]>([]);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(true);
- useEffect(()=>{Promise.all([supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}),supabase.from("tours").select("*").eq("is_published",true)]).then(([d,t])=>{setDestinations((d.data as Row[]|null)??[]);setTours((t.data as Row[]|null)??[]);setLoading(false)});},[supabase]);
+ useEffect(()=>{Promise.all([supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}),supabase.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true})]).then(([d,t])=>{setDestinations((d.data as Row[]|null)??[]);setTours((t.data as Row[]|null)??[]);setLoading(false)});},[supabase]);
  const multiTours=tours.filter(t=>destinationKey(t.destination)==="multidestination");
  const singleTours=tours.filter(t=>destinationKey(t.destination)!=="multidestination");
  const cards:Row[]=destinations.map(d=>{const destinationName=String(d.name??"China");const matches=singleTours.filter(t=>String(t.destination_id??"")===String(d.id??"")||destinationKey(t.destination)===destinationKey(destinationName));return {...d,tour_count:matches.length}});

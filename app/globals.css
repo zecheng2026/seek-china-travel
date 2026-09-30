@@ -471,3 +471,6 @@
 .reviewAdminShots{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 20px}
 .reviewAdminShots>div{display:grid;gap:6px;width:120px}.reviewAdminShots img{width:120px;height:88px;object-fit:cover;border-radius:8px;border:1px solid #dce5ea}
 @media(max-width:760px){.v1ReviewShot{width:82px;height:64px}}
+
+/* Give traveler review copy enough room to edit comfortably. */
+.reviewTextField{display:block;margin:18px 0}.reviewTextField>span{display:block;margin-bottom:8px}.reviewTextField textarea{display:block;width:100%;min-height:190px;resize:vertical;line-height:1.65}

@@ -479,3 +479,8 @@
 .v1Reviews{padding-bottom:54px}
 .v1Reviews + #guide{padding-top:54px}
 @media(max-width:760px){.v1Reviews{padding-bottom:38px}.v1Reviews + #guide{padding-top:38px}}
+
+/* Compact adjacent homepage reviews and guide sections; override generic section spacing. */
+main>.v1Reviews{padding-bottom:28px!important}
+main>.v1Reviews + #guide{padding-top:28px!important}
+@media(max-width:760px){main>.v1Reviews{padding-bottom:22px!important}main>.v1Reviews + #guide{padding-top:22px!important}}

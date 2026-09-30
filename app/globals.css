@@ -447,3 +447,18 @@
  .guideListCopy p{display:none}
  .guideListItem>strong{grid-column:2;font-size:12px;margin-top:-6px}
 }
+
+/* Homepage editorial travel guides */
+.v1GuideImageGrid .v1GuideLink article{padding:0;overflow:hidden}
+.v1GuideImageGrid .v1GuideLink article>img{width:100%;height:210px;display:block;object-fit:cover}
+.v1GuideImageGrid .v1GuideLink article>div{padding:25px 26px 28px}
+.v1GuideImageGrid .v1GuideLink span{display:inline-block;margin-top:10px;color:#0b3552;font-weight:750;font-size:13px}
+/* Homepage traveler stories */
+.v1Reviews{border-top:1px solid #e3e9ed}
+.v1Reviews .v1SectionHead>p{max-width:440px;color:#66747d;line-height:1.65}
+.v1ReviewGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.v1Review{margin:0;padding:30px;border:1px solid #e1e8ec;border-radius:14px;background:#fff}
+.v1Stars{letter-spacing:3px;color:#b78b2e;font-size:14px}
+.v1Review blockquote{margin:18px 0 24px;color:#263c4a;font:500 17px/1.75 "Manrope"}
+.v1Review footer{display:grid;gap:4px}.v1Review footer b{color:#0b3552}.v1Review footer span{font-size:13px;color:#73808a}
+@media(max-width:760px){.v1GuideImageGrid .v1GuideLink article>img{height:190px}.v1ReviewGrid{grid-template-columns:1fr}.v1Review{padding:24px}}

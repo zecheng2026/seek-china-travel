@@ -474,3 +474,11 @@
 
 /* Give traveler review copy enough room to edit comfortably. */
 .reviewTextField{display:block;margin:18px 0}.reviewTextField>span{display:block;margin-bottom:8px}.reviewTextField textarea{display:block;width:100%;min-height:190px;resize:vertical;line-height:1.65}
+
+/* Compact spacing between homepage Traveler Stories and Travel Guide. */
+main>.v1Reviews{padding-bottom:28px!important}
+main>.v1Reviews + #guide{padding-top:28px!important}
+@media(max-width:760px){
+  main>.v1Reviews{padding-bottom:22px!important}
+  main>.v1Reviews + #guide{padding-top:22px!important}
+}

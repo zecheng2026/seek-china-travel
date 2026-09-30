@@ -63,7 +63,16 @@ export default function AdminPage() {
     setLoading(true);
     setMessage("");
     const { data, error } = await supabase.from(table).select("*").limit(50);
-    setRows((data as RecordRow[] | null) ?? []);
+    const loadedRows=(data as RecordRow[] | null) ?? [];
+    const orderedRows=[...loadedRows].sort((a,b)=>{
+      const av=Number(a.sort_order??a.display_order);
+      const bv=Number(b.sort_order??b.display_order);
+      const aHas=Number.isFinite(av),bHas=Number.isFinite(bv);
+      if(aHas&&bHas&&av!==bv)return av-bv;
+      if(aHas!==bHas)return aHas?-1:1;
+      return String(a.name??a.title??a.section_name??"").localeCompare(String(b.name??b.title??b.section_name??""));
+    });
+    setRows(orderedRows);
     if (error) setMessage(error.message);
     setLoading(false);
   }, [supabase]);

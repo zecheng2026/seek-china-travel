@@ -506,3 +506,11 @@ main>.v1Reviews + #guide{padding-top:28px!important}
     background-repeat:no-repeat!important;
   }
 }
+
+
+/* Shared front-end pagination for Travel Guide and destination tour listings. */
+.sitePagination{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:34px 0 0}
+.sitePagination button{min-width:40px;height:40px;padding:0 13px;border:1px solid #d9e3e8;border-radius:999px;background:#fff;color:#39566a;font:700 12px "Manrope";cursor:pointer}
+.sitePagination button:hover:not(:disabled),.sitePagination button.active{background:#0b3552;border-color:#0b3552;color:#fff}
+.sitePagination button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:560px){.sitePagination{gap:6px}.sitePagination button{min-width:36px;height:36px;padding:0 10px;font-size:11px}}

@@ -502,7 +502,7 @@ main>.v1Reviews + #guide{padding-top:28px!important}
     aspect-ratio:auto!important;
     background-image:var(--home-mobile-hero)!important;
     background-size:cover!important;
-    background-position:center top!important;
+    background-position:var(--home-mobile-position,center top)!important;
     background-repeat:no-repeat!important;
   }
 }

@@ -66,6 +66,13 @@ export default function AdminPage() {
     const { data, error } = await supabase.from(table).select("*").limit(50);
     const loadedRows=(data as RecordRow[] | null) ?? [];
     const orderedRows=[...loadedRows].sort((a,b)=>{
+      if(table==="travel_guides"){
+        const at=Date.parse(String(a.updated_at??a.created_at??""));
+        const bt=Date.parse(String(b.updated_at??b.created_at??""));
+        const aHas=Number.isFinite(at),bHas=Number.isFinite(bt);
+        if(aHas&&bHas&&at!==bt)return bt-at;
+        if(aHas!==bHas)return aHas?-1:1;
+      }
       const av=Number(a.sort_order??a.display_order);
       const bv=Number(b.sort_order??b.display_order);
       const aHas=Number.isFinite(av),bHas=Number.isFinite(bv);

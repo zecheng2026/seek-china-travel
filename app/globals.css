@@ -496,9 +496,9 @@ main>.v1Reviews + #guide{padding-top:28px!important}
 @media(max-width:680px){
   .homeManagedHero{
     min-height:0!important;
-    height:74vh!important;
-    height:74svh!important;
-    max-height:620px!important;
+    height:62vh!important;
+    height:62svh!important;
+    max-height:520px!important;
     aspect-ratio:auto!important;
     background-image:var(--home-mobile-hero)!important;
     background-size:cover!important;

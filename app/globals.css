@@ -490,3 +490,19 @@ main>.v1Reviews + #guide{padding-top:28px!important}
 .guideCategoryEmpty{padding:38px 0;color:#71818c;font-size:14px}
 .adminShell .destinationFormGrid select{width:100%;min-height:42px;padding:9px 11px;border:1px solid #d8e2e8;border-radius:8px;background:#fff;color:#17364b}
 @media(max-width:650px){.guideCategoryNav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:16px;scrollbar-width:none}.guideCategoryNav::-webkit-scrollbar{display:none}.guideCategoryNav button{flex:0 0 auto;padding:9px 14px}}
+
+
+/* Mobile homepage Hero: reduce first-screen takeover while keeping the dedicated mobile artwork. */
+@media(max-width:680px){
+  .homeManagedHero{
+    min-height:0!important;
+    height:74vh!important;
+    height:74svh!important;
+    max-height:620px!important;
+    aspect-ratio:auto!important;
+    background-image:var(--home-mobile-hero)!important;
+    background-size:cover!important;
+    background-position:center top!important;
+    background-repeat:no-repeat!important;
+  }
+}

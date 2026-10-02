@@ -502,7 +502,7 @@ main>.v1Reviews + #guide{padding-top:28px!important}
     aspect-ratio:auto!important;
     background-image:var(--home-mobile-hero)!important;
     background-size:cover!important;
-    background-position:center top!important;
+    background-position:var(--home-mobile-position,center top)!important;
     background-repeat:no-repeat!important;
   }
 }
@@ -514,3 +514,15 @@ main>.v1Reviews + #guide{padding-top:28px!important}
 .sitePagination button:hover:not(:disabled),.sitePagination button.active{background:#0b3552;border-color:#0b3552;color:#fff}
 .sitePagination button:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:560px){.sitePagination{gap:6px}.sitePagination button{min-width:36px;height:36px;padding:0 10px;font-size:11px}}
+
+
+/* Travel Guide image focal-point editor. */
+.guideCropPreview{position:relative;width:100%;height:220px;overflow:hidden;border-radius:10px;background:#e8eef2}
+.guideCropPreview img{display:block;width:100%;height:100%;object-fit:cover}
+.guideCropFocus{position:absolute;width:18px;height:18px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 2px rgba(9,58,91,.75),0 2px 8px rgba(0,0,0,.28);pointer-events:none}
+.guideCropControls{display:grid;grid-template-columns:1fr 1fr auto;align-items:end;gap:14px;margin:14px 0 4px}
+.guideCropControls label{display:grid;gap:6px;color:#526b7b;font-size:12px;font-weight:700}
+.guideCropControls input[type="range"]{width:100%}
+.guideCropControls button{min-height:38px;border:1px solid #d5e0e6;border-radius:8px;background:#fff;padding:0 13px;cursor:pointer}
+.guideCropControls small{grid-column:1/-1;color:#718594}
+@media(max-width:680px){.guideCropControls{grid-template-columns:1fr}.guideCropControls small{grid-column:auto}}

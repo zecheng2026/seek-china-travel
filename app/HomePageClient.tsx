@@ -81,6 +81,6 @@ export default function Home() {
 
     <section className="v1Section" id="guide"><header className="v1SectionHead"><div><p className="v1Eyebrow red">CHINA TRAVEL GUIDE</p><h2>Know before you go</h2></div><Link href="/travel-guide">View all guides →</Link></header>{liveGuides.length>0&&<div className="v1GuideGrid v1GuideImageGrid">{liveGuides.map((g,i)=>{const image=String(g.hero_image_url??g.image_url??g.cover_image_url??"");return <Link href={"/travel-guide/"+encodeURIComponent(String(g.slug??""))} key={String(g.id??i)} className="v1GuideLink"><article>{image&&<img src={image} alt={String(g.title??g.name??"China Travel Guide")} style={{objectPosition:`${Number(g.image_position_x??50)}% ${Number(g.image_position_y??50)}%`}}/>}<div><small>{String(g.category??"TRAVEL GUIDE").toUpperCase()}</small><h3>{String(g.title??g.name??"China Travel Guide")}</h3><p>{String(g.summary??g.short_description??g.description??"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim().slice(0,145)}</p><span>Read guide →</span></div></article></Link>})}</div>}</section>
 
-    <section className="v1Section v1Process v1CompactCta"><p className="v1Eyebrow">YOUR CHINA JOURNEY STARTS HERE</p><h2>Your China Trip, Your Way.</h2><p className="v1CompactCtaText">Tell us your travel dates, interests, and destinations. We’ll create a personalized China itinerary just for you.</p><Link href="/quote" className="pillButton">Start Planning Your Trip →</Link></section>
+    
   </main>;
 }

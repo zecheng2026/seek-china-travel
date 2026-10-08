@@ -602,3 +602,7 @@ main>.v1JourneyStories{padding-top:56px;padding-bottom:48px!important}
  .v1JourneyStoryBottom{flex-direction:column;align-items:stretch;text-align:center;padding:20px 16px}
  .v1StoryButton{white-space:normal}
 }
+
+/* Soft SCT-blue gradient distinguishes the benefits section from white traveler stories. */
+main>.v1Why{background:linear-gradient(180deg,#f4f8fc 0%,#e6f0f8 100%)}
+main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,54,91,.10);border-top-color:var(--red)}

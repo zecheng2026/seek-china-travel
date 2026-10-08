@@ -537,3 +537,21 @@ main>.v1Reviews + #guide{padding-top:28px!important}
 .guideRelatedCard span{font-size:12px;font-weight:700;color:#b52b32}
 .guideRelatedCard:hover{border-color:#9bb5c5;background:#fff}
 @media(max-width:600px){.guideRelatedGrid{grid-template-columns:1fr}.guideRelatedSection h2{font-size:21px}}
+
+/* SCT homepage: compact final planning CTA and readable two-column benefits on mobile. */
+.v1CompactCta{padding-top:52px;padding-bottom:54px}
+.v1CompactCta>h2{margin:10px auto 14px;max-width:760px}
+.v1CompactCtaText{max-width:650px;margin:0 auto 25px;color:#e0eaf4;font-size:16px;line-height:1.7}
+.v1Why{padding-top:65px;padding-bottom:65px}
+.v1Features p{font-size:14px;line-height:1.65}
+@media(max-width:600px){
+ .v1Features{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+ .v1Features article{min-width:0;padding:16px 12px}
+ .v1Features b{font-size:24px}
+ .v1Features h3{font-size:14px;line-height:1.35;margin:10px 0 7px;overflow-wrap:anywhere}
+ .v1Features p{font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+ .v1Why{padding-top:48px;padding-bottom:48px}
+ .v1CompactCta{padding:43px 5% 46px}
+ .v1CompactCta>h2{font-size:30px;letter-spacing:-1px}
+ .v1CompactCtaText{font-size:14px;margin-bottom:22px}
+}

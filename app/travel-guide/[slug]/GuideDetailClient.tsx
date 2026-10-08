@@ -10,16 +10,16 @@ function Html({value:html}:{value:unknown}){return html?<div className="tourHtml
 function matches(text:string,name:string){const n=normalize(name);if(n.length<4)return false;const pos=text.indexOf(n);if(pos<0)return false;const before=text[pos-1]??" ";const after=text[pos+n.length]??" ";return !/[a-z]/.test(before)&&!/[a-z]/.test(after);}
 function prioritize<T extends Row>(items:T[],score:(item:T)=>number,limit:number){return items.map((item,index)=>({item,index,score:score(item)})).sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,limit).map(x=>x.item);}
 
-export default function GuideDetail({slug:slugProp}:{slug?:string}){
+export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;initialGuide?:Row|null}){
  const supabase=useMemo(()=>createClient(),[]);
  const [runtimeSlug,setRuntimeSlug]=useState("");
  const slug=slugProp??runtimeSlug;
- const [guide,setGuide]=useState<Row|null>(null);
+ const [guide,setGuide]=useState<Row|null>(initialGuide??null);
  const [destinations,setDestinations]=useState<Row[]>([]);
  const [tours,setTours]=useState<Row[]>([]);
- const [loading,setLoading]=useState(true);
+ const [loading,setLoading]=useState(!initialGuide);
  useEffect(()=>{if(!slugProp)setRuntimeSlug(new URLSearchParams(window.location.search).get("slug")??"");},[slugProp]);
- useEffect(()=>{if(!slug)return;let cancelled=false;setLoading(true);setDestinations([]);setTours([]);supabase.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle().then(({data})=>{if(cancelled)return;setGuide((data as Row|null)??null);setLoading(false);});return ()=>{cancelled=true;};},[slug,supabase]);
+ useEffect(()=>{if(initialGuide){setGuide(initialGuide);setLoading(false);return;}if(!slug){setLoading(false);return;}let cancelled=false;setLoading(true);setDestinations([]);setTours([]);const timeout=new Promise<never>((_,reject)=>setTimeout(()=>reject(new Error("Guide request timed out")),10000));void Promise.race([supabase.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle(),timeout]).then(({data})=>{if(!cancelled)setGuide((data as Row|null)??null);}).catch(()=>{if(!cancelled)setGuide(null);}).finally(()=>{if(!cancelled)setLoading(false);});return ()=>{cancelled=true;};},[slug,supabase,initialGuide]);
  useEffect(()=>{
   if(!guide)return;
   let cancelled=false;

@@ -18,8 +18,29 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
  const [destinations,setDestinations]=useState<Row[]>([]);
  const [tours,setTours]=useState<Row[]>([]);
  const [loading,setLoading]=useState(!initialGuide);
+ const [diagnostic,setDiagnostic]=useState("");
  useEffect(()=>{if(!slugProp)setRuntimeSlug(new URLSearchParams(window.location.search).get("slug")??"");},[slugProp]);
- useEffect(()=>{if(initialGuide){setGuide(initialGuide);setLoading(false);return;}if(!slug){setLoading(false);return;}let cancelled=false;setLoading(true);setDestinations([]);setTours([]);const timeout=new Promise<never>((_,reject)=>setTimeout(()=>reject(new Error("Guide request timed out")),10000));void Promise.race([supabase.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle(),timeout]).then(({data})=>{if(!cancelled)setGuide((data as Row|null)??null);}).catch(()=>{if(!cancelled)setGuide(null);}).finally(()=>{if(!cancelled)setLoading(false);});return ()=>{cancelled=true;};},[slug,supabase,initialGuide]);
+ useEffect(()=>{
+  if(initialGuide){setGuide(initialGuide);setLoading(false);setDiagnostic("");return;}
+  if(!slug){setLoading(false);setDiagnostic("Missing guide slug");return;}
+  let cancelled=false;
+  setLoading(true);setDiagnostic("");setDestinations([]);setTours([]);
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),10000);
+  void (async()=>{
+   try{
+    const result=await supabase.from("travel_guides").select("*").eq("slug",slug).abortSignal(controller.signal).maybeSingle();
+    if(cancelled)return;
+    if(result.error){setDiagnostic("Guide query failed: "+result.error.message+" (code "+(result.error.code||"unknown")+")");setGuide(null);return;}
+    const row=result.data as Row|null;
+    if(!row){setDiagnostic("No guide row returned for this slug. Check RLS, slug and publish status.");setGuide(null);return;}
+    if(row.is_published===false||row.is_active===false){setDiagnostic("Guide row exists but is explicitly unpublished or inactive.");setGuide(null);return;}
+    setGuide(row);
+   }catch(err){if(!cancelled){setDiagnostic(controller.signal.aborted?"Guide query timed out after 10 seconds. Check browser network/Supabase connectivity.":"Guide query exception: "+String(err));setGuide(null);}}
+   finally{clearTimeout(timer);if(!cancelled)setLoading(false);}
+  })();
+  return ()=>{cancelled=true;controller.abort();clearTimeout(timer);};
+ },[slug,supabase,initialGuide]);
  useEffect(()=>{
   if(!guide)return;
   let cancelled=false;
@@ -43,7 +64,7 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
   return ()=>{cancelled=true;};
  },[guide,supabase]);
  if(loading)return <main className="tourLoading"><p>Loading travel guide…</p></main>;
- if(!guide)return <main className="tourLoading"><div><h1>Guide not found</h1><Link href="/travel-guide" className="btn">All Travel Guides →</Link></div></main>;
+ if(!guide)return <main className="tourLoading"><div><h1>Guide unavailable (diagnostic preview)</h1>{diagnostic&&<p style={{maxWidth:650,margin:"16px auto",overflowWrap:"anywhere"}}>{diagnostic}</p>}<Link href="/travel-guide" className="btn">All Travel Guides →</Link></div></main>;
  const title=value(guide.title??guide.name)||"China Travel Guide";
  const image=value(guide.hero_image_url??guide.image_url??guide.cover_image_url);
  const category=value(guide.category??guide.type)||"CHINA TRAVEL GUIDE";

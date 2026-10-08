@@ -2,6 +2,7 @@
 import Link from "next/link";
 import {useEffect,useMemo,useState} from "react";
 import ManagedHero from "./components/ManagedHero";
+import TravelerReviews from "./components/TravelerReviews";
 import {createClient} from "../utils/supabase/client";
 
 // Placeholder photography is centralized here so the final client images are easy to replace.
@@ -53,31 +54,7 @@ export default function Home() {
 
     
 
-    {reviews.length>0&&<section className="v1Section v1Reviews v1JourneyStories">
-      <header className="v1StoryHeading">
-        <div><p className="v1Eyebrow red">TRAVELER REVIEWS &amp; STORIES</p><h2>Real Journeys. Real Stories.</h2><p className="v1StoryIntro">Every China journey is different. Hear from travelers who explored the cities, landscapes and culture of China with SCT.</p></div>
-        <Link className="v1StoryHeaderLink" href="/quote">Plan your own journey →</Link>
-      </header>
-      <div className="v1JourneyStoryGrid">{reviews.map((r,i)=>{
-        const traveler=String(r.name??"Traveler").trim()||"Traveler";
-        const country=String(r.country??"").trim();
-        const route=String(r.route??"").trim();
-        const destinations=route.split(/\s*(?:→|➝|·|,|\/|\\|\||;|–|—)\s*/).map(x=>x.trim()).filter(Boolean).slice(0,6);
-        const duration=String(r.duration_days??r.days??"").trim();
-        const rating=Number(r.rating);
-        const validRating=r.rating!==undefined&&r.rating!==null&&r.rating!==""&&Number.isInteger(rating)&&rating>=1&&rating<=5;
-        const photos=Array.isArray(r.images)?r.images.filter((src:unknown)=>typeof src==="string"&&src.trim()).slice(0,3):[];
-        return <article className="v1JourneyStory" key={String(r.id??i)}>
-          <div className="v1JourneyStoryTop"><span className="v1JourneyStoryLabel">CHINA JOURNEY {String(i+1).padStart(2,"0")}</span>{validRating&&<span className="v1Stars" aria-label={rating+" out of 5 stars"}>{"★".repeat(rating)}{"☆".repeat(5-rating)}</span>}</div>
-          {route&&<h3>{route}</h3>}
-          {(destinations.length>1||duration)&&<div className="v1JourneyTags">{duration&&<span>{duration}{/^\d+$/.test(duration)?" Days":""}</span>}{destinations.length>1&&destinations.map((city,n)=><span key={n}>{city}</span>)}</div>}
-          <blockquote>“{String(r.text??"").trim()}”</blockquote>
-          {photos.length>0&&<div className="v1ReviewShots">{photos.map((src:unknown,n:number)=><div className="v1ReviewShot" key={n}><img src={String(src)} alt={"Review attachment from "+traveler+" "+(n+1)} loading="lazy"/>{n===2&&Array.isArray(r.images)&&r.images.length>3&&<span>+{r.images.length-3}</span>}</div>)}</div>}
-          <footer><b>{traveler}</b>{country&&<span>{country}</span>}</footer>
-        </article>
-      })}</div>
-      <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href="/quote" className="v1StoryButton">Start Planning Your Trip →</Link></div>
-    </section>}
+    <TravelerReviews reviews={reviews} />
 
     <section className="v1Section" id="guide"><header className="v1SectionHead"><div><p className="v1Eyebrow red">CHINA TRAVEL GUIDE</p><h2>Know before you go</h2></div><Link href="/travel-guide">View all guides →</Link></header>{liveGuides.length>0&&<div className="v1GuideGrid v1GuideImageGrid">{liveGuides.map((g,i)=>{const image=String(g.hero_image_url??g.image_url??g.cover_image_url??"");return <Link href={"/travel-guide/"+encodeURIComponent(String(g.slug??""))} key={String(g.id??i)} className="v1GuideLink"><article>{image&&<img src={image} alt={String(g.title??g.name??"China Travel Guide")} style={{objectPosition:`${Number(g.image_position_x??50)}% ${Number(g.image_position_y??50)}%`}}/>}<div><small>{String(g.category??"TRAVEL GUIDE").toUpperCase()}</small><h3>{String(g.title??g.name??"China Travel Guide")}</h3><p>{String(g.summary??g.short_description??g.description??"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim().slice(0,145)}</p><span>Read guide →</span></div></article></Link>})}</div>}</section>
 

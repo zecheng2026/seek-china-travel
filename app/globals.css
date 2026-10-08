@@ -555,3 +555,13 @@ main>.v1Reviews + #guide{padding-top:28px!important}
  .v1CompactCta>h2{font-size:30px;letter-spacing:-1px}
  .v1CompactCtaText{font-size:14px;margin-bottom:22px}
 }
+
+/* Contrast between the adjacent benefits and testimonial sections. */
+main>.v1Why{background:#f4f7fa;padding-top:56px;padding-bottom:58px}
+main>.v1Reviews{background:#fff;border-top:0;padding-top:52px;padding-bottom:46px!important}
+main>.v1Why .v1Features{margin-top:28px}
+@media(max-width:600px){
+ main>.v1Why{padding-top:42px;padding-bottom:44px}
+ main>.v1Reviews{padding-top:42px;padding-bottom:30px!important}
+ main>.v1Why .v1Features{margin-top:22px}
+}

@@ -537,3 +537,107 @@ main>.v1Reviews + #guide{padding-top:28px!important}
 .guideRelatedCard span{font-size:12px;font-weight:700;color:#b52b32}
 .guideRelatedCard:hover{border-color:#9bb5c5;background:#fff}
 @media(max-width:600px){.guideRelatedGrid{grid-template-columns:1fr}.guideRelatedSection h2{font-size:21px}}
+
+/* SCT homepage: compact final planning CTA and readable two-column benefits on mobile. */
+.v1CompactCta{padding-top:52px;padding-bottom:54px}
+.v1CompactCta>h2{margin:10px auto 14px;max-width:760px}
+.v1CompactCtaText{max-width:650px;margin:0 auto 25px;color:#e0eaf4;font-size:16px;line-height:1.7}
+.v1Why{padding-top:65px;padding-bottom:65px}
+.v1Features p{font-size:14px;line-height:1.65}
+@media(max-width:600px){
+ .v1Features{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+ .v1Features article{min-width:0;padding:16px 12px}
+ .v1Features b{font-size:24px}
+ .v1Features h3{font-size:14px;line-height:1.35;margin:10px 0 7px;overflow-wrap:anywhere}
+ .v1Features p{font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+ .v1Why{padding-top:48px;padding-bottom:48px}
+ .v1CompactCta{padding:43px 5% 46px}
+ .v1CompactCta>h2{font-size:30px;letter-spacing:-1px}
+ .v1CompactCtaText{font-size:14px;margin-bottom:22px}
+}
+
+/* Contrast between the adjacent benefits and testimonial sections. */
+main>.v1Why{background:#f4f7fa;padding-top:56px;padding-bottom:58px}
+main>.v1Reviews{background:#fff;border-top:0;padding-top:52px;padding-bottom:46px!important}
+main>.v1Why .v1Features{margin-top:28px}
+@media(max-width:600px){
+ main>.v1Why{padding-top:42px;padding-bottom:44px}
+ main>.v1Reviews{padding-top:42px;padding-bottom:30px!important}
+ main>.v1Why .v1Features{margin-top:22px}
+}
+
+/* Journey-first homepage testimonials: support multi-city routes without duplicating reviews. */
+main>.v1JourneyStories{padding-top:56px;padding-bottom:48px!important}
+.v1StoryHeading{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
+.v1StoryHeading>div{max-width:730px}
+.v1StoryHeading h2{font:700 clamp(32px,3.5vw,44px)/1.15 "Manrope";letter-spacing:-1.5px;color:var(--blue);margin:9px 0 12px}
+.v1StoryIntro{color:#627587;line-height:1.7;font-size:15px;max-width:650px;margin:0}
+.v1StoryHeaderLink{font-size:13px;font-weight:800;color:var(--red);white-space:nowrap}
+.v1JourneyStoryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.v1JourneyStory{min-width:0;display:flex;flex-direction:column;padding:25px;border:1px solid #dce5eb;border-radius:14px;background:#fff;box-shadow:0 8px 28px rgba(10,45,75,.045)}
+.v1JourneyStoryTop{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:22px}
+.v1JourneyStoryLabel{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#8b9dac}
+.v1JourneyStory h3{font:700 18px/1.45 "Manrope";color:var(--blue);margin:14px 0 0;overflow-wrap:anywhere}
+.v1JourneyTags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.v1JourneyTags span{font-size:11px;color:#3b607c;background:#edf3f7;border-radius:20px;padding:5px 9px}
+.v1JourneyStory blockquote{font:500 15px/1.75 "Manrope";color:#2a4053;margin:19px 0 20px;flex:1;overflow-wrap:anywhere}
+.v1JourneyStory footer{display:flex;flex-direction:column;gap:3px;border-top:1px solid #edf1f4;padding-top:15px;margin-top:18px}
+.v1JourneyStory footer b{color:var(--blue);font-size:14px}
+.v1JourneyStory footer span{color:#718293;font-size:12px}
+.v1JourneyStory .v1ReviewShots{margin-top:0}
+.v1JourneyStoryBottom{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:26px;padding:23px 27px;border-radius:12px;background:#f1f5f8}
+.v1JourneyStoryBottom p{font-weight:700;color:var(--blue);margin:0}
+.v1StoryButton{background:var(--red);color:#fff;padding:13px 22px;border-radius:30px;font-size:13px;font-weight:800;white-space:nowrap}
+@media(max-width:900px){.v1JourneyStoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+ main>.v1JourneyStories{padding-top:40px;padding-bottom:30px!important}
+ .v1StoryHeading{display:block;margin-bottom:22px}
+ .v1StoryHeading h2{font-size:30px}
+ .v1StoryIntro{font-size:13px}
+ .v1StoryHeaderLink{display:inline-block;margin-top:16px}
+ .v1JourneyStoryGrid{grid-template-columns:1fr;gap:14px}
+ .v1JourneyStory{padding:20px}
+ .v1JourneyStory h3{font-size:17px}
+ .v1JourneyStory blockquote{font-size:14px}
+ .v1JourneyStoryBottom{flex-direction:column;align-items:stretch;text-align:center;padding:20px 16px}
+ .v1StoryButton{white-space:normal}
+}
+
+/* Soft SCT-blue gradient distinguishes the benefits section from white traveler stories. */
+main>.v1Why{background:linear-gradient(180deg,#f4f8fc 0%,#e6f0f8 100%)}
+main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,54,91,.10);border-top-color:var(--red)}
+
+/* Global back-to-top control; stacked above the existing Contact Us widget. */
+.backToTop{position:fixed;right:24px;bottom:104px;z-index:95;width:44px;height:44px;border:0;border-radius:50%;display:grid;place-items:center;background:#103f70;color:#fff;box-shadow:0 5px 18px rgba(12,49,85,.22);cursor:pointer;transition:background .2s,transform .2s}
+.backToTop:hover{background:#0a3158;transform:translateY(-2px)}
+.backToTop:focus-visible{outline:3px solid #f12d36;outline-offset:3px}
+@media(max-width:760px){.backToTop{right:20px;bottom:100px;width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.backToTop{transition:none}}
+
+/* About Us: two-column value cards on phones, four columns on desktop. */
+@media(max-width:600px){.aboutPage .aboutValues{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 48px}.aboutPage .aboutValues article{min-width:0;min-height:0;padding:22px 16px 24px}.aboutPage .aboutValues h3{font-size:15px;line-height:1.4;margin:20px 0 9px;overflow-wrap:anywhere}.aboutPage .aboutValues p{font-size:12px;line-height:1.6;overflow-wrap:anywhere}.aboutPage .aboutValues article>span{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;box-shadow:0 6px 14px rgba(235,39,47,.13)}}
+
+/* Contact Us: white contact details, soft-blue reviews, white next section. */
+.contactPage .contactMethods{margin-bottom:0;background:#fff}
+.contactPage>.v1JourneyStories{background:#f1f6fb!important;padding-top:62px!important;padding-bottom:62px!important;margin-top:52px}
+.contactPage .v1JourneyStory{background:#fff;box-shadow:0 10px 28px rgba(12,54,91,.07);border-color:#e2eaf2}
+.contactPage .v1JourneyStoryBottom{background:#fff}
+.contactPage .contactNote{background:#fff}
+@media(max-width:760px){.contactPage>.v1JourneyStories{margin-top:38px;padding-top:46px!important;padding-bottom:46px!important}}
+@media(max-width:600px){.contactPage>.v1JourneyStories{margin-top:28px;padding-top:40px!important;padding-bottom:40px!important}}
+
+/* Contact Us: accessible, readable four-step planning cards. */
+.contactPage .contactNote{display:block;background:#f6f9fc;padding:68px max(5%,calc((100% - var(--max))/2)) 76px}
+.contactPage .contactNoteIntro{max-width:780px;margin-bottom:30px}
+.contactPage .contactNoteIntro h2{font-size:clamp(32px,3.8vw,46px);line-height:1.14;letter-spacing:-1.4px;margin:12px 0 14px}
+.contactPage .contactNoteIntro>p:not(.v1Eyebrow){font-size:16px;line-height:1.75;max-width:780px}
+.contactPage .contactSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.contactPage .contactStepCard{min-width:0;background:#fff;border:1px solid #e2eaf2;border-radius:14px;padding:24px 20px 26px;box-shadow:0 8px 24px rgba(12,54,91,.045)}
+.contactPage .contactStepNumber{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:9px;background:var(--red);color:#fff;font-size:12px;font-weight:800;box-shadow:0 6px 14px rgba(235,39,47,.14)}
+.contactPage .contactStepCard h3{font:700 18px/1.4 "Manrope";color:var(--blue);margin:18px 0 10px}
+.contactPage .contactStepCard p{font-size:14px;line-height:1.7;color:#60788c;margin:0}
+@media(max-width:900px){.contactPage .contactSteps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.contactPage .contactNote{padding:48px 20px 54px}.contactPage .contactNoteIntro{margin-bottom:22px}.contactPage .contactNoteIntro h2{font-size:32px}.contactPage .contactNoteIntro>p:not(.v1Eyebrow){font-size:14px}.contactPage .contactSteps{gap:10px}.contactPage .contactStepCard{padding:18px 14px 20px}.contactPage .contactStepNumber{width:34px;height:34px;font-size:11px}.contactPage .contactStepCard h3{font-size:16px;margin:14px 0 8px}.contactPage .contactStepCard p{font-size:13px;line-height:1.55}}
+
+/* Home destinations: two cards per row on phones. */
+@media(max-width:600px){main .v1DestinationGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}main .v1DestinationGrid .v1Destination{min-width:0;height:175px;border-radius:13px;padding:15px}main .v1DestinationGrid .v1Destination h3{font-size:19px;line-height:1.25;overflow-wrap:anywhere}main .v1DestinationGrid .v1Destination span{font-size:10px;letter-spacing:1px}}

@@ -638,3 +638,6 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .contactPage .contactStepCard p{font-size:14px;line-height:1.7;color:#60788c;margin:0}
 @media(max-width:900px){.contactPage .contactSteps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.contactPage .contactNote{padding:48px 20px 54px}.contactPage .contactNoteIntro{margin-bottom:22px}.contactPage .contactNoteIntro h2{font-size:32px}.contactPage .contactNoteIntro>p:not(.v1Eyebrow){font-size:14px}.contactPage .contactSteps{gap:10px}.contactPage .contactStepCard{padding:18px 14px 20px}.contactPage .contactStepNumber{width:34px;height:34px;font-size:11px}.contactPage .contactStepCard h3{font-size:16px;margin:14px 0 8px}.contactPage .contactStepCard p{font-size:13px;line-height:1.55}}
+
+/* Home destinations: two cards per row on phones. */
+@media(max-width:600px){main .v1DestinationGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}main .v1DestinationGrid .v1Destination{min-width:0;height:175px;border-radius:13px;padding:15px}main .v1DestinationGrid .v1Destination h3{font-size:19px;line-height:1.25;overflow-wrap:anywhere}main .v1DestinationGrid .v1Destination span{font-size:10px;letter-spacing:1px}}

@@ -18,7 +18,7 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
  const [destinations,setDestinations]=useState<Row[]>([]);
  const [tours,setTours]=useState<Row[]>([]);
  const [loading,setLoading]=useState(!initialGuide);
- useEffect(()=>{if(!slugProp)setRuntimeSlug(new URLSearchParams(window.location.search).get("slug")??"");},[slugProp]);
+ useEffect(()=>{if(slugProp)return;const segments=window.location.pathname.split("/").filter(Boolean);const guideIndex=segments.indexOf("travel-guide");const pathSlug=guideIndex>=0?segments[guideIndex+1]??"":"";let decoded=pathSlug;try{decoded=decodeURIComponent(pathSlug);}catch{}setRuntimeSlug(decoded||new URLSearchParams(window.location.search).get("slug")||"");},[slugProp]);
  useEffect(()=>{if(initialGuide){setGuide(initialGuide);setLoading(false);return;}if(!slug){setLoading(false);return;}let cancelled=false;setLoading(true);setDestinations([]);setTours([]);const timeout=new Promise<never>((_,reject)=>setTimeout(()=>reject(new Error("Guide request timed out")),10000));void Promise.race([supabase.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle(),timeout]).then(({data})=>{if(!cancelled)setGuide((data as Row|null)??null);}).catch(()=>{if(!cancelled)setGuide(null);}).finally(()=>{if(!cancelled)setLoading(false);});return ()=>{cancelled=true;};},[slug,supabase,initialGuide]);
  useEffect(()=>{
   if(!guide)return;

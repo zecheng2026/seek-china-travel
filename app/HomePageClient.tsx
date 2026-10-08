@@ -38,7 +38,7 @@ export default function Home() {
 
 
 
-    <h1 className="srOnly">Private &amp; Tailor-Made China Tours | SEEK CHINA TRAVEL</h1>
+    <h1 style={{position:"absolute",width:1,height:1,padding:0,margin:-1,overflow:"hidden",clip:"rect(0,0,0,0)",whiteSpace:"nowrap",border:0}}>Private &amp; Tailor-Made China Tours | SEEK CHINA TRAVEL</h1>
     <section className="v1Section">
       <header className="v1SectionHead"><div><p className="v1Eyebrow red">POPULAR DESTINATIONS</p><h2>Where will China take you?</h2></div><Link href="/destinations">View all destinations →</Link></header>
       <div className="v1DestinationGrid">{(liveDestinations.length?liveDestinations:destinations).map((item:any,index:number)=>{const name=String(item.name??item.title??"China");const image=String(item.hero_image_url??item.image_url??item.cover_image_url??item.image??"");return <Link href={"/destinations/"+encodeURIComponent(String(item.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className="v1Destination" key={String(item.id??name??index)} style={image?{backgroundImage:"linear-gradient(180deg,transparent 35%,rgba(3,31,57,.88)),url('"+image+"')",backgroundPosition:`${Number(item.image_position_x??50)}% ${Number(item.image_position_y??50)}%`}:undefined}><span>Explore</span><h3>{name}</h3></Link>})}</div>

@@ -625,3 +625,16 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .contactPage .contactNote{background:#fff}
 @media(max-width:760px){.contactPage>.v1JourneyStories{margin-top:38px;padding-top:46px!important;padding-bottom:46px!important}}
 @media(max-width:600px){.contactPage>.v1JourneyStories{margin-top:28px;padding-top:40px!important;padding-bottom:40px!important}}
+
+/* Contact Us: accessible, readable four-step planning cards. */
+.contactPage .contactNote{display:block;background:#f6f9fc;padding:68px max(5%,calc((100% - var(--max))/2)) 76px}
+.contactPage .contactNoteIntro{max-width:780px;margin-bottom:30px}
+.contactPage .contactNoteIntro h2{font-size:clamp(32px,3.8vw,46px);line-height:1.14;letter-spacing:-1.4px;margin:12px 0 14px}
+.contactPage .contactNoteIntro>p:not(.v1Eyebrow){font-size:16px;line-height:1.75;max-width:780px}
+.contactPage .contactSteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.contactPage .contactStepCard{min-width:0;background:#fff;border:1px solid #e2eaf2;border-radius:14px;padding:24px 20px 26px;box-shadow:0 8px 24px rgba(12,54,91,.045)}
+.contactPage .contactStepNumber{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:9px;background:var(--red);color:#fff;font-size:12px;font-weight:800;box-shadow:0 6px 14px rgba(235,39,47,.14)}
+.contactPage .contactStepCard h3{font:700 18px/1.4 "Manrope";color:var(--blue);margin:18px 0 10px}
+.contactPage .contactStepCard p{font-size:14px;line-height:1.7;color:#60788c;margin:0}
+@media(max-width:900px){.contactPage .contactSteps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.contactPage .contactNote{padding:48px 20px 54px}.contactPage .contactNoteIntro{margin-bottom:22px}.contactPage .contactNoteIntro h2{font-size:32px}.contactPage .contactNoteIntro>p:not(.v1Eyebrow){font-size:14px}.contactPage .contactSteps{gap:10px}.contactPage .contactStepCard{padding:18px 14px 20px}.contactPage .contactStepNumber{width:34px;height:34px;font-size:11px}.contactPage .contactStepCard h3{font-size:16px;margin:14px 0 8px}.contactPage .contactStepCard p{font-size:13px;line-height:1.55}}

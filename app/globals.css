@@ -565,3 +565,40 @@ main>.v1Why .v1Features{margin-top:28px}
  main>.v1Reviews{padding-top:42px;padding-bottom:30px!important}
  main>.v1Why .v1Features{margin-top:22px}
 }
+
+/* Journey-first homepage testimonials: support multi-city routes without duplicating reviews. */
+main>.v1JourneyStories{padding-top:56px;padding-bottom:48px!important}
+.v1StoryHeading{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
+.v1StoryHeading>div{max-width:730px}
+.v1StoryHeading h2{font:700 clamp(32px,3.5vw,44px)/1.15 "Manrope";letter-spacing:-1.5px;color:var(--blue);margin:9px 0 12px}
+.v1StoryIntro{color:#627587;line-height:1.7;font-size:15px;max-width:650px;margin:0}
+.v1StoryHeaderLink{font-size:13px;font-weight:800;color:var(--red);white-space:nowrap}
+.v1JourneyStoryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.v1JourneyStory{min-width:0;display:flex;flex-direction:column;padding:25px;border:1px solid #dce5eb;border-radius:14px;background:#fff;box-shadow:0 8px 28px rgba(10,45,75,.045)}
+.v1JourneyStoryTop{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:22px}
+.v1JourneyStoryLabel{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#8b9dac}
+.v1JourneyStory h3{font:700 18px/1.45 "Manrope";color:var(--blue);margin:14px 0 0;overflow-wrap:anywhere}
+.v1JourneyTags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.v1JourneyTags span{font-size:11px;color:#3b607c;background:#edf3f7;border-radius:20px;padding:5px 9px}
+.v1JourneyStory blockquote{font:500 15px/1.75 "Manrope";color:#2a4053;margin:19px 0 20px;flex:1;overflow-wrap:anywhere}
+.v1JourneyStory footer{display:flex;flex-direction:column;gap:3px;border-top:1px solid #edf1f4;padding-top:15px;margin-top:18px}
+.v1JourneyStory footer b{color:var(--blue);font-size:14px}
+.v1JourneyStory footer span{color:#718293;font-size:12px}
+.v1JourneyStory .v1ReviewShots{margin-top:0}
+.v1JourneyStoryBottom{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:26px;padding:23px 27px;border-radius:12px;background:#f1f5f8}
+.v1JourneyStoryBottom p{font-weight:700;color:var(--blue);margin:0}
+.v1StoryButton{background:var(--red);color:#fff;padding:13px 22px;border-radius:30px;font-size:13px;font-weight:800;white-space:nowrap}
+@media(max-width:900px){.v1JourneyStoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+ main>.v1JourneyStories{padding-top:40px;padding-bottom:30px!important}
+ .v1StoryHeading{display:block;margin-bottom:22px}
+ .v1StoryHeading h2{font-size:30px}
+ .v1StoryIntro{font-size:13px}
+ .v1StoryHeaderLink{display:inline-block;margin-top:16px}
+ .v1JourneyStoryGrid{grid-template-columns:1fr;gap:14px}
+ .v1JourneyStory{padding:20px}
+ .v1JourneyStory h3{font-size:17px}
+ .v1JourneyStory blockquote{font-size:14px}
+ .v1JourneyStoryBottom{flex-direction:column;align-items:stretch;text-align:center;padding:20px 16px}
+ .v1StoryButton{white-space:normal}
+}

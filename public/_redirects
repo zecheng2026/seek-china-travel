@@ -1,3 +1,4 @@
-/destinations/:slug /destination?slug=:slug 200
-/travel-guide/:slug /guide?slug=:slug 200
-/tours/:slug /tour?slug=:slug 200
+# Canonical detail URLs are generated as static HTML by Next.js.
+# Do not rewrite /tours/:slug, /destinations/:slug, or /travel-guide/:slug
+# to generic runtime pages: those rewrites discard page-specific SEO metadata.
+# Legacy query-ID redirects require verified ID-to-slug mappings and will be added separately.

@@ -1,4 +1,10 @@
-# Canonical detail URLs are generated as static HTML by Next.js.
-# Do not rewrite /tours/:slug, /destinations/:slug, or /travel-guide/:slug
-# to generic runtime pages: those rewrites discard page-specific SEO metadata.
-# Legacy query-ID redirects require verified ID-to-slug mappings and will be added separately.
+# Legacy HuanYou static pages with unambiguous SCT equivalents.
+# Use permanent redirects so search engines consolidate the old URLs.
+/index.html / 301
+/about.html /about 301
+
+# IMPORTANT: Do not redirect legacy query-ID detail pages to unrelated content.
+# /route-detail.html?id=R001, /dest-detail.html?id=D001, etc. need
+# verified ID -> published slug mappings before issuing 301 redirects.
+# Cloudflare Pages _redirects matches URL paths, not individual query IDs.
+# Canonical Next.js detail routes must not be rewritten to generic pages.

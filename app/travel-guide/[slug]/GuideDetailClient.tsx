@@ -48,8 +48,12 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
  const image=value(guide.hero_image_url??guide.image_url??guide.cover_image_url);
  const category=value(guide.category??guide.type)||"CHINA TRAVEL GUIDE";
  const imagePosition=`${Number(guide.image_position_x??50)}% ${Number(guide.image_position_y??50)}%`;
+ const isNews=category==="China Travel Updates";
+ const updatedAt=value(guide.updated_at??guide.created_at);
+ const formattedDate=updatedAt&&!Number.isNaN(Date.parse(updatedAt))?new Date(updatedAt).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}):"";
  return <main className="guideDetail">
-  <section className="guideDetailHero" style={image?{backgroundImage:"url('"+image+"')",backgroundPosition:imagePosition}:undefined}><div className="journeyHeroShade"/><div className="journeyHeroContent"><Link href="/travel-guide" className="journeyBack">← Travel Guide</Link><p className="journeysKicker">{category.toUpperCase()}</p><h1>{title}</h1>{Boolean(guide.summary??guide.short_description)&&<p>{value(guide.summary??guide.short_description)}</p>}</div></section>
+  <section className={isNews?"newsDetailHeader":"guideDetailHero"} style={!isNews&&image?{backgroundImage:"url('"+image+"')",backgroundPosition:imagePosition}:undefined}>{!isNews&&<div className="journeyHeroShade"/>}<div className="journeyHeroContent"><Link href={isNews?"/china-travel-updates":"/travel-guide"} className="journeyBack">← {isNews?"All Travel Updates":"Travel Guide"}</Link><p className="journeysKicker">{category.toUpperCase()}</p><h1>{title}</h1>{isNews&&formattedDate&&<p className="newsPublishedDate">Updated {formattedDate}</p>}{!isNews&&Boolean(guide.summary??guide.short_description)&&<p>{value(guide.summary??guide.short_description)}</p>}</div></section>
+  {isNews&&<style>{`.newsDetailHeader{background:#f5f8fa;padding:56px max(24px,calc((100vw - 1180px)/2)) 48px;color:#103b59}.newsDetailHeader .journeyHeroContent{position:static;max-width:950px;padding:0;color:#103b59}.newsDetailHeader .journeyHeroContent h1{color:#103b59;font-size:clamp(28px,4vw,48px);line-height:1.25}.newsDetailHeader .journeyBack{color:#325c77}.newsDetailHeader .journeysKicker{color:#df454a}.newsDetailHeader .newsPublishedDate{color:#6b7d8c;font-size:14px;margin-top:20px}@media(max-width:600px){.newsDetailHeader{padding:35px 20px}.newsDetailHeader .journeyHeroContent h1{font-size:29px}}`}</style>}
   <section className="guideArticleLayout"><article className="guideArticle">
    <Html value={guide.content??guide.description}/>
    <nav aria-label="Continue exploring China" className="guideRelated">

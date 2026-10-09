@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import {useState} from "react";
 
 
 const articles=[
@@ -11,11 +12,15 @@ const articles=[
 {category:"Visa & Entry",date:"October 4, 2026",title:"Accommodation Registration in China: A Guide for Foreign Visitors",summary:"What to know when staying at a hotel, guesthouse or private accommodation.",image:"https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80",tag:"ENTRY GUIDE"}
 ];
 export default function ChinaTravelUpdatesPreview(){
+ const [page,setPage]=useState(1);
  const sorted=[...articles].sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
+ const pageCount=Math.ceil(sorted.length/10);
+ const paged=sorted.slice((page-1)*10,page*10);
+ function changePage(n:number){setPage(n);document.querySelector(".ctuList")?.scrollIntoView({behavior:"smooth",block:"start"});}
  return <main className="ctu">
  <section className="ctuHero"><div className="ctuWrap"><div className="ctuTop"><Link href="/travel-guide">← Travel Guide</Link><span>SEEK CHINA TRAVEL · SCT</span></div><p className="ctuEyebrow">STAY INFORMED. TRAVEL SMARTER.</p><h1>China Travel Updates<span>.</span></h1><p className="ctuSub">The latest travel insights, entry information and practical updates to help you explore China with confidence.</p><div className="ctuNotice">DESIGN PREVIEW · Sample editorial content, not live news</div></div></section>
  <section className="ctuWrap ctuBody"><div className="ctuIntro"><div><p className="ctuEyebrow">LATEST INSIGHTS</p><h2>What’s new in China travel</h2></div><p>Useful updates for international travelers, curated by the SEEK CHINA TRAVEL team.</p></div>
- <div className="ctuList">{sorted.map(a=><article className="ctuListItem" key={a.title}><div className="ctuListDate"><strong>{new Date(a.date).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</strong><span>{new Date(a.date).getFullYear()}</span></div><div className="ctuListCopy"><h3>{a.title}</h3></div><span className="ctuArrow" aria-hidden="true">→</span></article>)}</div>
+ <div className="ctuList">{paged.map(a=><article className="ctuListItem" key={a.title}><div className="ctuListDate"><strong>{new Date(a.date).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</strong><span>{new Date(a.date).getFullYear()}</span></div><div className="ctuListCopy"><h3>{a.title}</h3></div><span className="ctuArrow" aria-hidden="true">→</span></article>)}</div>{pageCount>1&&<nav className="sitePagination" aria-label="News pagination"><button disabled={page===1} onClick={()=>changePage(page-1)}>Previous</button>{Array.from({length:pageCount},(_,i)=>i+1).map(n=><button key={n} className={n===page?"active":""} onClick={()=>changePage(n)}>{n}</button>)}<button disabled={page===pageCount} onClick={()=>changePage(page+1)}>Next</button></nav>}
  <section className="ctuFoot"><div><p className="ctuEyebrow">PLAN WITH CONFIDENCE</p><h2>Ready to explore China?</h2><p>Discover private, tailor-made journeys designed around your travel style.</p></div><Link href="/tours">Explore China Tours →</Link></section>
  </section>
  <style jsx>{`

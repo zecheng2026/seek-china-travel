@@ -32,6 +32,8 @@ export default async function TourDetailPage({params}:{params:Promise<{slug:stri
  const s=createBuildClient();
  const {data}=await s.from("tours").select("*").eq("slug",slug).eq("is_published",true).maybeSingle();
  if(!data)return <TourDetailClient slug={slug}/>;
+ const {data:days,error:daysError}=await s.from("tour_days").select("*").eq("tour_id",data.id).order("day_number",{ascending:true});
+ if(daysError)throw new Error("Cannot generate tour itinerary: "+daysError.message);
  const title=first(data.name,data.title,"Private China Tour");
  const description=first(data.seo_description,data.subtitle,data.short_description,data.overview,"Private China journey by SEEK CHINA TRAVEL.");
  const image=first(data.hero_image_url,data.cover_image_url);
@@ -41,5 +43,5 @@ export default async function TourDetailPage({params}:{params:Promise<{slug:stri
   ...(image?{"image":image}:{}),
   "provider":{"@type":"TravelAgency","name":"SEEK CHINA TRAVEL","url":siteUrl}
  };
- return <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd).replace(/</g,"\\u003c")}}/><TourDetailClient slug={slug}/></>;
+ return <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd).replace(/</g,"\\u003c")}}/><TourDetailClient slug={slug} initialTour={data} initialDays={days??[]}/></>;
 }

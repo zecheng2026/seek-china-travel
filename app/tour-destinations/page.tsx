@@ -5,7 +5,7 @@ import {createClient} from "../../utils/supabase/client";
 type Row=Record<string,unknown>;
 function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim()}
 function destinationKey(v:unknown){return String(v??"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[’‘`´\']/g,"").replace(/[^a-zA-Z0-9]+/g,"").toLowerCase()}
-const TOUR_PAGE_SIZE=9;
+const TOUR_PAGE_SIZE=10;
 function money(v:unknown){const n=Number(v);return Number.isFinite(n)?new Intl.NumberFormat("en-US").format(n):String(v??"")}
 export default function RegionTours(){
  const supabase=useMemo(()=>createClient(),[]);const [slug,setSlug]=useState("");const [multi,setMulti]=useState(false);const [destination,setDestination]=useState<Row|null>(null);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(true);const [page,setPage]=useState(1);

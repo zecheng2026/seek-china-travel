@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
-import {useMemo,useState} from "react";
 
-const categories=["All Updates","Visa & Entry","Transport","Payments","Destinations","Culture & Experiences"] as const;
+
 const articles=[
 {category:"Visa & Entry",date:"October 9, 2026",title:"China Visa-Free Travel in 2026: What International Visitors Should Know",summary:"Understand the different visa-free entry arrangements, eligibility and what to check before departure.",image:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1000&q=80",tag:"ENTRY GUIDE"},
 {category:"Transport",date:"October 8, 2026",title:"China's Public Holidays: How to Plan Around Busy Travel Periods",summary:"Practical advice on train bookings, popular attractions and planning a smoother itinerary.",image:"https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1000&q=80",tag:"TRAVEL PLANNING"},
@@ -12,13 +11,11 @@ const articles=[
 {category:"Visa & Entry",date:"October 4, 2026",title:"Accommodation Registration in China: A Guide for Foreign Visitors",summary:"What to know when staying at a hotel, guesthouse or private accommodation.",image:"https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80",tag:"ENTRY GUIDE"}
 ];
 export default function ChinaTravelUpdatesPreview(){
- const [active,setActive]=useState<string>("All Updates");
- const filtered=useMemo(()=>active==="All Updates"?articles:articles.filter(a=>a.category===active),[active]);
+ const sorted=[...articles].sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
  return <main className="ctu">
  <section className="ctuHero"><div className="ctuWrap"><div className="ctuTop"><Link href="/travel-guide">← Travel Guide</Link><span>SEEK CHINA TRAVEL · SCT</span></div><p className="ctuEyebrow">STAY INFORMED. TRAVEL SMARTER.</p><h1>China Travel Updates<span>.</span></h1><p className="ctuSub">The latest travel insights, entry information and practical updates to help you explore China with confidence.</p><div className="ctuNotice">DESIGN PREVIEW · Sample editorial content, not live news</div></div></section>
  <section className="ctuWrap ctuBody"><div className="ctuIntro"><div><p className="ctuEyebrow">LATEST INSIGHTS</p><h2>What’s new in China travel</h2></div><p>Useful updates for international travelers, curated by the SEEK CHINA TRAVEL team.</p></div>
- <nav className="ctuFilters" aria-label="Update categories">{categories.map(c=><button key={c} onClick={()=>setActive(c)} className={active===c?"selected":""}>{c}</button>)}</nav>
- <div className="ctuGrid">{filtered.map((a,i)=><article className="ctuCard" key={a.title}><div className="ctuImage"><img src={a.image} alt="" loading="lazy"/><span>{a.tag}</span></div><div className="ctuCardText"><div className="ctuMeta">{a.category.toUpperCase()} <span>·</span> {a.date}</div><h3>{a.title}</h3><p>{a.summary}</p><div className="ctuRead">Article preview <span aria-hidden="true">↗</span></div></div></article>)}</div>
+ <div className="ctuList">{sorted.map(a=><article className="ctuListItem" key={a.title}><div className="ctuListDate"><strong>{new Date(a.date).toLocaleDateString("en-US",{month:"short",day:"numeric"})}</strong><span>{new Date(a.date).getFullYear()}</span></div><div className="ctuListCopy"><div className="ctuMeta">UPDATED {a.date.toUpperCase()}</div><h3>{a.title}</h3><p>{a.summary}</p></div><span className="ctuArrow" aria-hidden="true">→</span></article>)}</div>
  <section className="ctuFoot"><div><p className="ctuEyebrow">PLAN WITH CONFIDENCE</p><h2>Ready to explore China?</h2><p>Discover private, tailor-made journeys designed around your travel style.</p></div><Link href="/tours">Explore China Tours →</Link></section>
  </section>
  <style jsx>{`

@@ -36,9 +36,18 @@ export async function onRequest(context: Context): Promise<Response> {
    headers:{"apikey":key,"Authorization":"Bearer "+key},
    signal:AbortSignal.timeout(4500)
   });
-  valid = check.ok && Array.isArray(await check.json()) && false;
-  // Read response once, without assuming a row is present.
+  if(!check.ok) return existing;
+  const rows: unknown = await check.json();
+  valid = Array.isArray(rows) && rows.length > 0;
  } catch { return existing; }
- // The existence check is completed in the revised implementation below.
- return existing;
+ if(!valid) return existing;
+ // Bypass this Function and fetch the prebuilt client-rendered shell asset.
+ const shell = new URL("/travel-guide/runtime.html",url.origin);
+ const fallback = await context.env.ASSETS.fetch(new Request(shell.toString(),{method:context.request.method}));
+ if(!fallback.ok) return existing;
+ const headers = new Headers(fallback.headers);
+ headers.set("Cache-Control","public, max-age=60, s-maxage=60");
+ headers.set("X-SCT-Guide-Fallback","runtime");
+ headers.set("X-Robots-Tag","noindex, follow"); // Avoid indexing generic shell before a full static rebuild.
+ return new Response(context.request.method==="HEAD"?null:fallback.body,{status:200,headers});
 }

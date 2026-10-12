@@ -11,7 +11,7 @@ type Review={id?:string|number;name?:string;country?:string;route?:string;text?:
 export default function ReviewsPage(){
  const supabase=useMemo(()=>createClient(),[]);
  const [reviews,setReviews]=useState<Review[]>([]);
- const [loading,setLoading]=useState(true);
+ const [loading,setLoading]=useState(true);const [reviewsError,setReviewsError]=useState("");
  const [filter,setFilter]=useState("all");const [page,setPage]=useState(1);const [selected,setSelected]=useState<DisplayReview|null>(null);
  const [submittedReviews,setSubmittedReviews]=useState<{id:string;name:string;rating:number;body:string;context_type:string;context_slug:string;admin_reply:string|null;featured_reviews:boolean;created_at:string;avatar_url?:string|null}[]>([]);
  const [name,setName]=useState("");const [email,setEmail]=useState("");const [rating,setRating]=useState(0);const [body,setBody]=useState("");const [website,setWebsite]=useState("");const [busy,setBusy]=useState(false);const [notice,setNotice]=useState("");
@@ -20,7 +20,7 @@ export default function ReviewsPage(){
  const filtered=normalizedReviews.filter(r=>filter==="all"||r.category===filter);
  async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();if(busy||!rating)return;setBusy(true);setNotice("");const {error}=await supabase.rpc("submit_traveler_review",{p_context_type:"general",p_context_slug:"all",p_name:name.trim(),p_email:email.trim(),p_rating:rating,p_body:body.trim(),p_website:website});setBusy(false);if(error){setNotice("Unable to submit your review right now. Please try again later.");return;}setNotice("Thank you! Your review has been submitted for moderation.");setName("");setEmail("");setBody("");setRating(0);}
 
- useEffect(()=>{let active=true;supabase.from("traveler_reviews").select("id,name,rating,body,context_type,context_slug,admin_reply,featured_reviews,created_at,avatar_url").eq("status","approved").order("created_at",{ascending:false}).limit(100).then(({data})=>{if(active)setSubmittedReviews(data??[])});return()=>{active=false}},[supabase]);
+ useEffect(()=>{let active=true;supabase.from("traveler_reviews").select("id,name,rating,body,context_type,context_slug,admin_reply,featured_reviews,created_at,avatar_url").eq("status","approved").order("created_at",{ascending:false}).limit(100).then(({data,error})=>{if(!active)return;if(error){setReviewsError("Traveler reviews are temporarily unavailable.");console.error("Failed to load traveler reviews",error);return;}setReviewsError("");setSubmittedReviews(data??[])});return()=>{active=false}},[supabase]);
  useEffect(()=>{let alive=true;supabase.from("homepage_sections").select("content").eq("section_key","home:reviews").maybeSingle().then(({data})=>{
   if(!alive)return;
   try{const value=typeof data?.content==="string"?JSON.parse(data.content):data?.content;setReviews(Array.isArray(value?.reviews)?value.reviews.filter((r:Review)=>r?.published!==false&&String(r?.text??"").trim()):[])}catch{setReviews([])}
@@ -28,7 +28,7 @@ export default function ReviewsPage(){
  });return()=>{alive=false}},[supabase]);
  return <><ManagedHero pageKey="reviews" defaults={reviewsHeroDefaults}/><main style={{maxWidth:1100,margin:"0 auto",padding:"40px 20px 80px"}}>
   <div className="sctReviewsFilters" role="group" aria-label="Filter reviews">{[["all","All Reviews"],["tour","Tour Reviews"],["destination","Destination Reviews"]].map(([key,label])=><button key={key} type="button" className={filter===key?"active":""} aria-pressed={filter===key} onClick={()=>{setFilter(key);setPage(1)}}>{label}</button>)}</div>
-  {loading?<p>Loading reviews…</p>:filtered.length===0?<p>There are no published reviews in this category yet.</p>:
+  {reviewsError&&<p role="alert">{reviewsError}</p>}{loading?<p>Loading reviews…</p>:filtered.length===0?<p>There are no published reviews in this category yet.</p>:
   <div className="sctReviewsGrid">{filtered.slice((page-1)*9,page*9).map(r=><article className="sctReviewsCard" key={r.id}>
     <div className="sctReviewsCardTop"><span>{r.category==="tour"?"TOUR REVIEW":r.category==="destination"?"DESTINATION REVIEW":"TRAVELER STORY"}</span>{r.rating>0&&<span className="sctReviewsStars" aria-label={r.rating+" out of 5 stars"}>{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</span>}</div>
     {r.route&&<h3>{r.route}</h3>}

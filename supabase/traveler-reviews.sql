@@ -1,7 +1,7 @@
 -- Run in Supabase SQL editor before enabling public review submissions.
 create table if not exists public.traveler_reviews (
  id uuid primary key default gen_random_uuid(),
- context_type text not null check (context_type in ('tour','destination')),
+ context_type text not null check (context_type in ('tour','destination','general')),
  context_slug text not null,
  name text not null check (char_length(name) between 1 and 100),
  email text not null check (char_length(email) between 3 and 254),
@@ -25,7 +25,7 @@ create or replace function public.submit_traveler_review(
 declare new_id uuid;
 begin
  if length(coalesce(p_website,''))>0 then raise exception 'Submission rejected'; end if;
- if p_context_type not in ('tour','destination') or length(trim(coalesce(p_context_slug,''))) not between 1 and 180
+ if p_context_type not in ('tour','destination','general') or length(trim(coalesce(p_context_slug,''))) not between 1 and 180
  or length(trim(coalesce(p_name,''))) not between 1 and 100
  or length(trim(coalesce(p_email,''))) not between 3 and 254
  or trim(p_email) not like '%_@_%._%'

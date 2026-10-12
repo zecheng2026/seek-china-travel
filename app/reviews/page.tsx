@@ -5,20 +5,20 @@ import ManagedHero from "../components/ManagedHero";
 import {createClient} from "../../utils/supabase/client";
 
 const reviewsHeroDefaults={eyebrow:"SEEK CHINA TRAVEL",title:"Traveler Reviews",subtitle:"Real journeys, real stories. Discover what travelers say about exploring China with SCT.",image:"/images/china-hero.jpg",overlay:48,button_text:"",button_link:""};
-type DisplayReview={id:string;name:string;country:string;route:string;text:string;rating:number;images:string[];category:"tour"|"destination"|"general";reply?:string};
+type DisplayReview={id:string;name:string;country:string;route:string;text:string;rating:number;images:string[];category:"tour"|"destination"|"general";reply?:string;featured?:boolean;created_at?:string};
 type Review={id?:string|number;name?:string;country?:string;route?:string;text?:string;rating?:number;images?:string[];published?:boolean};
 export default function ReviewsPage(){
  const supabase=useMemo(()=>createClient(),[]);
  const [reviews,setReviews]=useState<Review[]>([]);
  const [loading,setLoading]=useState(true);
  const [filter,setFilter]=useState("all");const [page,setPage]=useState(1);const [selected,setSelected]=useState<DisplayReview|null>(null);
- const [submittedReviews,setSubmittedReviews]=useState<{id:string;name:string;rating:number;body:string;context_type:string;context_slug:string;admin_reply:string|null}[]>([]);
+ const [submittedReviews,setSubmittedReviews]=useState<{id:string;name:string;rating:number;body:string;context_type:string;context_slug:string;admin_reply:string|null;featured_reviews:boolean;created_at:string}[]>([]);
  const [name,setName]=useState("");const [email,setEmail]=useState("");const [rating,setRating]=useState(0);const [body,setBody]=useState("");const [website,setWebsite]=useState("");const [busy,setBusy]=useState(false);const [notice,setNotice]=useState("");
- const allReviews:DisplayReview[]=[...reviews.map((r,i)=>({id:"legacy-"+String(r.id??i),name:r.name||"Traveler",country:r.country||"",route:r.route||"",text:r.text||"",rating:Number(r.rating)||0,images:Array.isArray(r.images)?r.images:[],category:"general" as const})),...submittedReviews.map(r=>({id:"submitted-"+r.id,name:r.name,country:"",route:r.context_type==="general"?"":r.context_slug,text:r.body,rating:r.rating,images:[],category:(r.context_type==="tour"?"tour":r.context_type==="destination"?"destination":"general") as "tour"|"destination"|"general",reply:r.admin_reply||undefined}))];
+ const allReviews:DisplayReview[]=[...reviews.map((r,i)=>({id:"legacy-"+String(r.id??i),name:r.name||"Traveler",country:r.country||"",route:r.route||"",text:r.text||"",rating:Number(r.rating)||0,images:Array.isArray(r.images)?r.images:[],category:"general" as const,featured:false})),...submittedReviews.map(r=>({id:"submitted-"+r.id,name:r.name,country:"",route:r.context_type==="general"?"":r.context_slug,text:r.body,rating:r.rating,images:[],category:(r.context_type==="tour"?"tour":r.context_type==="destination"?"destination":"general") as "tour"|"destination"|"general",reply:r.admin_reply||undefined,featured:r.featured_reviews,created_at:r.created_at}))].sort((a,b)=>Number(!!b.featured)-Number(!!a.featured)||(b.created_at||"").localeCompare(a.created_at||""));
  const filtered=allReviews.filter(r=>filter==="all"||r.category===filter);
  async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();if(busy||!rating)return;setBusy(true);setNotice("");const {error}=await supabase.rpc("submit_traveler_review",{p_context_type:"general",p_context_slug:"all",p_name:name.trim(),p_email:email.trim(),p_rating:rating,p_body:body.trim(),p_website:website});setBusy(false);if(error){setNotice("Unable to submit your review right now. Please try again later.");return;}setNotice("Thank you! Your review has been submitted for moderation.");setName("");setEmail("");setBody("");setRating(0);}
 
- useEffect(()=>{let active=true;supabase.from("traveler_reviews").select("id,name,rating,body,context_type,context_slug,admin_reply").eq("status","approved").order("created_at",{ascending:false}).limit(100).then(({data})=>{if(active)setSubmittedReviews(data??[])});return()=>{active=false}},[supabase]);
+ useEffect(()=>{let active=true;supabase.from("traveler_reviews").select("id,name,rating,body,context_type,context_slug,admin_reply,featured_reviews,created_at").eq("status","approved").order("created_at",{ascending:false}).limit(100).then(({data})=>{if(active)setSubmittedReviews(data??[])});return()=>{active=false}},[supabase]);
  useEffect(()=>{let alive=true;supabase.from("homepage_sections").select("content").eq("section_key","home:reviews").maybeSingle().then(({data})=>{
   if(!alive)return;
   try{const value=typeof data?.content==="string"?JSON.parse(data.content):data?.content;setReviews(Array.isArray(value?.reviews)?value.reviews.filter((r:Review)=>r?.published!==false&&String(r?.text??"").trim()):[])}catch{setReviews([])}

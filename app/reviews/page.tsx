@@ -1,9 +1,10 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import Link from "next/link";
+import ManagedHero from "../components/ManagedHero";
 import {createClient} from "../../utils/supabase/client";
 
-type DisplayReview={id:string;name:string;country:string;route:string;text:string;rating:number;images:string[];category:"tour"|"destination"|"general";reply?:string};
+const reviewsHeroDefaults={eyebrow:"SEEK CHINA TRAVEL",title:"Traveler Reviews",subtitle:"Real journeys, real stories. Discover what travelers say about exploring China with SCT.",image:"/images/china-hero.jpg",overlay:48,button_text:"",button_link:""};\ntype DisplayReview={id:string;name:string;country:string;route:string;text:string;rating:number;images:string[];category:"tour"|"destination"|"general";reply?:string};
 type Review={id?:string|number;name?:string;country?:string;route?:string;text?:string;rating?:number;images?:string[];published?:boolean};
 export default function ReviewsPage(){
  const supabase=useMemo(()=>createClient(),[]);
@@ -49,5 +50,5 @@ export default function ReviewsPage(){
    </form>
   </section>
   <p style={{marginTop:36}}>Ready to create your own China travel story? <Link href="/quote">Plan your journey →</Link></p>
- </main>;
+ </main></>;
 }

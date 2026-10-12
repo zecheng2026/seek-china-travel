@@ -666,3 +666,28 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .sctReviewsAllLink{display:inline-block;margin:8px 0 0;color:#0b4776;font-weight:600}
 .sctReviewSrOnly{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 @media(max-width:600px){.sctReviewFormCard{padding:18px 15px;border-radius:14px}.sctReviewFormCard h3{font-size:20px}.sctReviewStars button{font-size:25px}}
+
+
+/* Unified reviews hub */
+.sctReviewsFilters{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0}
+.sctReviewsFilters button,.sctReviewsPagination button{border:1px solid #dbe3ea;border-radius:24px;padding:10px 18px;background:#fff;color:#143f60;cursor:pointer;font:inherit}
+.sctReviewsFilters button.active{background:#123e65;color:white;border-color:#123e65}
+.sctReviewsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.sctReviewsCard{display:flex;flex-direction:column;min-width:0;height:100%;padding:24px;border:1px solid #dbe3eb;border-radius:15px;background:#fff;box-shadow:0 8px 24px rgba(17,55,84,.045)}
+.sctReviewsCardTop{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#8090a0;font-size:11px;letter-spacing:.07em}
+.sctReviewsStars{color:#cb8b20;white-space:nowrap;letter-spacing:1px}
+.sctReviewsCard h3{color:#0b3457;font-size:16px;line-height:1.5;margin:18px 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sctReviewsExcerpt{color:#173a54;font-size:14px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;min-height:0;margin:16px 0 0;overflow-wrap:anywhere}
+.sctReviewsReadMore{border:0;background:none;color:#0c5785;text-align:left;font-weight:600;padding:8px 0;cursor:pointer;align-self:flex-start}
+.sctReviewsImages{display:flex;gap:7px;margin:18px 0 0;min-height:0}
+.sctReviewsImages img{width:calc((100% - 14px)/3);aspect-ratio:1.25;object-fit:cover;border-radius:8px}
+.sctReviewsCard footer{display:flex;flex-direction:column;gap:3px;border-top:1px solid #e7edf1;margin-top:auto;padding-top:16px;color:#0b3457;font-size:13px}
+.sctReviewsCard footer small{color:#8290a0}
+.sctReviewsPagination{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px 0}
+.sctReviewsPagination button:disabled{opacity:.45;cursor:not-allowed}
+.sctReviewsOverlay{position:fixed;inset:0;background:rgba(6,28,49,.65);z-index:10000;display:grid;place-items:center;padding:20px}
+.sctReviewsDialog{position:relative;background:#fff;color:#133b59;border-radius:18px;padding:clamp(22px,4vw,40px);max-width:660px;width:100%;max-height:85vh;overflow-y:auto;overflow-wrap:anywhere;box-shadow:0 22px 70px rgba(0,0,0,.2)}
+.sctReviewsDialog p{line-height:1.8}
+.sctReviewsClose{position:absolute;right:15px;top:10px;background:none;border:0;font-size:30px;cursor:pointer;color:#365a73}
+@media(max-width:900px){.sctReviewsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.sctReviewsGrid{grid-template-columns:1fr}.sctReviewsCard{padding:20px}.sctReviewsFilters button{font-size:13px;padding:9px 13px}}

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import DetailReviews from "../../components/DetailReviews";
 import { useEffect,useMemo,useState } from "react";
 import { createClient } from "../../../utils/supabase/client";
 
@@ -25,5 +26,5 @@ export default function TourDetailClient({slug:slugProp,initialTour,initialDays}
   </article>
   <aside className="journeySidebar"><div className="journeyPlanCard"><p className="journeysKicker">TAILOR THIS TRIP</p><h3>Make it your journey</h3>{price!=null&&<div className="journeyPlanPrice"><small>FROM</small><strong>{String(tour.currency??"CNY")} {money(price)}</strong><span>per person</span></div>}<p>Share your dates, group size and travel style. We'll create a personalized proposal for you.</p><Link href={"/quote?tour="+encodeURIComponent(title)} className="btn">Plan This Trip →</Link><ul>{tourPromises.map((item,index)=><li key={index}>{item}</li>)}</ul></div></aside>
   </section>
- </main>;
+ <DetailReviews type="tour" slug={slug}/></main>;
 }

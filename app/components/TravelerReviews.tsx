@@ -8,7 +8,7 @@ export default function TravelerReviews({reviews,variant="home"}:{reviews:Review
 {reviews.length>0&&<section id={isContact?"traveler-reviews":undefined} className="v1Section v1Reviews v1JourneyStories">
       <header className="v1StoryHeading">
         <div><p className="v1Eyebrow red">TRAVELER REVIEWS &amp; STORIES</p><h2>Real Journeys. Real Stories.</h2><p className="v1StoryIntro">Every China journey is different. Hear from travelers who explored the cities, landscapes and culture of China with SCT.</p></div>
-        <Link className="v1StoryHeaderLink" href={isContact?"/quote":"/contact#traveler-reviews"}>{isContact?"Plan your own journey →":"Read more reviews →"}</Link>
+        <Link className="v1StoryHeaderLink" href={"/reviews"}>{"View All Reviews →"}</Link>
       </header>
       <div className="v1JourneyStoryGrid">{reviews.map((r,i)=>{
         const traveler=String(r.name??"Traveler").trim()||"Traveler";
@@ -28,7 +28,7 @@ export default function TravelerReviews({reviews,variant="home"}:{reviews:Review
           <footer><b>{traveler}</b>{country&&<span>{country}</span>}</footer>
         </article>
       })}</div>
-      <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href={isContact?"/quote":"/contact#traveler-reviews"} className="v1StoryButton">{isContact?"Start Planning Your Trip →":"Read More Reviews →"}</Link></div>
+      <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href="/quote" className="v1StoryButton">Plan Your Trip →</Link></div>
     </section>}
   </>;
 }

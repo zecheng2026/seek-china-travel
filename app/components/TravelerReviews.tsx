@@ -28,7 +28,7 @@ export default function TravelerReviews({reviews,variant="home"}:{reviews:Review
           <footer><b>{traveler}</b>{country&&<span>{country}</span>}</footer>
         </article>
       })}</div>
-      <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href={"/reviews"} className="v1StoryButton">{"View All Reviews →"}</Link></div>
+      <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href="/quote" className="v1StoryButton">Plan Your Trip →</Link></div>
     </section>}
   </>;
 }

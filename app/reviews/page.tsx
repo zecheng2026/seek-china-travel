@@ -52,4 +52,5 @@ export default function ReviewsPage(){
   </section>
   <p style={{marginTop:36}}>Ready to create your own China travel story? <Link href="/quote">Plan your journey →</Link></p>
  </main></>;
+
 }

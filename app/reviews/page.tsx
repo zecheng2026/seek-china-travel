@@ -8,9 +8,11 @@ export default function ReviewsPage(){
  const supabase=useMemo(()=>createClient(),[]);
  const [reviews,setReviews]=useState<Review[]>([]);
  const [loading,setLoading]=useState(true);
+ const [submittedReviews,setSubmittedReviews]=useState<{id:string;name:string;rating:number;body:string;context_type:string;context_slug:string;admin_reply:string|null}[]>([]);
  const [name,setName]=useState("");const [email,setEmail]=useState("");const [rating,setRating]=useState(0);const [body,setBody]=useState("");const [website,setWebsite]=useState("");const [busy,setBusy]=useState(false);const [notice,setNotice]=useState("");
  async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();if(busy||!rating)return;setBusy(true);setNotice("");const {error}=await supabase.rpc("submit_traveler_review",{p_context_type:"general",p_context_slug:"all",p_name:name.trim(),p_email:email.trim(),p_rating:rating,p_body:body.trim(),p_website:website});setBusy(false);if(error){setNotice("Unable to submit your review right now. Please try again later.");return;}setNotice("Thank you! Your review has been submitted for moderation.");setName("");setEmail("");setBody("");setRating(0);}
 
+ useEffect(()=>{let active=true;supabase.from("traveler_reviews").select("id,name,rating,body,context_type,context_slug,admin_reply").eq("status","approved").order("created_at",{ascending:false}).limit(100).then(({data})=>{if(active)setSubmittedReviews(data??[])});return()=>{active=false}},[supabase]);
  useEffect(()=>{let alive=true;supabase.from("homepage_sections").select("content").eq("section_key","home:reviews").maybeSingle().then(({data})=>{
   if(!alive)return;
   try{const value=typeof data?.content==="string"?JSON.parse(data.content):data?.content;setReviews(Array.isArray(value?.reviews)?value.reviews.filter((r:Review)=>r?.published!==false&&String(r?.text??"").trim()):[])}catch{setReviews([])}
@@ -26,6 +28,7 @@ export default function ReviewsPage(){
    {Array.isArray(r.images)&&r.images.length>0&&<div className="v1ReviewShots">{r.images.slice(0,3).map((src,n)=><div className="v1ReviewShot" key={n}><img src={src} alt={`Traveler review photo ${n+1}`} loading="lazy"/></div>)}</div>}
    <footer><b>{r.name||"Traveler"}</b>{r.country&&<span>{r.country}</span>}</footer>
   </article>)}</div>}
+  {submittedReviews.length>0&&<section style={{marginTop:32}}><h2>More Traveler Experiences</h2><div className="v1JourneyStoryGrid">{submittedReviews.map(r=><article key={r.id} className="v1JourneyStory"><div className="v1JourneyStoryTop"><span className="v1JourneyStoryLabel">{r.context_type==="tour"?"TOUR":r.context_type==="destination"?"DESTINATION":"CHINA JOURNEY"}</span><span className="v1Stars" aria-label={r.rating+" out of 5 stars"}>{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</span></div>{r.context_type!=="general"&&<h3>{r.context_slug}</h3>}<blockquote>“{r.body}”</blockquote><footer><b>{r.name}</b></footer>{r.admin_reply&&<p><strong>Response from SCT:</strong> {r.admin_reply}</p>}</article>)}</div></section>}
   <section id="leave-review" className="sctReviewFormCard" style={{marginTop:44,scrollMarginTop:110}}>
    <h2>Leave a Review</h2><p className="sctReviewHelp">Have you traveled with SCT? Share your experience. Reviews are published after moderation.</p>
    <form className="sctReviewForm" onSubmit={submit}>

@@ -1,5 +1,7 @@
 -- Run once in Supabase SQL editor before testing avatar uploads.
 alter table public.traveler_reviews add column if not exists avatar_url text;
+-- Column-level grants: frontend SELECT includes avatar_url, otherwise the entire query fails.
+grant select (avatar_url) on public.traveler_reviews to anon, authenticated;
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
 values ('review-avatars','review-avatars',true,1048576,array['image/jpeg','image/png','image/webp'])
 on conflict (id) do update set public=true,file_size_limit=1048576,allowed_mime_types=array['image/jpeg','image/png','image/webp'];

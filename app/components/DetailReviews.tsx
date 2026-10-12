@@ -2,6 +2,7 @@
 import {useEffect,useMemo,useState} from "react";
 import Link from "next/link";
 import ReviewAvatar from "./ReviewAvatar";
+import SctReplyAvatar from "./SctReplyAvatar";
 import {createClient} from "../../utils/supabase/client";
 type Review={avatar_url?:string|null;id:string;name:string;rating:number;body:string;admin_reply:string|null;created_at:string};
 export default function DetailReviews({type,slug}:{type:"tour"|"destination";slug:string}){
@@ -16,7 +17,7 @@ export default function DetailReviews({type,slug}:{type:"tour"|"destination";slu
  <p className="journeysKicker">TRAVELER EXPERIENCES</p><h2>Traveler Reviews</h2>
  {error?<p>{error}</p>:reviews.length===0?<p>Be the first to share your experience.</p>:<div style={{display:"grid",gap:18,marginTop:24}}>{reviews.map(r=><article key={r.id} style={{padding:20,border:"1px solid #e2e8f0",borderRadius:12}}>
  <div style={{display:"flex",alignItems:"center",gap:12}}><ReviewAvatar name={r.name} url={r.avatar_url}/><strong>{r.name}</strong></div><p aria-label={r.rating+" out of 5 stars"} style={{color:"#c88b20",margin:"6px 0"}}>{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</p>
- <p style={{whiteSpace:"pre-wrap"}}>{r.body}</p>{r.admin_reply&&<div style={{padding:12,background:"#f1f5f9",borderRadius:8}}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><span style={{width:34,height:34,borderRadius:"50%",background:"#fff",display:"grid",placeItems:"center",fontWeight:800,color:"#143e68",fontSize:11,border:"1px solid #dbe7f3"}}>SCT</span><strong>Response from SCT</strong></div><p>{r.admin_reply}</p></div>}
+ <p style={{whiteSpace:"pre-wrap"}}>{r.body}</p>{r.admin_reply&&<div style={{padding:12,background:"#f1f5f9",borderRadius:8}}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><SctReplyAvatar/><strong>Response from SCT</strong></div><p>{r.admin_reply}</p></div>}
  </article>)}</div>}
  <div className="sctReviewFormCard">
   <h3>Leave a Review</h3>

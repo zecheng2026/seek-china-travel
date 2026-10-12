@@ -641,3 +641,28 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 
 /* Home destinations: two cards per row on phones. */
 @media(max-width:600px){main .v1DestinationGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}main .v1DestinationGrid .v1Destination{min-width:0;height:175px;border-radius:13px;padding:15px}main .v1DestinationGrid .v1Destination h3{font-size:19px;line-height:1.25;overflow-wrap:anywhere}main .v1DestinationGrid .v1Destination span{font-size:10px;letter-spacing:1px}}
+
+
+/* Traveler review form: shared by tour and destination details */
+.sctReviewFormCard{max-width:720px;margin:32px 0 16px;padding:clamp(20px,3vw,32px);background:#fff;border:1px solid #e1e6eb;border-radius:18px;box-shadow:0 5px 24px rgba(15,42,69,.035)}
+.sctReviewFormCard h3{color:#092e51;font-size:22px;font-weight:700;margin:0 0 8px}
+.sctReviewHelp{color:#536779;font-size:14px;margin:0 0 22px}
+.sctReviewForm{display:grid;gap:12px}
+.sctReviewForm>input,.sctReviewForm>textarea{width:100%;box-sizing:border-box;border:1px solid #d9dfe5;border-radius:14px;padding:14px 17px;font:inherit;font-size:15px;color:#123b59;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.sctReviewForm>input{border-radius:30px;min-height:49px}
+.sctReviewForm>textarea{resize:vertical;min-height:112px}
+.sctReviewForm>input:focus,.sctReviewForm>textarea:focus{border-color:#235f91;box-shadow:0 0 0 3px rgba(35,95,145,.12)}
+.sctReviewRating{border:0;padding:2px 0;margin:0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sctReviewRating legend{float:left;margin-right:14px;font-size:14px;color:#123b59;padding:6px 0}
+.sctReviewStars{display:flex;gap:3px}
+.sctReviewStars button{background:transparent;border:0;padding:3px 4px;font-size:27px;line-height:1;color:#c5cbd2;cursor:pointer;transition:color .15s,transform .15s}
+.sctReviewStars button.selected{color:#e4a02b}
+.sctReviewStars button:hover{transform:scale(1.12);color:#e4a02b}
+.sctReviewStars button:focus-visible{outline:2px solid #235f91;outline-offset:2px;border-radius:4px}
+.sctReviewSubmit{border:0;border-radius:30px;background:#ed2534;color:white;font-weight:700;font-size:15px;padding:14px 24px;cursor:pointer;min-height:48px}
+.sctReviewSubmit:disabled{background:#e9ecef;color:#87929d;cursor:not-allowed}
+.sctReviewDisclaimer{font-size:12px;color:#718092;margin:0}
+.sctReviewNotice{color:#123b59;font-size:14px;margin:0}
+.sctReviewsAllLink{display:inline-block;margin:8px 0 0;color:#0b4776;font-weight:600}
+.sctReviewSrOnly{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:600px){.sctReviewFormCard{padding:18px 15px;border-radius:14px}.sctReviewFormCard h3{font-size:20px}.sctReviewStars button{font-size:25px}}

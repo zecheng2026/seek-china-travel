@@ -24,9 +24,7 @@ export default function ReviewsPage(){
   try{const value=typeof data?.content==="string"?JSON.parse(data.content):data?.content;setReviews(Array.isArray(value?.reviews)?value.reviews.filter((r:Review)=>r?.published!==false&&String(r?.text??"").trim()):[])}catch{setReviews([])}
   setLoading(false);
  });return()=>{alive=false}},[supabase]);
- return <main style={{maxWidth:1100,margin:"0 auto",padding:"clamp(90px,12vw,150px) 20px 80px"}}>
-  <p className="v1Eyebrow red">SEEK CHINA TRAVEL</p><h1>Traveler Reviews</h1>
-  <p>Real journeys, real stories. Discover what travelers say about exploring China with SCT.</p>
+ return <><ManagedHero pageKey="reviews" defaults={reviewsHeroDefaults}/><main style={{maxWidth:1100,margin:"0 auto",padding:"40px 20px 80px"}}>
   <div className="sctReviewsFilters" role="group" aria-label="Filter reviews">{[["all","All Reviews"],["tour","Tour Reviews"],["destination","Destination Reviews"]].map(([key,label])=><button key={key} type="button" className={filter===key?"active":""} aria-pressed={filter===key} onClick={()=>{setFilter(key);setPage(1)}}>{label}</button>)}</div>
   {loading?<p>Loading reviews…</p>:filtered.length===0?<p>There are no published reviews in this category yet.</p>:
   <div className="sctReviewsGrid">{filtered.slice((page-1)*9,page*9).map(r=><article className="sctReviewsCard" key={r.id}>

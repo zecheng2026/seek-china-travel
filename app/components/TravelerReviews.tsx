@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import ReviewAvatar from "./ReviewAvatar";
 
 type Review=Record<string,unknown>;
 export default function TravelerReviews({reviews,variant="home"}:{reviews:Review[];variant?:"home"|"contact"}){
@@ -25,7 +26,7 @@ export default function TravelerReviews({reviews,variant="home"}:{reviews:Review
           {(destinations.length>1||duration)&&<div className="v1JourneyTags">{duration&&<span>{duration}{/^\d+$/.test(duration)?" Days":""}</span>}{destinations.length>1&&destinations.map((city,n)=><span key={n}>{city}</span>)}</div>}
           <blockquote>“{String(r.text??"").trim()}”</blockquote>
           {photos.length>0&&<div className="v1ReviewShots">{photos.map((src:unknown,n:number)=><div className="v1ReviewShot" key={n}><img src={String(src)} alt={"Review attachment from "+traveler+" "+(n+1)} loading="lazy"/>{n===2&&Array.isArray(r.images)&&r.images.length>3&&<span>+{r.images.length-3}</span>}</div>)}</div>}
-          <footer><b>{traveler}</b>{country&&<span>{country}</span>}</footer>
+          <footer className="v1ReviewAuthor"><ReviewAvatar name={traveler} url={typeof r.avatar_url==="string"?r.avatar_url:null} size={42}/><div className="v1ReviewAuthorInfo"><b>{traveler}</b>{country&&<span>{country}</span>}</div></footer>
         </article>
       })}</div>
       <div className="v1JourneyStoryBottom"><p>Your journey will have its own story. Let us help you plan it.</p><Link href="/quote" className="v1StoryButton">Plan Your Trip →</Link></div>

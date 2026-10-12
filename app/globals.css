@@ -681,7 +681,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .sctReviewsReadMore{border:0;background:none;color:#0c5785;text-align:left;font-weight:600;padding:8px 0;cursor:pointer;align-self:flex-start}
 .sctReviewsImages{display:flex;gap:7px;margin:18px 0 0;min-height:0}
 .sctReviewsImages img{width:calc((100% - 14px)/3);aspect-ratio:1.25;object-fit:cover;border-radius:8px}
-.sctReviewsCard footer{display:flex;flex-direction:column;gap:3px;border-top:1px solid #e7edf1;margin-top:auto;padding-top:16px;color:#0b3457;font-size:13px}
+.sctReviewsCard footer{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px;border-top:1px solid #e7edf1;margin-top:auto;padding-top:16px;color:#0b3457;font-size:13px}
 .sctReviewsCard footer small{color:#8290a0}
 .sctReviewsPagination{display:flex;justify-content:center;align-items:center;gap:16px;margin:30px 0}
 .sctReviewsPagination button:disabled{opacity:.45;cursor:not-allowed}
@@ -691,3 +691,8 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .sctReviewsClose{position:absolute;right:15px;top:10px;background:none;border:0;font-size:30px;cursor:pointer;color:#365a73}
 @media(max-width:900px){.sctReviewsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.sctReviewsGrid{grid-template-columns:1fr}.sctReviewsCard{padding:20px}.sctReviewsFilters button{font-size:13px;padding:9px 13px}}
+
+/* Homepage review identity: avatar alongside name, country below */
+.v1JourneyStory footer.v1ReviewAuthor{display:flex;flex-direction:row;align-items:center;gap:11px}
+.v1JourneyStory .v1ReviewAuthorInfo{display:flex;flex-direction:column;gap:3px;min-width:0}
+.v1JourneyStory .v1ReviewAuthorInfo b,.v1JourneyStory .v1ReviewAuthorInfo span{display:block}

@@ -14,9 +14,9 @@ create table if not exists public.traveler_reviews (
 create index if not exists traveler_reviews_lookup_idx on public.traveler_reviews(context_type,context_slug,status,created_at desc);
 alter table public.traveler_reviews enable row level security;
 drop policy if exists "Public can read approved reviews" on public.traveler_reviews;
-create policy "Public can read approved reviews" on public.traveler_reviews for select to anon,authenticated using (status='approved' or (select auth.jwt()->>'role')='service_role');
--- Public cannot directly insert: submissions must go through a rate-limited server endpoint with captcha.
--- Management must use a protected server endpoint and service role, never the public anon key.
+create policy "Public can read approved reviews" on public.traveler_reviews for select to anon,authenticated using (status='approved');
+-- Public direct INSERT/UPDATE/DELETE are not granted. Submission uses a validated RPC.
+-- Production anti-spam should also include edge rate limiting / CAPTCHA.
 
 -- Controlled public submission; pending reviews are never publicly readable.
 create or replace function public.submit_traveler_review(
@@ -39,3 +39,43 @@ begin
 end $$;
 revoke all on function public.submit_traveler_review(text,text,text,text,integer,text,text) from public;
 grant execute on function public.submit_traveler_review(text,text,text,text,integer,text,text) to anon,authenticated;
+
+-- Explicit admin allowlist; add your Supabase Auth user ID in SQL Editor:
+-- insert into public.review_admin_users(user_id) values ('YOUR-AUTH-USER-UUID') on conflict do nothing;
+create table if not exists public.review_admin_users (
+ user_id uuid primary key references auth.users(id) on delete cascade
+);
+alter table public.review_admin_users enable row level security;
+revoke all on public.review_admin_users from anon, authenticated;
+
+create or replace function public.review_admin_list()
+returns setof public.traveler_reviews
+language plpgsql security definer set search_path=public as $$
+begin
+ if auth.uid() is null or not exists(select 1 from public.review_admin_users where user_id=auth.uid()) then
+  raise exception 'Not authorized';
+ end if;
+ return query select * from public.traveler_reviews order by created_at desc limit 500;
+end $$;
+revoke all on function public.review_admin_list() from public;
+grant execute on function public.review_admin_list() to authenticated;
+
+create or replace function public.review_admin_update(p_id uuid,p_action text,p_reply text default null)
+returns boolean language plpgsql security definer set search_path=public as $$
+begin
+ if auth.uid() is null or not exists(select 1 from public.review_admin_users where user_id=auth.uid()) then
+  raise exception 'Not authorized';
+ end if;
+ if p_action='delete' then
+  delete from public.traveler_reviews where id=p_id;
+ elsif p_action in ('approved','pending','hidden') then
+  update public.traveler_reviews set status=p_action where id=p_id;
+ elsif p_action='reply' then
+  if length(coalesce(p_reply,''))>2000 then raise exception 'Reply too long'; end if;
+  update public.traveler_reviews set admin_reply=nullif(trim(coalesce(p_reply,'')),'') where id=p_id;
+ else raise exception 'Invalid action';
+ end if;
+ return found;
+end $$;
+revoke all on function public.review_admin_update(uuid,text,text) from public;
+grant execute on function public.review_admin_update(uuid,text,text) to authenticated;

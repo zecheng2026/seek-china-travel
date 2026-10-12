@@ -5,9 +5,9 @@ values ('review-avatars','review-avatars',true,1048576,array['image/jpeg','image
 on conflict (id) do update set public=true,file_size_limit=1048576,allowed_mime_types=array['image/jpeg','image/png','image/webp'];
 -- Check admin status via SECURITY DEFINER; no direct access to review_admin_users needed.
 create or replace function public.is_review_avatar_admin()
-returns boolean language sql stable security definer set search_path=public as $
+returns boolean language sql stable security definer set search_path=public as $$
  select auth.uid() is not null and exists(select 1 from public.review_admin_users where user_id=auth.uid());
-$;
+$$;
 revoke all on function public.is_review_avatar_admin() from public;
 grant execute on function public.is_review_avatar_admin() to authenticated;
 drop policy if exists "Review admins upload avatars" on storage.objects;

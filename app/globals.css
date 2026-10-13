@@ -906,3 +906,12 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .contactPage .contactCta h2{font-size:clamp(30px,8vw,38px)}
  .contactPage .contactCta .pillButton{padding:15px 23px}
 }
+
+/* About Us team cards: consistent portrait ratio and centered name, role and optional languages. */
+.aboutPage .aboutTeamGrid{align-items:stretch;gap:20px}
+.aboutPage .aboutTeamGrid>article{min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.aboutPage .aboutTeamGrid>article>img{display:block;width:100%;aspect-ratio:4/5;height:auto;object-fit:cover;object-position:center top}
+.aboutPage .aboutTeamGrid .aboutTeamInfo{flex:1;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px 12px 22px}
+.aboutPage .aboutTeamGrid .aboutTeamInfo h3,.aboutPage .aboutTeamGrid .aboutTeamInfo p{text-align:center;margin-left:0;margin-right:0}
+.aboutPage .aboutTeamGrid .aboutTeamLanguages{font-size:12px;line-height:1.5;color:#61768a;overflow-wrap:anywhere;margin-top:8px}
+@media(max-width:600px){.aboutPage .aboutTeamGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aboutPage .aboutTeamGrid .aboutTeamInfo{min-height:116px;padding:14px 8px 18px}.aboutPage .aboutTeamGrid .aboutTeamLanguages{font-size:11px}}

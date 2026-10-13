@@ -28,5 +28,8 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
 }
 export default async function Page({params}:{params:Promise<{slug:string}>}){
  const {slug}=await params;
- return <DestinationDetail slug={slug}/>;
+ const db=createBuildClient();
+ const {data,error}=await db.from("destinations").select("*").eq("slug",slug).eq("is_active",true).maybeSingle();
+ if(error)throw new Error("Cannot pre-render destination "+slug+": "+error.message);
+ return <DestinationDetail slug={slug} initialDestination={data??null}/>;
 }

@@ -1,8 +1,13 @@
 "use client";
 import Link from "next/link";
+import {useState} from "react";
 import ReviewAvatar from "./ReviewAvatar";
 
 type Review=Record<string,unknown>;
+function ReviewQuote({text,compact}:{text:string;compact:boolean}){
+  const [expanded,setExpanded]=useState(false);
+  return <div className={"v1ReviewQuoteWrap"+(compact?" v1ReviewQuoteCompact":"")}><blockquote className={compact&&!expanded?"v1ReviewQuoteClamped":undefined}>“{text}”</blockquote>{compact&&text.length>180&&<button type="button" className="v1ReviewReadMore" onClick={()=>setExpanded(v=>!v)} aria-expanded={expanded}>{expanded?"Read Less ↑":"Read More ↓"}</button>}</div>;
+}
 export default function TravelerReviews({reviews,variant="home"}:{reviews:Review[];variant?:"home"|"contact"}){
   const isContact=variant==="contact";
   return <>
@@ -24,7 +29,7 @@ export default function TravelerReviews({reviews,variant="home"}:{reviews:Review
           <div className="v1JourneyStoryTop"><span className="v1JourneyStoryLabel">CHINA JOURNEY {String(i+1).padStart(2,"0")}</span>{validRating&&<span className="v1Stars" aria-label={rating+" out of 5 stars"}>{"★".repeat(rating)}{"☆".repeat(5-rating)}</span>}</div>
           {route&&<h3>{route}</h3>}
           {(destinations.length>1||duration)&&<div className="v1JourneyTags">{duration&&<span>{duration}{/^\d+$/.test(duration)?" Days":""}</span>}{destinations.length>1&&destinations.map((city,n)=><span key={n}>{city}</span>)}</div>}
-          <blockquote>“{String(r.text??"").trim()}”</blockquote>
+          <ReviewQuote text={String(r.text??"").trim()} compact={isContact}/>
           {photos.length>0&&<div className="v1ReviewShots">{photos.map((src:unknown,n:number)=><div className="v1ReviewShot" key={n}><img src={String(src)} alt={"Review attachment from "+traveler+" "+(n+1)} loading="lazy"/>{n===2&&Array.isArray(r.images)&&r.images.length>3&&<span>+{r.images.length-3}</span>}</div>)}</div>}
           <footer className="v1ReviewAuthor"><ReviewAvatar name={traveler} url={typeof r.avatar_url==="string"?r.avatar_url:null} size={42}/><div className="v1ReviewAuthorInfo"><b>{traveler}</b>{country&&<span>{country}</span>}</div></footer>
         </article>

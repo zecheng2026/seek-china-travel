@@ -4,8 +4,8 @@ import { useEffect,useMemo,useState } from "react";
 import { createClient } from "../../utils/supabase/client";
 export type HeroDefaults={eyebrow:string;title:string;subtitle:string;image:string;mobile_image?:string;image_position_x?:number;image_position_y?:number;mobile_position_x?:number;mobile_position_y?:number;overlay?:number;button_text?:string;button_link?:string};
 type Row=Record<string,unknown>;
-export default function ManagedHero({pageKey,defaults,className="",initialHero}:{pageKey:string;defaults:HeroDefaults;className?:string;initialHero?:Record<string,unknown>|null}){
- const supabase=useMemo(()=>createClient(),[]);const [hero,setHero]=useState<HeroDefaults>(()=>initialHero?{...defaults,...initialHero,image:String(initialHero.image??defaults.image)}:defaults);const [ratio,setRatio]=useState("16/6");
+export default function ManagedHero({pageKey,defaults,className=""}:{pageKey:string;defaults:HeroDefaults;className?:string}){
+ const supabase=useMemo(()=>createClient(),[]);const [hero,setHero]=useState<HeroDefaults>(defaults);const [ratio,setRatio]=useState("16/6");
  useEffect(()=>{void supabase.from("homepage_sections").select("*").eq("section_key","hero:"+pageKey).maybeSingle().then(({data})=>{const r=data as Row|null;if(!r)return;let cfg:Row={};try{cfg=typeof r.content==="string"?JSON.parse(r.content):((r.content as Row)??{});}catch{}setHero({...defaults,...cfg,image:String(cfg.image??r.image_url??defaults.image)});});},[supabase,pageKey,defaults]);
  useEffect(()=>{if(!hero.image||pageKey==="home")return;const img=new Image();img.onload=()=>{if(img.naturalWidth&&img.naturalHeight)setRatio(`${img.naturalWidth}/${img.naturalHeight}`)};img.src=hero.image;},[hero.image,pageKey]);
  const opacity=Math.max(0,Math.min(90,Number(hero.overlay??45)))/100;

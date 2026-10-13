@@ -1,7 +1,7 @@
 "use client";
 import { optimizePhotoUpload } from "../../utils/optimizePhotoUpload";
 
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { createClient } from "../../utils/supabase/client";
 import ModerationManager from "./ModerationManager";
@@ -47,6 +47,18 @@ export default function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [checking, setChecking] = useState(true);
   const [active, setActive] = useState<(typeof sections)[number][1]>("dashboard");
+  const [sectionReset, setSectionReset] = useState(0);
+  const navigateSection = (key: (typeof sections)[number][1]) => {
+    if (key === active) {
+      if (!window.confirm("返回栏目首页？尚未保存的编辑内容将丢失。")) return;
+      setSectionReset(n => n + 1);
+      if (key !== "dashboard" && key !== "about_us" && key !== "contact_us" && key !== "reviews") {
+        void loadTable(key === "travel_news" ? "travel_guides" : key);
+      }
+      return;
+    }
+    setActive(key);
+  };
   const [rows, setRows] = useState<RecordRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -100,12 +112,14 @@ export default function AdminPage() {
   return <main className="adminShell">
     <aside className="adminSidebar">
       <div className="adminBrand"><span>S<span>C</span>T</span><div><b>SEEK CHINA</b><small>管理后台</small></div></div>
-      <nav aria-label="Admin navigation">{sections.map(([label, key]) => <button className={active === key ? "active" : ""} key={key} onClick={() => setActive(key)}><span>{navIcon(key as string)}</span>{label}</button>)}</nav>
+      <nav aria-label="Admin navigation">{sections.map(([label, key]) => <button className={active === key ? "active" : ""} key={key} onClick={() => navigateSection(key)}><span>{navIcon(key as string)}</span>{label}</button>)}</nav>
       <div className="adminAccount"><small>当前登录</small><span title={session.user.email}>{session.user.email}</span><button onClick={() => supabase.auth.signOut()}>退出登录</button></div>
     </aside>
     <section className="adminWorkspace">
       <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> 数据库已连接</span></header>
-      {active === "dashboard" ? <控制台 onNavigate={setActive} /> : active === "homepage_sections" ? <HeroManager rows={rows} onRefresh={() => loadTable("homepage_sections")} /> : active === "destinations" ? <DestinationManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("destinations")} /> : active === "tours" ? <TourManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("tours")} /> : active === "site_settings" ? <SiteChromeManager /> : active === "about_us" ? <AboutManager /> : active === "contact_us" ? <ContactManager /> : active === "reviews" ? <ReviewManager /> : active === "travel_guides" ? <GuideManager rows={rows.filter(r=>r.category!=="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "travel_news" ? <GuideManager newsMode rows={rows.filter(r=>r.category==="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "inquiries" ? <InquiryManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("inquiries")} /> : active === "bookings" ? <BookingManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("bookings")} /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
+      <Fragment key={`${active}:${sectionReset}`}>
+      {active === "dashboard" ? <控制台 onNavigate={navigateSection} /> : active === "homepage_sections" ? <HeroManager rows={rows} onRefresh={() => loadTable("homepage_sections")} /> : active === "destinations" ? <DestinationManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("destinations")} /> : active === "tours" ? <TourManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("tours")} /> : active === "site_settings" ? <SiteChromeManager /> : active === "about_us" ? <AboutManager /> : active === "contact_us" ? <ContactManager /> : active === "reviews" ? <ReviewManager /> : active === "travel_guides" ? <GuideManager rows={rows.filter(r=>r.category!=="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "travel_news" ? <GuideManager newsMode rows={rows.filter(r=>r.category==="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "inquiries" ? <InquiryManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("inquiries")} /> : active === "bookings" ? <BookingManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("bookings")} /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
+      </Fragment>
     </section>
   </main>;
 }

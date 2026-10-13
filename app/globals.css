@@ -775,3 +775,28 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 64px);max-width:1240px;margin:0 auto;padding:64px 0 70px}
 @media(max-width:900px){.aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 48px)}}
 @media(max-width:600px){.aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 40px);padding:48px 0 54px}}
+
+/* About Us final pass: consistent 1280px content rhythm and tighter partner section. */
+.aboutPage .aboutPhotoStory{max-width:1280px;gap:clamp(48px,5vw,84px)}
+.aboutPage .aboutStoryCopy{min-width:0}
+.aboutPage .aboutStoryCopy>p:not(.v1Eyebrow){font-size:16px;line-height:1.8}
+.aboutPage .aboutValues{max-width:1280px}
+.aboutPage .aboutValues article{display:flex;flex-direction:column;justify-content:flex-start}
+.aboutPage .aboutTeam{padding-left:max(32px,calc((100% - 1280px)/2));padding-right:max(32px,calc((100% - 1280px)/2));padding-top:62px;padding-bottom:24px}
+.aboutPage .aboutTeamGrid{gap:24px}
+.aboutPage .aboutTeamGrid img{aspect-ratio:4/4.7}
+.aboutPage .aboutDetail{padding:34px max(32px,calc((100% - 1280px)/2)) 52px}
+.aboutPage .aboutDetailInner{max-width:1080px}
+.aboutPage .aboutDetailInner img{max-width:100%;height:auto}
+.aboutPage .aboutCtaBand .aboutCta{padding-top:56px;padding-bottom:60px}
+@media(max-width:900px){
+ .aboutPage .aboutTeam{padding-left:24px;padding-right:24px}
+ .aboutPage .aboutDetail{padding:30px 24px 46px}
+}
+@media(max-width:600px){
+ .aboutPage .aboutTeam{padding:50px 16px 20px}
+ .aboutPage .aboutTeamGrid{gap:12px}
+ .aboutPage .aboutDetail{padding:22px 16px 38px}
+ .aboutPage .aboutDetailInner{font-size:14px;line-height:1.7}
+ .aboutPage .aboutCtaBand .aboutCta{padding:44px 0 50px}
+}

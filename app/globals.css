@@ -883,3 +883,26 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .contactPage .contactCta{width:calc(100% - 40px);padding:46px 0 52px;display:block}
  .contactPage .contactCta .pillButton{margin-top:18px}
 }
+
+/* PR #178: Contact Us reviews and final CTA only. */
+.contactPage .v1JourneyStory{display:flex;flex-direction:column}
+.contactPage .v1ReviewQuoteWrap{flex:1;min-height:0;display:flex;flex-direction:column;align-items:flex-start}
+.contactPage .v1ReviewQuoteWrap blockquote{flex:none;margin:18px 0 8px;line-height:1.7}
+.contactPage .v1ReviewQuoteClamped{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.contactPage .v1ReviewReadMore{appearance:none;background:transparent;border:0;padding:5px 0;color:#0b4776;font:700 12px "Manrope",sans-serif;cursor:pointer}
+.contactPage .v1ReviewReadMore:hover{text-decoration:underline}
+.contactPage .v1ReviewReadMore:focus-visible{outline:2px solid #e92a32;outline-offset:3px;border-radius:2px}
+.contactPage .v1JourneyStory .v1ReviewShots{margin-top:14px}
+.contactPage .v1JourneyStory .v1ReviewShot{min-height:82px}
+.contactPage .v1JourneyStory .v1ReviewShot img{width:100%;height:100%;object-fit:cover}
+.contactPage .contactCta{padding-top:72px;padding-bottom:76px;gap:50px}
+.contactPage .contactCta h2{font-size:clamp(36px,4.2vw,50px);line-height:1.13;max-width:750px}
+.contactPage .contactCta>div>p:not(.v1Eyebrow){max-width:650px}
+.contactPage .contactCta .pillButton{padding:17px 28px;font-size:14px;box-shadow:0 9px 22px rgba(234,40,48,.16)}
+@media(max-width:900px){.contactPage .contactCta{padding-top:60px;padding-bottom:64px;gap:28px}}
+@media(max-width:600px){
+ .contactPage .v1ReviewQuoteClamped{-webkit-line-clamp:6}
+ .contactPage .contactCta{padding-top:50px;padding-bottom:56px}
+ .contactPage .contactCta h2{font-size:clamp(30px,8vw,38px)}
+ .contactPage .contactCta .pillButton{padding:15px 23px}
+}

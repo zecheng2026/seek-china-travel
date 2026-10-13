@@ -769,3 +769,9 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .aboutPage .aboutTeamGrid article p{font-size:11px;line-height:1.45;overflow-wrap:anywhere}
  .aboutPage .aboutTeam + .aboutDetail{padding-top:18px}
 }
+
+/* Visually separate partner logos from the final About Us conversion section. */
+.aboutPage .aboutCtaBand{width:100%;background:#f2f7fb;border-top:1px solid #e0e9f0}
+.aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 64px);max-width:1240px;margin:0 auto;padding:64px 0 70px}
+@media(max-width:900px){.aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 48px)}}
+@media(max-width:600px){.aboutPage .aboutCtaBand .aboutCta{width:calc(100% - 40px);padding:48px 0 54px}}

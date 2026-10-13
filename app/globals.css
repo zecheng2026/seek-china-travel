@@ -844,3 +844,42 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .aboutPage .aboutVisualBreak h2{font-size:clamp(30px,8vw,40px);line-height:1.1;letter-spacing:-1.2px}
  .aboutPage .aboutValues{margin:-18px auto 0;position:relative;z-index:3}
 }
+
+/* Contact Us layout refresh: keep content and conversion actions intact. */
+.contactPage .contactIntro{width:calc(100% - 64px);max-width:1240px;padding:70px 0 42px;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:clamp(36px,5vw,80px)}
+.contactPage .contactIntro>div{min-width:0}
+.contactPage .contactIntro h2{font-size:clamp(34px,3.6vw,48px)}
+.contactPage .contactIntro aside{padding:30px 32px}
+.contactPage .contactMethods{width:calc(100% - 64px);max-width:1240px;margin:0 auto;background:#fff}
+.contactPage .contactMethods article{padding:28px 24px}
+.contactPage>.v1JourneyStories{margin-top:48px!important;padding-top:58px!important;padding-bottom:60px!important}
+.contactPage .contactNote{padding:58px max(32px,calc((100% - 1240px)/2)) 66px}
+.contactPage .contactNoteIntro{margin-bottom:28px}
+.contactPage .contactSteps{gap:16px}
+.contactPage .contactStepCard{padding:26px 22px 28px}
+.contactPage .contactCta{width:calc(100% - 64px);max-width:1240px;padding:62px 0 68px;gap:40px}
+.contactPage .contactCta h2{font-size:clamp(32px,3.8vw,46px)}
+@media(max-width:900px){
+ .contactPage .contactIntro{width:calc(100% - 48px);grid-template-columns:1fr;gap:26px;padding:56px 0 34px}
+ .contactPage .contactMethods{width:calc(100% - 48px)}
+ .contactPage .contactNote{padding:52px 24px 58px}
+ .contactPage .contactCta{width:calc(100% - 48px);padding:54px 0 58px}
+}
+@media(max-width:600px){
+ .contactPage .contactIntro{width:calc(100% - 40px);padding:48px 0 28px;gap:22px}
+ .contactPage .contactIntro h2{font-size:clamp(30px,8vw,38px)}
+ .contactPage .contactMethods{width:calc(100% - 40px);grid-template-columns:repeat(2,minmax(0,1fr))}
+ .contactPage .contactMethods article{padding:20px 14px;min-width:0}
+ .contactPage .contactMethods article:nth-child(odd){border-left:0}
+ .contactPage .contactMethods article:nth-child(n+3){border-top:1px solid #e0e9ef}
+ .contactPage .contactMethods h3{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+ .contactPage .contactMethods a{font-size:11px}
+ .contactPage>.v1JourneyStories{margin-top:32px!important;padding-top:42px!important;padding-bottom:46px!important}
+ .contactPage .contactNote{padding:46px 20px 52px}
+ .contactPage .contactSteps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .contactPage .contactStepCard{padding:18px 13px 20px}
+ .contactPage .contactStepCard h3{font-size:15px;overflow-wrap:anywhere}
+ .contactPage .contactStepCard p{font-size:12px}
+ .contactPage .contactCta{width:calc(100% - 40px);padding:46px 0 52px;display:block}
+ .contactPage .contactCta .pillButton{margin-top:18px}
+}

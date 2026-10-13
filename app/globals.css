@@ -800,3 +800,31 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .aboutPage .aboutDetailInner{font-size:14px;line-height:1.7}
  .aboutPage .aboutCtaBand .aboutCta{padding:44px 0 50px}
 }
+
+/* PR #177 final size tuning — About Us only. */
+@media(min-width:1100px){
+ .aboutPage .aboutPhotoStory{max-width:1360px;width:calc(100% - 80px);gap:72px}
+ .aboutPage .aboutPhotoStack{height:580px}
+ .aboutPage .aboutPhotoMain{height:530px}
+ .aboutPage .aboutStoryCopy h2{font-size:clamp(42px,3.7vw,58px)}
+ .aboutPage .aboutValues{max-width:1360px;width:calc(100% - 80px);gap:20px}
+ .aboutPage .aboutValues article{min-height:280px;padding:40px 34px}
+ .aboutPage .aboutValues h3{font-size:21px}
+ .aboutPage .aboutValues p{font-size:15px}
+ .aboutPage .aboutTeam{padding-left:max(40px,calc((100% - 1360px)/2));padding-right:max(40px,calc((100% - 1360px)/2))}
+ .aboutPage .aboutTeamGrid{gap:26px}
+ .aboutPage .aboutTeamGrid img{aspect-ratio:4/5}
+ .aboutPage .aboutTeamGrid article>div{padding:22px 14px 24px}
+ .aboutPage .aboutTeamGrid h3{font-size:19px}
+ .aboutPage .aboutTeamGrid article p{font-size:13px}
+ .aboutPage .aboutDetailInner{max-width:1180px}
+}
+.aboutPage .aboutDetailInner img{max-width:100%;height:auto}
+@media(min-width:901px){
+ .aboutPage .aboutDetailInner img{max-height:none}
+ .aboutPage .aboutDetailInner :is(table,figure){max-width:100%}
+}
+@media(max-width:600px){
+ .aboutPage .aboutValues article{padding:22px 16px 24px}
+ .aboutPage .aboutTeamGrid img{aspect-ratio:4/5}
+}

@@ -725,3 +725,47 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .aboutPage .aboutCta h2{font-size:clamp(30px,3.8vw,44px);line-height:1.16}
 .aboutPage .aboutCta p:not(.v1Eyebrow){max-width:590px;font-size:15px;line-height:1.8}
 @media(max-width:600px){.aboutPage .aboutStatement{padding:62px 20px}.aboutPage .aboutStatement h2{font-size:clamp(42px,11vw,58px)}.aboutPage .aboutCta{padding:56px 0 65px;gap:22px}.aboutPage .aboutCta .pillButton{margin-top:22px}}
+
+/* PR #177: balanced About Us content width, cards and section rhythm. */
+.aboutPage .aboutPhotoStory{width:calc(100% - 64px);max-width:1240px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(44px,5vw,76px);padding:76px 0 88px}
+.aboutPage .aboutPhotoStack{height:540px}
+.aboutPage .aboutPhotoMain{height:490px}
+.aboutPage .aboutPhotoInset{height:235px}
+.aboutPage .aboutVisualBreak{height:390px;padding-bottom:52px}
+.aboutPage .aboutValues{width:calc(100% - 64px);max-width:1240px;margin:0 auto;gap:16px;box-shadow:none;background:transparent}
+.aboutPage .aboutValues article{min-height:255px;padding:36px 30px;border:1px solid #e5edf2!important;border-radius:12px;box-shadow:0 10px 26px rgba(8,47,75,.06)}
+.aboutPage .aboutValues h3{font-size:19px;line-height:1.35}
+.aboutPage .aboutValues p{font-size:14px;line-height:1.75}
+.aboutPage .aboutTeam{padding:74px max(32px,calc((100% - 1240px)/2)) 42px}
+.aboutPage .aboutTeamHead{margin-bottom:36px}
+.aboutPage .aboutTeamGrid{gap:22px}
+.aboutPage .aboutTeamGrid article>div{padding:20px 12px 22px}
+.aboutPage .aboutTeamGrid img{aspect-ratio:4/4.8}
+.aboutPage .aboutTeam + .aboutDetail{padding-top:24px}
+@media(max-width:900px){
+ .aboutPage .aboutPhotoStory{width:calc(100% - 48px);grid-template-columns:1fr;gap:38px;padding:65px 0 70px}
+ .aboutPage .aboutPhotoStack{height:500px;max-width:680px}
+ .aboutPage .aboutPhotoMain{height:450px}
+ .aboutPage .aboutValues{width:calc(100% - 48px);grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+ .aboutPage .aboutTeam{padding:68px 24px 36px}
+ .aboutPage .aboutTeamGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+}
+@media(max-width:600px){
+ .aboutPage .aboutPhotoStory{width:calc(100% - 40px);padding:55px 0 65px;gap:28px}
+ .aboutPage .aboutPhotoStack{height:390px}
+ .aboutPage .aboutPhotoMain{height:345px}
+ .aboutPage .aboutPhotoInset{height:165px}
+ .aboutPage .aboutVisualBreak{height:320px;padding:36px 20px}
+ .aboutPage .aboutValues{width:calc(100% - 32px);grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .aboutPage .aboutValues article{min-height:0;padding:20px 15px 22px}
+ .aboutPage .aboutValues h3{font-size:15px;margin:18px 0 8px}
+ .aboutPage .aboutValues p{font-size:12px;line-height:1.6}
+ .aboutPage .aboutTeam{padding:54px 16px 26px}
+ .aboutPage .aboutTeamHead{margin-bottom:26px}
+ .aboutPage .aboutTeamGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .aboutPage .aboutTeamGrid article{max-width:none;min-width:0}
+ .aboutPage .aboutTeamGrid article>div{padding:14px 7px 16px}
+ .aboutPage .aboutTeamGrid h3{font-size:14px;overflow-wrap:anywhere}
+ .aboutPage .aboutTeamGrid article p{font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+ .aboutPage .aboutTeam + .aboutDetail{padding-top:18px}
+}

@@ -716,3 +716,12 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .sctDetailReviewReplyHead{display:flex;align-items:center;gap:10px;margin-bottom:8px;color:#153c61;font-size:13px}
 .sctDetailReviewReply p{margin:0;color:#35536e;font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
 @media(max-width:640px){.sctDetailReviewCard{padding:16px}.sctDetailReviewHead{flex-wrap:wrap;gap:9px}.sctDetailReviewStars{margin-left:auto;font-size:15px}.sctDetailReviewReply{padding:12px}}
+
+/* About Us closing sections: compact brand statement, focused planning CTA. */
+.aboutPage .aboutStatement{padding-top:72px;padding-bottom:72px}
+.aboutPage .aboutStatement h2{font-size:clamp(46px,6vw,74px);margin:12px 0 16px}
+.aboutPage .aboutCta{padding-top:72px;padding-bottom:76px;gap:44px}
+.aboutPage .aboutCta>div{max-width:720px}
+.aboutPage .aboutCta h2{font-size:clamp(30px,3.8vw,44px);line-height:1.16}
+.aboutPage .aboutCta p:not(.v1Eyebrow){max-width:590px;font-size:15px;line-height:1.8}
+@media(max-width:600px){.aboutPage .aboutStatement{padding:62px 20px}.aboutPage .aboutStatement h2{font-size:clamp(42px,11vw,58px)}.aboutPage .aboutCta{padding:56px 0 65px;gap:22px}.aboutPage .aboutCta .pillButton{margin-top:22px}}

@@ -31,7 +31,7 @@ declare parts text[]; v_id uuid; v_token uuid;
 begin
  parts:=string_to_array(object_name,'/');
  if array_length(parts,1)<>3 or parts[1]!~'^[0-9a-f-]{36}$' or parts[2]!~'^[0-9a-f-]{36}$'
-    or parts[3]!~'^[0-9a-f-]{36}\\.webp$' then return false; end if;
+    or parts[3]!~'^[0-9a-f-]{36}\.webp$' then return false; end if;
  v_id:=parts[1]::uuid; v_token:=parts[2]::uuid;
  return exists(select 1 from public.traveler_reviews r
  where r.id=v_id and r.photo_upload_token=v_token and r.status='pending'
@@ -70,7 +70,7 @@ grant execute on function public.attach_review_photos(uuid,uuid,text[]) to anon,
 create or replace function public.can_admin_upload_review_photo(object_name text)
 returns boolean language sql stable security definer set search_path=public as $$
  select auth.uid() is not null and exists(select 1 from public.review_admin_users where user_id=auth.uid())
- and object_name ~ '^admin/[0-9a-f-]{36}/[0-9a-f-]{36}\\.webp$';
+ and object_name ~ '^admin/[0-9a-f-]{36}/[0-9a-f-]{36}\.webp$';
 $$;
 revoke all on function public.can_admin_upload_review_photo(text) from public;
 grant execute on function public.can_admin_upload_review_photo(text) to authenticated;

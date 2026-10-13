@@ -31,11 +31,11 @@ const tours = [
   { title: "Chongqing Mountain City", days: "4 Days", place: "Chongqing · Wulong", description: "Cyberpunk skyline, hotpot culture and spectacular karst landscapes.", image: images.chongqing, slug: "" },
 ];
 
-export default function Home() {
+export default function Home({initialHero}:{initialHero?:Record<string,unknown>|null}) {
   const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]); const [liveDestinations,setLiveDestinations]=useState<Record<string,unknown>[]>([]); const [liveGuides,setLiveGuides]=useState<Record<string,unknown>[]>([]); const [reviews,setReviews]=useState<Record<string,unknown>[]>([]); const [contentLoaded,setContentLoaded]=useState(false);
   useEffect(()=>{Promise.all([supabase.from("tours").select("*").eq("is_published",true).eq("is_featured",true).order("sort_order",{ascending:true}).limit(3),supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}).limit(6),supabase.from("travel_guides").select("*").eq("is_featured",true).eq("is_published",true).limit(3),supabase.from("homepage_sections").select("content").eq("section_key","home:reviews").maybeSingle(),supabase.from("traveler_reviews").select("id,name,body,rating,featured_home,created_at,avatar_url").eq("status","approved").eq("featured_home",true).order("created_at",{ascending:false}).limit(3)]).then(([t,d,g,r,featured])=>{setLiveTours((t.data as Record<string,unknown>[]|null)??[]);setLiveDestinations((d.data as Record<string,unknown>[]|null)??[]);setLiveGuides((g.data as Record<string,unknown>[]|null)??[]);try{const x=typeof r.data?.content==="string"?JSON.parse(r.data.content):r.data?.content;setReviews([...(featured.data??[]).map((v:any)=>({name:v.name,text:v.body,rating:v.rating,avatar_url:v.avatar_url,published:true,images:[]})),...(Array.isArray(x?.reviews)?x.reviews.filter((v:any)=>v?.published!==false&&String(v?.text??"").trim()):[])].slice(0,3))}catch{}finally{setContentLoaded(true)}}).catch(()=>setContentLoaded(true));},[supabase]);
   return <main>
-    <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:"",overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
+    <ManagedHero initialHero={initialHero} pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:"",overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
 
 
 

@@ -4,7 +4,7 @@ import DetailReviews from "../../components/DetailReviews";
 import {useEffect,useMemo,useState} from "react";
 import {createClient} from "../../../utils/supabase/client";
 type Row=Record<string,unknown>;
-function Html({value}:{value:unknown}){if(!value)return null;return <div className="tourHtml" dangerouslySetInnerHTML={{__html:String(value)}}/>}
+function Html({value}:{value:unknown}){if(!value)return null;const html=String(value).replace(/<(\/?)h1(\s[^>]*)?>/gi,(_match,slash:string,attrs:string="")=>`<${slash}h2${slash?"":attrs}>`);return <div className="tourHtml" dangerouslySetInnerHTML={{__html:html}}/>}
 export default function DestinationDetail({slug:slugProp,initialDestination=null}:{slug?:string;initialDestination?:Row|null}){
  const supabase=useMemo(()=>createClient(),[]);const [runtimeSlug,setRuntimeSlug]=useState("");const slug=slugProp??runtimeSlug;const [destination,setDestination]=useState<Row|null>(initialDestination);const [tours,setTours]=useState<Row[]>([]);const [loading,setLoading]=useState(!initialDestination);
  useEffect(()=>{if(slugProp)return;setRuntimeSlug(new URLSearchParams(window.location.search).get("slug")??"");},[slugProp]);

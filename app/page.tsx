@@ -18,7 +18,7 @@ export const metadata:Metadata={
 // Static export: resolve the public homepage hero during build, so the browser
 // can discover the image immediately instead of waiting for a client-side query.
 // The client still refreshes this configuration from Supabase after hydration.
-async function getInitialHero(){
+async function getInitialHero():Promise<Record<string,unknown>|null>{
  const url=process.env.NEXT_PUBLIC_SUPABASE_URL;
  const key=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
  if(!url||!key)return null;

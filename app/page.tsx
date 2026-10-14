@@ -14,4 +14,26 @@ export const metadata:Metadata={
  }
 };
 
-export default function Page(){return <HomePageClient/>}
+// Start the public Hero configuration request before React hydration. The image URL
+// is managed in Supabase and is intentionally not hard-coded into the build.
+const heroBootstrap = `(function(){
+  try {
+    var url=window.__SCT_SUPABASE_URL__,key=window.__SCT_SUPABASE_KEY__;
+    if(!url||!key)return;
+    fetch(url+"/rest/v1/homepage_sections?section_key=eq.hero%3Ahome&select=content%2Cimage_url&limit=1",{
+      headers:{"apikey":key,"Authorization":"Bearer "+key}
+    }).then(function(r){if(!r.ok)throw Error("Hero config unavailable");return r.json()})
+    .then(function(rows){
+      var row=rows&&rows[0];if(!row)return;
+      var cfg=typeof row.content==="string"?JSON.parse(row.content):row.content||{};
+      var src=cfg.image||row.image_url;if(typeof src!=="string"||!/^https?:\\/\\//.test(src))return;
+      var preload=document.createElement("link");preload.rel="preload";preload.as="image";preload.href=src;
+      preload.fetchPriority="high";document.head.appendChild(preload);
+    }).catch(function(){});
+  }catch(e){}
+})();`;
+export default function Page(){
+ const url=process.env.NEXT_PUBLIC_SUPABASE_URL||"";
+ const key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY||"";
+ return <><script dangerouslySetInnerHTML={{__html:`window.__SCT_SUPABASE_URL__=${JSON.stringify(url)};window.__SCT_SUPABASE_KEY__=${JSON.stringify(key)};`+heroBootstrap}}/><HomePageClient/></>;
+}

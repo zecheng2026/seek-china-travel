@@ -925,3 +925,18 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .aboutPage .aboutTeamGrid .aboutTeamDivider{display:block;width:100%;height:1px;background:#e8edf1;margin:16px 0 12px;flex-shrink:0}
 .aboutPage .aboutTeamGrid .aboutTeamBio{font-size:13px;line-height:1.65;color:#5c6f80;margin:0;max-width:100%;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere;text-align:center}
 @media(max-width:600px){.aboutPage .aboutTeamGrid .aboutTeamInfo{min-height:210px;padding:14px 9px 17px}.aboutPage .aboutTeamGrid .aboutTeamLanguages{gap:4px;margin-top:9px}.aboutPage .aboutTeamGrid .aboutTeamLanguages span{font-size:10px;padding:4px 7px}.aboutPage .aboutTeamGrid .aboutTeamDivider{margin:12px 0 10px}.aboutPage .aboutTeamGrid .aboutTeamBio{font-size:11px;line-height:1.55;-webkit-line-clamp:4}}
+
+/* SCT admin: new inquiry, booking and traveler message notifications. */
+.sctAdminHeaderActions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sctAdminNotifications{position:relative;z-index:50}
+.sctAdminBell{border:1px solid #d7e2ec;background:#fff;border-radius:10px;padding:10px 13px;cursor:pointer;color:#143e60;font-weight:700;white-space:nowrap}
+.sctAdminBell strong{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;margin-left:7px;padding:0 5px;background:#d72f3a;border-radius:20px;color:#fff;font-size:11px}
+.sctAdminNotificationPanel{position:absolute;top:calc(100% + 10px);right:0;width:min(350px,calc(100vw - 36px));padding:17px;background:#fff;border:1px solid #dce6ee;border-radius:12px;box-shadow:0 18px 40px rgba(11,42,70,.16);color:#183d5b}
+.sctAdminNotificationTitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sctAdminNotificationTitle button{background:transparent;border:0;color:#bf2834;cursor:pointer;font-size:12px}
+.sctAdminNotificationPanel>p{font-size:12px;line-height:1.55;color:#6b7d8c;margin:10px 0}
+.sctAdminNoticeRow{width:100%;display:flex;align-items:center;gap:12px;padding:12px 4px;background:transparent;border:0;border-top:1px solid #eef2f5;text-align:left;cursor:pointer;color:#23435e}
+.sctAdminNoticeRow span:first-child{flex:1}.sctAdminNoticeRow b{color:#c12a35}.sctAdminNoticeRow span:last-child{font-size:12px}
+.sctAdminSound{display:flex;align-items:center;gap:8px;padding-top:12px;font-size:12px;color:#4c6376}
+.sctAdminNotificationPanel small{display:block;margin-top:9px;color:#b33a40}
+@media(max-width:600px){.sctAdminNotificationPanel{right:-10px}.sctAdminHeaderActions{gap:7px}}

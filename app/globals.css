@@ -981,3 +981,28 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .managedHero.configurableInnerHero[style*="--about-mobile-text-x: center"] .managedHeroContent{margin:0 auto;text-align:center}
 .managedHero.configurableInnerHero[style*="--about-mobile-text-x: right"] .managedHeroContent{margin:0 20px;text-align:right}
 }
+
+
+/* PR #188: mobile-only readability and touch-target polish. Desktop unchanged. */
+@media (max-width:680px){
+  /* Homepage sections: allow headings and destination/tour links to breathe. */
+  .v1SectionHead{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px}
+  .v1SectionHead h2{max-width:100%;overflow-wrap:break-word}
+  .v1SectionHead>a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;white-space:normal;line-height:1.4}
+  /* Inner page hero copy: readable on narrow screens without overriding CMS positions. */
+  .managedHero:not(.homeManagedHero) h1{font-size:clamp(30px,8vw,40px);line-height:1.13;letter-spacing:-1px;overflow-wrap:break-word}
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:15px;line-height:1.65;overflow-wrap:break-word}
+  /* Team cards remain two columns, with legible labels and biographies. */
+  .aboutPage .aboutTeamGrid .aboutTeamInfo h3{font-size:clamp(14px,3.8vw,17px);line-height:1.35}
+  .aboutPage .aboutTeamGrid .aboutTeamInfo>p:not(.aboutTeamBio){font-size:12px;line-height:1.5}
+  .aboutPage .aboutTeamGrid .aboutTeamBio{font-size:12px;line-height:1.6}
+  .aboutPage .aboutTeamGrid .aboutTeamLanguages{font-size:11px;line-height:1.45}
+}
+@media (max-width:520px){
+  /* Homepage CTA is baked into artwork positioning; keep its position while enlarging the tap area. */
+  .homeManagedHero .homeHeroImageButton{font-size:14px;min-height:44px;min-width:44px;padding:10px 15px;display:inline-flex;align-items:center;justify-content:center;line-height:1.25}
+}
+@media (max-width:390px){
+  .v1SectionHead{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+  .v1SectionHead>a{margin-top:0}
+}

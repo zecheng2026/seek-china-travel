@@ -915,3 +915,13 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .aboutPage .aboutTeamGrid .aboutTeamInfo h3,.aboutPage .aboutTeamGrid .aboutTeamInfo p{text-align:center;margin-left:0;margin-right:0}
 .aboutPage .aboutTeamGrid .aboutTeamLanguages{font-size:12px;line-height:1.5;color:#61768a;overflow-wrap:anywhere;margin-top:8px}
 @media(max-width:600px){.aboutPage .aboutTeamGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aboutPage .aboutTeamGrid .aboutTeamInfo{min-height:116px;padding:14px 8px 18px}.aboutPage .aboutTeamGrid .aboutTeamLanguages{font-size:11px}}
+
+/* About Us team cards: optional language chips and short individual introduction. */
+.aboutPage .aboutTeamGrid .aboutTeamInfo{justify-content:flex-start;min-height:198px;padding:19px 15px 22px}
+.aboutPage .aboutTeamGrid .aboutTeamInfo h3{color:#103f70;font-weight:800}
+.aboutPage .aboutTeamGrid .aboutTeamInfo>p:not(.aboutTeamBio){color:#82909d}
+.aboutPage .aboutTeamGrid .aboutTeamLanguages{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+.aboutPage .aboutTeamGrid .aboutTeamLanguages span{display:inline-flex;align-items:center;justify-content:center;background:#f0f3f6;color:#647586;border-radius:5px;padding:5px 10px;font-size:11px;font-weight:600;line-height:1.3}
+.aboutPage .aboutTeamGrid .aboutTeamDivider{display:block;width:100%;height:1px;background:#e8edf1;margin:16px 0 12px;flex-shrink:0}
+.aboutPage .aboutTeamGrid .aboutTeamBio{font-size:13px;line-height:1.65;color:#5c6f80;margin:0;max-width:100%;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere;text-align:center}
+@media(max-width:600px){.aboutPage .aboutTeamGrid .aboutTeamInfo{min-height:210px;padding:14px 9px 17px}.aboutPage .aboutTeamGrid .aboutTeamLanguages{gap:4px;margin-top:9px}.aboutPage .aboutTeamGrid .aboutTeamLanguages span{font-size:10px;padding:4px 7px}.aboutPage .aboutTeamGrid .aboutTeamDivider{margin:12px 0 10px}.aboutPage .aboutTeamGrid .aboutTeamBio{font-size:11px;line-height:1.55;-webkit-line-clamp:4}}

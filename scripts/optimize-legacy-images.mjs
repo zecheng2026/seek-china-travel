@@ -16,7 +16,21 @@ const apply=process.argv.includes("--apply");
 const bucket="website-media";
 const minimum=Number(process.env.IMAGE_MIN_BYTES||450000);
 const root=process.env.IMAGE_PREFIX||"";
-const client=createClient(url,key,{auth:{persistSession:false}});
+// Diagnostics must never print authorization headers, tokens or full request URLs.
+const diagnosticFetch=async (input,init)=>{
+ const target=typeof input==="string"?input:input instanceof URL?input.href:input.url;
+ const path=new URL(target).pathname;
+ try{
+  const response=await fetch(input,{...init,signal:AbortSignal.timeout(20000)});
+  if(!response.ok)console.error("Storage HTTP diagnostic:",response.status,response.statusText,"path:",path);
+  return response;
+ }catch(error){
+  const cause=error?.cause;
+  console.error("Storage network diagnostic:",{path,name:error?.name,message:error?.message,causeCode:cause?.code,causeMessage:cause?.message});
+  throw error;
+ }
+};
+const client=createClient(url,key,{auth:{persistSession:false},global:{fetch:diagnosticFetch}});
 const run= new Date().toISOString().replace(/[:.]/g,"-");
 const out=join("image-audit",run);
 await mkdir(out,{recursive:true});
@@ -24,7 +38,7 @@ const candidates=[];
 async function walk(prefix){
  for(let offset=0;;offset+=100){
   const {data,error}=await client.storage.from(bucket).list(prefix,{limit:100,offset,sortBy:{column:"name",order:"asc"}});
-  if(error)throw Error("Storage list "+prefix+": "+error.message);
+  if(error)throw Error("Storage list "+prefix+": "+error.message+" (status "+(error.status||"unknown")+")");
   for(const item of data||[]){
    const path=prefix?prefix+"/"+item.name:item.name;
    if(item.id==null){await walk(path);continue;}

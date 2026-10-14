@@ -15,8 +15,12 @@ export default function AdminNotifications({userId,onNavigate}:{userId:string;on
  const known=useRef<Record<Kind,Set<string>>>({inquiries:new Set(),bookings:new Set(),reviews:new Set()});
  const ready=useRef<Record<Kind,boolean>>({inquiries:false,bookings:false,reviews:false});
  const audio=useRef<AudioContext|null>(null);
+ const rootRef=useRef<HTMLDivElement|null>(null);
+ const soundKey="sct-admin-sound-"+userId;
  const soundRef=useRef(false);
  useEffect(()=>{soundRef.current=sound},[sound]);
+ useEffect(()=>{try{setSound(window.localStorage.getItem(soundKey)==="on")}catch{}},[soundKey]);
+ useEffect(()=>{if(!open)return;const outside=(e:PointerEvent)=>{if(rootRef.current&&!rootRef.current.contains(e.target as Node))setOpen(false)};const escape=(e:KeyboardEvent)=>{if(e.key==="Escape")setOpen(false)};document.addEventListener("pointerdown",outside);document.addEventListener("keydown",escape);return()=>{document.removeEventListener("pointerdown",outside);document.removeEventListener("keydown",escape)}},[open]);
  useEffect(()=>{
   let alive=true;let busy=false;
   const play=()=>{if(!soundRef.current)return;try{const ctx=audio.current;if(!ctx||ctx.state!=="running")return;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type="sine";osc.frequency.value=740;gain.gain.setValueAtTime(.035,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.18)}catch{}};
@@ -51,10 +55,11 @@ export default function AdminNotifications({userId,onNavigate}:{userId:string;on
   return()=>{alive=false;window.clearInterval(timer);document.removeEventListener("visibilitychange",onVisible)};
  },[supabase,userId]);
  useEffect(()=>()=>{if(audio.current)void audio.current.close()},[]);
- const enableSound=async()=>{if(sound){setSound(false);return;}try{audio.current??=new AudioContext();await audio.current.resume();setSound(true)}catch{setError("浏览器未允许声音，请检查音频权限。")}};
+ const enableSound=async()=>{if(sound){setSound(false);try{window.localStorage.setItem(soundKey,"off")}catch{}return;}try{audio.current??=new AudioContext();await audio.current.resume();setSound(true);try{window.localStorage.setItem(soundKey,"on")}catch{}setError("")}catch{setError("浏览器未允许声音，请检查音频权限。")}};
+ const toggleOpen=async()=>{if(!open&&sound&&!audio.current){try{audio.current=new AudioContext();await audio.current.resume()}catch{}}setOpen(v=>!v)};
  const counts=kinds.map(([kind,label])=>({kind,label,count:alerts.filter(x=>x.kind===kind).length}));
- return <div className="sctAdminNotifications">
-  <button type="button" className="sctAdminBell" onClick={()=>setOpen(v=>!v)} aria-expanded={open} aria-label={"通知中心，"+alerts.length+" 条新提醒"}>🔔 提醒{alerts.length>0&&<strong>{alerts.length}</strong>}</button>
+ return <div className="sctAdminNotifications" ref={rootRef}>
+  <button type="button" className="sctAdminBell" onClick={()=>void toggleOpen()} aria-expanded={open} aria-label={"通知中心，"+alerts.length+" 条新提醒"}>🔔 提醒{alerts.length>0&&<strong>{alerts.length}</strong>}</button>
   {open&&<div className="sctAdminNotificationPanel"><div className="sctAdminNotificationTitle"><b>新消息提醒</b><button type="button" onClick={()=>setAlerts([])}>全部标记已读</button></div>
    <p>后台打开时约每 30 秒检查一次；首次打开不会把历史记录当成新消息。</p>
    {counts.map(x=><button type="button" key={x.kind} className="sctAdminNoticeRow" onClick={()=>{onNavigate(x.kind);setAlerts(prev=>prev.filter(a=>a.kind!==x.kind));setOpen(false)}}><span>{x.label}</span><b>{x.count}</b><span>查看 →</span></button>)}

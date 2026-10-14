@@ -26,7 +26,6 @@ export default function ManagedHero({pageKey,defaults,className=""}:{pageKey:str
  },[supabase,pageKey,defaults]);
  useEffect(()=>{if(!hero.image||pageKey==="home")return;const img=new Image();img.onload=()=>{if(img.naturalWidth&&img.naturalHeight)setRatio(`${img.naturalWidth}/${img.naturalHeight}`)};img.src=hero.image;},[hero.image,pageKey]);
  const opacity=Math.max(0,Math.min(90,Number(hero.overlay??45)))/100;
- useEffect(()=>{if(pageKey!=="home"||!hero.image)return;const img=new Image();img.fetchPriority="high";img.decoding="async";img.src=hero.image;},[hero.image,pageKey]);
  if(pageKey==="home")return <section aria-label="China private tours" className={"managedHero "+className} style={{backgroundImage:"none",backgroundPosition:`${Number(hero.image_position_x??50)}% ${Number(hero.image_position_y??50)}%`,"--home-mobile-hero":"none","--home-mobile-position":`${Number(hero.mobile_position_x??50)}% ${Number(hero.mobile_position_y??0)}%`} as React.CSSProperties}>
   {hero.image&&<picture className="homeHeroPicture">
     {hero.mobile_image&&<source media="(max-width: 680px)" srcSet={hero.mobile_image}/>}

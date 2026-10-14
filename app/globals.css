@@ -963,3 +963,21 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .aboutTextPositionHero[style*="--about-mobile-text-x: center"] .managedHeroContent{margin:0 auto;text-align:center}
 .aboutTextPositionHero[style*="--about-mobile-text-x: right"] .managedHeroContent{margin:0 20px;text-align:right}
 }
+
+/* PR #186: shared positioning for the six non-home, non-About page Heroes.
+   Keep About's verified layout unchanged and avoid altering the home Hero. */
+.managedHero.configurableInnerHero{padding:0;justify-content:flex-start;align-items:flex-end}
+.managedHero.configurableInnerHero[style*="--about-text-y: top"]{align-items:flex-start}
+.managedHero.configurableInnerHero[style*="--about-text-y: center"]{align-items:center}
+.managedHero.configurableInnerHero .managedHeroContent{box-sizing:border-box;flex:0 1 auto;width:min(650px,calc(100% - 64px));margin:0 0 0 max(32px,calc((100% - 1600px)/2 + 32px));padding:45px 0;text-align:left}
+.managedHero.configurableInnerHero[style*="--about-text-x: center"] .managedHeroContent{margin-left:auto;margin-right:auto;text-align:center}
+.managedHero.configurableInnerHero[style*="--about-text-x: right"] .managedHeroContent{margin-left:auto;margin-right:max(32px,calc((100% - 1600px)/2 + 32px));text-align:right}
+.managedHero.configurableInnerHero .managedHeroContent h1,.managedHero.configurableInnerHero .managedHeroContent>p:not(.managedHeroEyebrow){max-width:100%;margin-left:0;margin-right:0}
+@media(max-width:680px){
+.managedHero.configurableInnerHero{padding:0;align-items:flex-end}
+.managedHero.configurableInnerHero[style*="--about-mobile-text-y: top"]{align-items:flex-start}
+.managedHero.configurableInnerHero[style*="--about-mobile-text-y: center"]{align-items:center}
+.managedHero.configurableInnerHero .managedHeroContent{width:calc(100% - 40px);margin:0 20px;padding:42px 0;text-align:left}
+.managedHero.configurableInnerHero[style*="--about-mobile-text-x: center"] .managedHeroContent{margin:0 auto;text-align:center}
+.managedHero.configurableInnerHero[style*="--about-mobile-text-x: right"] .managedHeroContent{margin:0 20px;text-align:right}
+}

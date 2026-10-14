@@ -940,3 +940,9 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .sctAdminSound{display:flex;align-items:center;gap:8px;padding-top:12px;font-size:12px;color:#4c6376}
 .sctAdminNotificationPanel small{display:block;margin-top:9px;color:#b33a40}
 @media(max-width:600px){.sctAdminNotificationPanel{right:-10px}.sctAdminHeaderActions{gap:7px}}
+
+/* Homepage Hero image: retain existing section sizing and CTA, but load via a real high-priority image. */
+.homeManagedHero{position:relative;background-image:none!important;overflow:hidden}
+.homeManagedHero .homeHeroPicture{position:absolute;inset:0;display:block;width:100%;height:100%;z-index:0}
+.homeManagedHero .homeHeroPhoto{display:block;width:100%;height:100%;object-fit:cover}
+@media(max-width:680px){.homeManagedHero .homeHeroPhoto{object-position:var(--home-mobile-position,center top)!important}}

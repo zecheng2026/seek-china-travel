@@ -6,3 +6,6 @@ out/
 
 # Local environment values
 .env.local
+
+# Local image audit reports and original backups (never commit)
+image-audit/

@@ -6,6 +6,7 @@ import { Fragment, FormEvent, useCallback, useEffect, useMemo, useRef, useState 
 import type { Session } from "@supabase/supabase-js";
 import { createClient } from "../../utils/supabase/client";
 import ModerationManager from "./ModerationManager";
+import AdminNotifications from "./AdminNotifications";
 
 const sections = [
   ["控制台", "dashboard"],
@@ -117,7 +118,7 @@ export default function AdminPage() {
       <div className="adminAccount"><small>当前登录</small><span title={session.user.email}>{session.user.email}</span><button onClick={() => supabase.auth.signOut()}>退出登录</button></div>
     </aside>
     <section className="adminWorkspace">
-      <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><span className="adminStatus"><i /> 数据库已连接</span></header>
+      <header className="adminHeader"><div><p>SEEK CHINA TRAVEL</p><h1>{title}</h1></div><div className="sctAdminHeaderActions"><AdminNotifications userId={session.user.id} onNavigate={navigateSection}/><span className="adminStatus"><i /> 数据库已连接</span></div></header>
       <Fragment key={`${active}:${sectionReset}`}>
       {active === "dashboard" ? <控制台 onNavigate={navigateSection} /> : active === "homepage_sections" ? <HeroManager rows={rows} onRefresh={() => loadTable("homepage_sections")} /> : active === "destinations" ? <DestinationManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("destinations")} /> : active === "tours" ? <TourManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("tours")} /> : active === "site_settings" ? <SiteChromeManager /> : active === "about_us" ? <AboutManager /> : active === "contact_us" ? <ContactManager /> : active === "reviews" ? <ReviewManager /> : active === "travel_guides" ? <GuideManager rows={rows.filter(r=>r.category!=="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "travel_news" ? <GuideManager newsMode rows={rows.filter(r=>r.category==="China Travel Updates")} loading={loading} message={message} onRefresh={() => loadTable("travel_guides")} /> : active === "inquiries" ? <InquiryManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("inquiries")} /> : active === "bookings" ? <BookingManager rows={rows} loading={loading} message={message} onRefresh={() => loadTable("bookings")} /> : <Collection table={active} title={title} rows={rows} loading={loading} message={message} onRefresh={() => loadTable(active)} />}
       </Fragment>

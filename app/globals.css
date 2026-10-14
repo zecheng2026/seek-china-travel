@@ -946,3 +946,21 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .homeManagedHero .homeHeroPicture{position:absolute;inset:0;display:block;width:100%;height:100%;z-index:0}
 .homeManagedHero .homeHeroPhoto{display:block;width:100%;height:100%;object-fit:cover}
 @media(max-width:680px){.homeManagedHero .homeHeroPhoto{object-position:var(--home-mobile-position,center top)!important}}
+
+/* About Us: independently configurable desktop/mobile Hero copy placement. */
+.aboutTextPositionHero{align-items:var(--about-text-align-y,flex-end)}
+.aboutTextPositionHero[style*="--about-text-y: top"]{--about-text-align-y:flex-start}
+.aboutTextPositionHero[style*="--about-text-y: center"]{--about-text-align-y:center}
+.aboutTextPositionHero .managedHeroContent{width:min(1180px,calc(100% - 64px));box-sizing:border-box;padding:55px 0;margin-left:auto;margin-right:auto;text-align:var(--about-text-x,left)}
+.aboutTextPositionHero .managedHeroContent h1,.aboutTextPositionHero .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:0;margin-right:auto}
+.aboutTextPositionHero[style*="--about-text-x: center"] .managedHeroContent h1,.aboutTextPositionHero[style*="--about-text-x: center"] .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:auto;margin-right:auto}
+.aboutTextPositionHero[style*="--about-text-x: right"] .managedHeroContent h1,.aboutTextPositionHero[style*="--about-text-x: right"] .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:auto;margin-right:0}
+@media(max-width:680px){
+.aboutTextPositionHero{align-items:flex-end}
+.aboutTextPositionHero[style*="--about-mobile-text-y: top"]{align-items:flex-start}
+.aboutTextPositionHero[style*="--about-mobile-text-y: center"]{align-items:center}
+.aboutTextPositionHero .managedHeroContent{width:calc(100% - 40px);padding:42px 0;text-align:var(--about-mobile-text-x,left)}
+.aboutTextPositionHero .managedHeroContent h1,.aboutTextPositionHero .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:0;margin-right:auto}
+.aboutTextPositionHero[style*="--about-mobile-text-x: center"] .managedHeroContent h1,.aboutTextPositionHero[style*="--about-mobile-text-x: center"] .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:auto;margin-right:auto}
+.aboutTextPositionHero[style*="--about-mobile-text-x: right"] .managedHeroContent h1,.aboutTextPositionHero[style*="--about-mobile-text-x: right"] .managedHeroContent>p:not(.managedHeroEyebrow){margin-left:auto;margin-right:0}
+}

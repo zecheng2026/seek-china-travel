@@ -1058,3 +1058,9 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 /* Footer logo final width adjustment: override shared brand image cap only here. */
 .footerUpper .footerBrand .brandCustom img{width:250px;max-width:100%;height:auto;max-height:none;object-fit:contain;object-position:left center}
 @media(max-width:650px){.footerUpper .footerBrand .brandCustom img{width:220px;max-width:100%;max-height:none}}
+
+/* Decorative footer social icons: no links or click handlers. */
+.footerSocialIcons{display:flex;align-items:center;gap:15px;margin-top:22px}
+.footerSocialIcon{width:37px;height:37px;border-radius:50%;background:#e8edf3;color:#183859;display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:default}
+.footerSocialIcon svg{width:20px;height:20px;display:block}
+@media(max-width:650px){.footerSocialIcons{gap:13px;margin-top:18px}.footerSocialIcon{width:35px;height:35px}.footerSocialIcon svg{width:19px;height:19px}}

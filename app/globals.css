@@ -1151,3 +1151,16 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 @media(max-width:650px){.siteFooter .footerRightCopyright{margin-top:18px}}
 
 @media(min-width:651px){.siteFooter .footerSingle .footerUpperInner{grid-template-columns:1fr 1fr;gap:70px;align-items:stretch}.siteFooter .footerSingle .footerBrand,.siteFooter .footerSingle .footerRight{display:flex;flex-direction:column;align-items:flex-start;min-height:225px;padding-top:0}.siteFooter .footerSingle .footerBrand .brand{min-height:47px}.siteFooter .footerSingle .footerBrand p{margin:13px 0 0}.siteFooter .footerSingle .footerBrandCredentials{margin-top:auto;padding-top:22px}.siteFooter .footerRight h3{min-height:47px;display:flex;align-items:center;margin:0}.siteFooter .footerRight>p{margin:13px 0 0}.siteFooter .footerRightPayment{margin-top:auto;padding-top:22px}.siteFooter .footerRightCopyright{margin-top:13px}}
+
+/* Footer: copyright below agency credentials; useful links and contact on right. */
+.siteFooter .footerSingle .footerBrand{min-height:0}
+.siteFooter .footerBrandCopyright{font-size:11px;line-height:1.7;color:#b5c7d9;margin-top:19px}
+.siteFooter .footerRight{min-height:0}
+.siteFooter .footerRightColumns{display:grid;grid-template-columns:minmax(120px,.8fr) minmax(190px,1.2fr);gap:24px}
+.siteFooter .footerRightColumns h3{display:block;min-height:0;font-size:15px;line-height:1.4;margin:0 0 13px;color:#fff}
+.siteFooter .footerQuickLinks,.siteFooter .footerContactLinks{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
+.siteFooter .footerRightColumns a{font-size:12px;line-height:1.5;color:#d0dfed;text-decoration:none;overflow-wrap:anywhere}
+.siteFooter .footerRightColumns a:hover{color:#fff;text-decoration:underline}
+.siteFooter .footerRightPayment{margin-top:25px;padding-top:0}
+@media(min-width:651px){.siteFooter .footerSingle .footerBrand,.siteFooter .footerSingle .footerRight{min-height:0}.siteFooter .footerSingle .footerBrandCredentials{margin-top:20px;padding-top:0}.siteFooter .footerRightPayment{margin-top:24px;padding-top:0}}
+@media(max-width:650px){.siteFooter .footerRightColumns{grid-template-columns:1fr 1fr;gap:16px}.siteFooter .footerRightColumns h3{font-size:14px}.siteFooter .footerRightPayment{margin-top:24px}.siteFooter .footerBrandCopyright{margin-top:15px}}

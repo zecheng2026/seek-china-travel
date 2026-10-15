@@ -1074,3 +1074,19 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .footerTrustCompact .footerPayment img{display:block;max-width:245px;width:auto;height:auto;max-height:34px;object-fit:contain}
 .footerTrustCompact .footerCopyright{font-size:12px;line-height:1.6;text-align:right;color:#64748b;white-space:normal}
 @media(max-width:650px){.footerBrandCredentials{font-size:11px;margin-top:15px}.footerTrustCompact .footerTrustInner{padding:20px 18px;flex-direction:column;gap:12px;align-items:center}.footerTrustCompact .footerCopyright{text-align:center}.footerTrustCompact .footerPayment img{max-width:min(245px,80vw)}}
+
+/* One continuous dark navy footer; no second background panel. */
+.siteFooter .footerSingle{background:#102f53;color:#fff;border-top:0}
+.siteFooter .footerSingle .footerUpperInner{padding-top:52px;padding-bottom:32px}
+.siteFooter .footerSingle .footerBrand p{color:#c2d1e1;margin-top:20px;margin-bottom:15px}
+.siteFooter .footerSingle .footerBrandCredentials{color:#d1dfec;margin-top:18px;font-size:12px;line-height:1.8}
+.siteFooter .footerSingle .footerBrandCredentials strong{color:#fff}
+.siteFooter .footerSingle .footerNav h3,.siteFooter .footerSingle .footerContact h3{color:#fff}
+.siteFooter .footerSingle .footerNav a,.siteFooter .footerSingle .footerContact a{color:#d3e0ee}
+.siteFooter .footerSingle .footerNav a:hover,.siteFooter .footerSingle .footerContact a:hover{color:#fff}
+.siteFooter .footerSingleBottom{max-width:1192px;margin:0 auto;padding:19px 0 25px;border-top:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.siteFooter .footerSingleBottom .footerPayment{display:flex;align-items:center;min-width:0}
+.siteFooter .footerSingleBottom .footerPayment img{display:block;max-width:245px;width:auto;height:auto;max-height:35px;object-fit:contain}
+.siteFooter .footerSingleBottom .footerCopyright{font-size:12px;line-height:1.6;color:#c2d1e1;text-align:right}
+@media(max-width:1240px){.siteFooter .footerSingleBottom{margin:0 24px}}
+@media(max-width:650px){.siteFooter .footerSingle .footerUpperInner{padding-top:38px;padding-bottom:25px}.siteFooter .footerSingleBottom{margin:0 18px;padding:20px 0 25px;flex-direction:column;align-items:center;gap:12px}.siteFooter .footerSingleBottom .footerCopyright{text-align:center}.siteFooter .footerSingleBottom .footerPayment img{max-width:min(245px,80vw)}}

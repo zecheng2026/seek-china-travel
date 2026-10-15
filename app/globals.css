@@ -1136,3 +1136,12 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerSingleBottom{display:flex;justify-content:center;align-items:center;padding:18px 0 22px}
 .siteFooter .footerSingleBottom .footerCopyright{text-align:center;font-size:12px;color:#c2d1e1}
 @media(max-width:650px){.siteFooter .footerSingle .footerUpperInner{display:grid;grid-template-columns:1fr;gap:26px;padding:32px 0 25px}.siteFooter .footerSingle .footerBrand .brandCustom img{width:190px;max-height:70px}.siteFooter .footerSingle .footerBrand p{margin:13px 0 12px}.siteFooter .footerRight h3{font-size:17px}.siteFooter .footerRightContacts{margin-bottom:16px}.siteFooter .footerSingleBottom{padding:15px 0 20px}}
+
+/* Footer revision: copyright belongs to the left brand column; no separate copyright band. */
+.siteFooter .footerSingle .footerUpperInner{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:86px;padding-top:42px;padding-bottom:40px}
+.siteFooter .footerBrandCopyright{font-size:11px;line-height:1.65;color:#aebfd3;margin-top:20px}
+.siteFooter .footerRight{padding-top:8px}
+.siteFooter .footerRight h3{font-size:21px;letter-spacing:.01em;margin-bottom:12px}
+.siteFooter .footerRight>p{max-width:390px;margin-bottom:30px;font-size:13px;line-height:1.85}
+.siteFooter .footerRightPayment{gap:11px}
+@media(max-width:650px){.siteFooter .footerSingle .footerUpperInner{gap:26px;padding-top:30px;padding-bottom:30px}.siteFooter .footerBrandCopyright{margin-top:15px}.siteFooter .footerRight{padding-top:0}.siteFooter .footerRight h3{font-size:19px}.siteFooter .footerRight>p{margin-bottom:20px}}

@@ -1054,3 +1054,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 /* Footer brand mark: 20% larger on desktop and mobile */
 .footerUpper .footerBrand .brand img{max-height:114px}
 @media(max-width:650px){.footerUpper .footerBrand .brand img{max-height:102px}}
+
+/* Footer logo final width adjustment: override shared brand image cap only here. */
+.footerUpper .footerBrand .brandCustom img{width:250px;max-width:100%;height:auto;max-height:none;object-fit:contain;object-position:left center}
+@media(max-width:650px){.footerUpper .footerBrand .brandCustom img{width:220px;max-width:100%;max-height:none}}

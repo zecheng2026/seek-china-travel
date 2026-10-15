@@ -1196,3 +1196,6 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerSingle .footerBrandCredentials{font-size:13px}
 .siteFooter .footerBrandCopyright{font-size:12px}
 }
+
+/* Preserve line breaks entered in the admin Footer company description. */
+.siteFooter .footerSingle .footerBrand p{white-space:pre-line}

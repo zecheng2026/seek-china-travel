@@ -1064,3 +1064,13 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .footerSocialIcon{width:37px;height:37px;border-radius:50%;background:#e8edf3;color:#183859;display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:default}
 .footerSocialIcon svg{width:20px;height:20px;display:block}
 @media(max-width:650px){.footerSocialIcons{gap:13px;margin-top:18px}.footerSocialIcon{width:35px;height:35px}.footerSocialIcon svg{width:19px;height:19px}}
+
+/* Footer: credentials below logo and one compact bottom strip. */
+.footerBrandCredentials{display:grid;gap:7px;margin-top:18px;font-size:12px;line-height:1.65;color:#425875;overflow-wrap:anywhere}
+.footerBrandCredentials strong{font-weight:650;color:#17385d}
+.footerTrustCompact{padding:0;background:#f9fbfd;color:#64748b;border-top:1px solid #e4eaf0}
+.footerTrustCompact .footerTrustInner{max-width:1240px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:0}
+.footerTrustCompact .footerPayment{display:flex;align-items:center;min-width:0}
+.footerTrustCompact .footerPayment img{display:block;max-width:245px;width:auto;height:auto;max-height:34px;object-fit:contain}
+.footerTrustCompact .footerCopyright{font-size:12px;line-height:1.6;text-align:right;color:#64748b;white-space:normal}
+@media(max-width:650px){.footerBrandCredentials{font-size:11px;margin-top:15px}.footerTrustCompact .footerTrustInner{padding:20px 18px;flex-direction:column;gap:12px;align-items:center}.footerTrustCompact .footerCopyright{text-align:center}.footerTrustCompact .footerPayment img{max-width:min(245px,80vw)}}

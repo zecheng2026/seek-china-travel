@@ -1050,3 +1050,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .footerPayment small{font-size:12px;line-height:1.6}
 .footerCopyright{font-size:14px}
 @media(max-width:650px){.footerUpperInner{padding-top:42px;padding-bottom:45px}.footerTrustInner{padding-top:32px;padding-bottom:34px}.footerUpper .footerBrand .brand img{max-height:85px}.footerCredentials p{font-size:12px}}
+
+/* Footer brand mark: 20% larger on desktop and mobile */
+.footerUpper .footerBrand .brand img{max-height:114px}
+@media(max-width:650px){.footerUpper .footerBrand .brand img{max-height:102px}}

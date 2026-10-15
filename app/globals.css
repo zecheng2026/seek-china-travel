@@ -1006,3 +1006,61 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .v1SectionHead{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
   .v1SectionHead>a{margin-top:0}
 }
+
+
+/* SCT footer refresh: light navigation / navy credentials */
+.siteFooter{background:#102d50;color:#fff}
+.footerUpper{background:#f9fbfd;color:#102d50;border-top:1px solid #e4eaf0}
+.footerUpperInner{max-width:1240px;margin:auto;padding:65px 24px 60px;display:grid;grid-template-columns:minmax(250px,1.55fr) minmax(115px,.7fr) minmax(145px,.85fr) minmax(210px,1.15fr);gap:38px}
+.footerUpperInner>div,.footerUpperInner>nav{min-width:0}
+.footerUpper .footerBrand .brand{max-width:100%}
+.footerUpper .footerBrand .brand img{max-width:100%;height:auto;max-height:75px;object-fit:contain;object-position:left}
+.footerUpper .footerBrand p{font-size:14px;line-height:1.8;color:#64748b;margin:25px 0 22px;max-width:340px}
+.footerNav,.footerContact{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-left:24px;border-left:1px solid #e2e8f0}
+.footerNav h3,.footerContact h3{font:800 17px/1.35 "Manrope",sans-serif;color:#102d50;margin:0 0 12px}
+.footerNav a,.footerContact a{color:#596d84;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.footerNav a:hover,.footerContact a:hover{color:#d71935}
+.footerContact a span{display:inline-block;min-width:22px;color:#102d50}
+.footerSocial{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.footerSocial a{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e8eef4;color:#102d50;font-size:20px;font-weight:800;transition:background .2s,color .2s}
+.footerSocial a:hover{background:#102d50;color:white}
+.footerTrust{background:#102d50;color:#f5f8fb}
+.footerTrustInner{max-width:1240px;margin:auto;padding:35px 24px 38px;display:grid;grid-template-columns:1.25fr 1.6fr .8fr;align-items:center;gap:32px}
+.footerTrustInner>div+div{border-left:1px solid #ffffff26;padding-left:32px;min-width:0}
+.footerTrust h3{font:700 14px/1.4 "Manrope",sans-serif;margin:0 0 12px;color:#fff}
+.footerCredentials p{font-size:12px;line-height:1.7;color:#d5e0ed;margin:4px 0;overflow-wrap:anywhere}
+.footerCredentials p[lang]{font-size:15px;font-weight:700;color:white;margin-bottom:10px}
+.footerCredentials strong{font-weight:600;color:white}
+.footerPayment img{display:block;width:100%;max-width:480px;height:auto;border-radius:5px;background:#fff;padding:9px 10px}
+.footerPayment small{display:block;color:#b8c8d8;font-size:11px;line-height:1.5;margin-top:10px}
+.footerCopyright{font-size:13px;line-height:1.8;color:#d5e0ed}
+@media(max-width:1000px){.footerUpperInner{grid-template-columns:1.5fr 1fr 1fr;gap:30px}.footerContact{grid-column:2/4}.footerTrustInner{grid-template-columns:1fr 1fr}.footerCopyright{grid-column:1/-1}.footerTrustInner>.footerCopyright{border-left:0;padding-left:0;border-top:1px solid #ffffff20;padding-top:15px}}
+@media(max-width:650px){.footerUpperInner{padding:42px 20px;grid-template-columns:1fr 1fr;gap:30px 20px}.footerUpper .footerBrand{grid-column:1/-1}.footerNav,.footerContact{padding-left:0;border-left:0}.footerContact{grid-column:1/-1;border-top:1px solid #e2e8f0;padding-top:22px}.footerTrustInner{padding:28px 20px;grid-template-columns:1fr;gap:25px}.footerTrustInner>div+div{border-left:0;padding-left:0;border-top:1px solid #ffffff26;padding-top:23px}.footerCopyright{grid-column:auto}.footerCredentials p{font-size:12px}.footerPayment img{max-width:100%}}
+
+/* Footer refinement: legibility and brand emphasis */
+.footerUpperInner{padding-top:72px;padding-bottom:70px}
+.footerUpper .footerBrand .brand img{max-height:95px}
+.footerUpper .footerBrand p{font-size:15px;line-height:1.85;max-width:370px}
+.footerNav a,.footerContact a{font-size:15px;line-height:1.65}
+.footerTrustInner{padding-top:47px;padding-bottom:48px;gap:36px}
+.footerCredentials p{font-size:13px;line-height:1.85}
+.footerCredentials p:not([lang]):first-of-type{font-size:15px}
+.footerCredentials p[lang]{font-size:16px;line-height:1.5}
+.footerPayment img{max-width:520px;padding:12px}
+.footerPayment small{font-size:12px;line-height:1.6}
+.footerCopyright{font-size:14px}
+@media(max-width:650px){.footerUpperInner{padding-top:42px;padding-bottom:45px}.footerTrustInner{padding-top:32px;padding-bottom:34px}.footerUpper .footerBrand .brand img{max-height:85px}.footerCredentials p{font-size:12px}}
+
+/* Footer brand mark: 20% larger on desktop and mobile */
+.footerUpper .footerBrand .brand img{max-height:114px}
+@media(max-width:650px){.footerUpper .footerBrand .brand img{max-height:102px}}
+
+/* Footer logo final width adjustment: override shared brand image cap only here. */
+.footerUpper .footerBrand .brandCustom img{width:250px;max-width:100%;height:auto;max-height:none;object-fit:contain;object-position:left center}
+@media(max-width:650px){.footerUpper .footerBrand .brandCustom img{width:220px;max-width:100%;max-height:none}}
+
+/* Decorative footer social icons: no links or click handlers. */
+.footerSocialIcons{display:flex;align-items:center;gap:15px;margin-top:22px}
+.footerSocialIcon{width:37px;height:37px;border-radius:50%;background:#e8edf3;color:#183859;display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:default}
+.footerSocialIcon svg{width:20px;height:20px;display:block}
+@media(max-width:650px){.footerSocialIcons{gap:13px;margin-top:18px}.footerSocialIcon{width:35px;height:35px}.footerSocialIcon svg{width:19px;height:19px}}

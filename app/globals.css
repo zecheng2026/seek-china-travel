@@ -1164,3 +1164,14 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerRightPayment{margin-top:25px;padding-top:0}
 @media(min-width:651px){.siteFooter .footerSingle .footerBrand,.siteFooter .footerSingle .footerRight{min-height:0}.siteFooter .footerSingle .footerBrandCredentials{margin-top:20px;padding-top:0}.siteFooter .footerRightPayment{margin-top:24px;padding-top:0}}
 @media(max-width:650px){.siteFooter .footerRightColumns{grid-template-columns:1fr 1fr;gap:16px}.siteFooter .footerRightColumns h3{font-size:14px}.siteFooter .footerRightPayment{margin-top:24px}.siteFooter .footerBrandCopyright{margin-top:15px}}
+
+/* PR #192: three final footer refinements only. */
+@media(min-width:651px){
+.siteFooter .footerRightColumns{column-gap:44px}
+.siteFooter .footerSingle .footerUpperInner{padding-top:34px;padding-bottom:28px}
+}
+.siteFooter .footerRightPayment img{width:270px;max-width:100%;height:auto;max-height:none;aspect-ratio:760/92;object-fit:contain;padding:0}
+@media(max-width:650px){
+.siteFooter .footerSingle .footerUpperInner{padding-top:24px;padding-bottom:22px}
+.siteFooter .footerRightPayment img{width:270px;max-width:100%}
+}

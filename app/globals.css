@@ -1102,3 +1102,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerSingleBottom .footerPayment img{max-height:27px;max-width:210px}
 @media(max-width:1240px){.siteFooter .footerSingle .footerUpperInner{margin:0 24px}}
 @media(max-width:650px){.siteFooter .footerSingle .footerUpperInner{margin:0 18px;padding:22px 0 15px}.siteFooter .footerSingle .footerBrand{display:block}.siteFooter .footerSingle .footerBrand .brandCustom img{width:165px;max-height:60px}.siteFooter .footerSingle .footerBrand p{margin:9px 0 8px;font-size:12px}.siteFooter .footerSingle .footerBrandCredentials{margin-top:8px;font-size:11px}.siteFooter .footerSingleBottom{padding-top:13px;padding-bottom:17px;gap:8px}}
+
+/* Payment asset has a 760:92 SVG viewBox: keep its natural aspect ratio and prevent global padding from collapsing logos. */
+.siteFooter .footerSingleBottom .footerPayment img{width:210px;height:auto;max-width:210px;max-height:none;aspect-ratio:760/92;object-fit:contain;padding:0;border-radius:4px;background:#fff;box-sizing:border-box}
+@media(max-width:650px){.siteFooter .footerSingleBottom .footerPayment img{width:210px;max-width:min(210px,80vw);max-height:none}}

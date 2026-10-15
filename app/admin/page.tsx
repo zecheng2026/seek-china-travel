@@ -80,7 +80,7 @@ export default function AdminPage() {
   const loadTable = useCallback(async (table: TableName) => {
     setLoading(true);
     setMessage("");
-    const { data, error } = await supabase.from(table).select("*").limit(50);
+    const { data, error } = table==="travel_guides" ? await supabase.from(table).select("*").order("created_at",{ascending:false}).limit(500) : await supabase.from(table).select("*").limit(50);
     const loadedRows=(data as RecordRow[] | null) ?? [];
     const orderedRows=[...loadedRows].sort((a,b)=>{
       if(table==="travel_guides"){

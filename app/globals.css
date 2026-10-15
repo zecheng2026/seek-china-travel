@@ -1175,3 +1175,24 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerSingle .footerUpperInner{padding-top:24px;padding-bottom:22px}
 .siteFooter .footerRightPayment img{width:270px;max-width:100%}
 }
+
+/* PR #192: readable footer typography and single-column mobile navigation. */
+.siteFooter .footerSingle .footerBrand p{font-size:14px;line-height:1.8}
+.siteFooter .footerSingle .footerBrandCredentials{font-size:13px;line-height:1.85}
+.siteFooter .footerBrandCopyright{font-size:12px;line-height:1.7}
+.siteFooter .footerRightColumns h3{font-size:16px;line-height:1.45}
+.siteFooter .footerRightColumns a{font-size:14px;line-height:1.55}
+.siteFooter .footerRightPayment span{font-size:14px}
+@media(max-width:650px){
+.siteFooter .footerSingle .footerUpperInner{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;padding-top:28px;padding-bottom:30px}
+.siteFooter .footerSingle .footerBrand,.siteFooter .footerSingle .footerRight{width:100%;min-width:0}
+.siteFooter .footerRightColumns{display:grid;grid-template-columns:minmax(0,1fr);gap:25px}
+.siteFooter .footerQuickLinks,.siteFooter .footerContactLinks{gap:12px;width:100%}
+.siteFooter .footerRightColumns h3{font-size:16px;margin-bottom:3px}
+.siteFooter .footerRightColumns a{font-size:14px;line-height:1.6;min-height:24px}
+.siteFooter .footerRightPayment{margin-top:28px;gap:12px}
+.siteFooter .footerRightPayment img{width:270px;max-width:100%}
+.siteFooter .footerSingle .footerBrand p{font-size:14px}
+.siteFooter .footerSingle .footerBrandCredentials{font-size:13px}
+.siteFooter .footerBrandCopyright{font-size:12px}
+}

@@ -1145,3 +1145,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .siteFooter .footerRight>p{max-width:390px;margin-bottom:30px;font-size:13px;line-height:1.85}
 .siteFooter .footerRightPayment{gap:11px}
 @media(max-width:650px){.siteFooter .footerSingle .footerUpperInner{gap:26px;padding-top:30px;padding-bottom:30px}.siteFooter .footerBrandCopyright{margin-top:15px}.siteFooter .footerRight{padding-top:0}.siteFooter .footerRight h3{font-size:19px}.siteFooter .footerRight>p{margin-bottom:20px}}
+
+/* Keep copyright inside the right column beneath payment logos. */
+.siteFooter .footerRightCopyright{font-size:11px;line-height:1.7;color:#aebfd3;margin-top:23px}
+@media(max-width:650px){.siteFooter .footerRightCopyright{margin-top:18px}}

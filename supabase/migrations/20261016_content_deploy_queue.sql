@@ -7,6 +7,9 @@ create table if not exists private.content_deploy_state (
   updated_at timestamptz not null default now(),
   last_success_at timestamptz
 );
+ALTER TABLE private.content_deploy_state
+ENABLE ROW LEVEL SECURITY;
+
 insert into private.content_deploy_state(id) values(1) on conflict do nothing;
 revoke all on private.content_deploy_state from anon, authenticated, public;
 

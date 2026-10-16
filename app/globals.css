@@ -1254,3 +1254,12 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .bookingPolicyLegal{font-size:12px;color:#607188;line-height:1.75;margin:16px 0 0}
 @media(max-width:760px){.bookingPolicyPage{padding:40px 20px 64px}.bookingPolicySteps{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.bookingPolicyRefundGrid{grid-template-columns:1fr}.bookingPolicySection>h2{font-size:22px}}
 @media(max-width:420px){.bookingPolicySteps{grid-template-columns:1fr}.bookingPolicyStep p{font-size:13px}.bookingPolicyPayment{padding:16px 18px}}
+
+
+.bookingPolicyContact{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:26px;padding:17px 20px;border:1px solid #e2edf7;border-radius:10px;background:#f8fbfe}
+.bookingPolicyContact strong{display:block;color:#12385e;font-size:14px}
+.bookingPolicyContact p{font-size:13px;line-height:1.5;color:#607188;margin:4px 0 0}
+.bookingPolicyContact a{font-size:13px;line-height:1.5;font-weight:700;color:#d72232;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.bookingPolicyContact a:hover{color:#a91b29}
+.bookingPolicyContact a:focus-visible{outline:2px solid #d72232;outline-offset:4px;border-radius:2px}
+@media(max-width:650px){.bookingPolicyContact{align-items:flex-start;flex-direction:column;gap:12px}.bookingPolicyContact a{white-space:normal}}

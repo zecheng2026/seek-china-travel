@@ -1199,3 +1199,14 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 
 /* Preserve line breaks entered in the admin Footer company description. */
 .siteFooter .footerSingle .footerBrand p{white-space:pre-line}
+
+/* Tour detail: compact payment reassurance below the inquiry button. */
+.journeyPlanCard .journeyPaymentTrust{display:flex;align-items:flex-start;gap:13px;margin:16px 0 20px;padding:17px 15px;border:1px solid #d3f0e2;border-radius:13px;background:#effaf5;box-sizing:border-box}
+.journeyPlanCard .journeyPaymentShield{flex:0 0 30px;width:30px;height:30px;color:#087052;margin-top:2px}
+.journeyPlanCard .journeyPaymentTrustText{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0}
+.journeyPlanCard .journeyPaymentTrustText strong{font-size:15px;line-height:1.45;color:#075f47;font-weight:750}
+.journeyPlanCard .journeyPaymentTrustText span{font-size:13px;line-height:1.5;color:#53657a}
+.journeyPlanCard .journeyPaymentTrustText a{display:inline-block;margin-top:5px;font-size:13px;line-height:1.5;color:#d72232;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+.journeyPlanCard .journeyPaymentTrustText a:hover{color:#ab1425}
+.journeyPlanCard .journeyPaymentTrustText a:focus-visible{outline:2px solid #d72232;outline-offset:3px;border-radius:2px}
+@media(max-width:650px){.journeyPlanCard .journeyPaymentTrust{padding:14px 12px;gap:11px}.journeyPlanCard .journeyPaymentTrustText strong{font-size:14px}.journeyPlanCard .journeyPaymentTrustText span,.journeyPlanCard .journeyPaymentTrustText a{font-size:12px}}

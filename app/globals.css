@@ -1210,3 +1210,15 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .journeyPlanCard .journeyPaymentTrustText a:hover{color:#ab1425}
 .journeyPlanCard .journeyPaymentTrustText a:focus-visible{outline:2px solid #d72232;outline-offset:3px;border-radius:2px}
 @media(max-width:650px){.journeyPlanCard .journeyPaymentTrust{padding:14px 12px;gap:11px}.journeyPlanCard .journeyPaymentTrustText strong{font-size:14px}.journeyPlanCard .journeyPaymentTrustText span,.journeyPlanCard .journeyPaymentTrustText a{font-size:12px}}
+
+/* Keep tour payment copy aligned in the narrow inquiry sidebar. */
+.journeyPlanCard .journeyPaymentTrust{display:grid;grid-template-columns:26px minmax(0,1fr);column-gap:10px;row-gap:12px;align-items:start;padding:14px 12px}
+.journeyPlanCard .journeyPaymentShield{grid-column:1;grid-row:1;width:26px;height:26px;flex:none}
+.journeyPlanCard .journeyPaymentTrustText{grid-column:2;grid-row:1;gap:5px}
+.journeyPlanCard .journeyPaymentTrustText strong{font-size:13px;line-height:1.4}
+.journeyPlanCard .journeyPaymentTrustText span{font-size:12px;line-height:1.45}
+.journeyPlanCard .journeyPaymentPolicyLink{grid-column:1/-1;display:flex;justify-content:center;align-items:center;gap:4px;white-space:nowrap;font-size:12px;line-height:1.5;font-weight:600;color:#d72232;text-decoration:underline;text-underline-offset:3px}
+.journeyPlanCard .journeyPaymentPolicyLink span{flex:none}
+.journeyPlanCard .journeyPaymentPolicyLink:hover{color:#ab1425}
+.journeyPlanCard .journeyPaymentPolicyLink:focus-visible{outline:2px solid #d72232;outline-offset:3px}
+@media(max-width:370px){.journeyPlanCard .journeyPaymentPolicyLink{font-size:11px}}

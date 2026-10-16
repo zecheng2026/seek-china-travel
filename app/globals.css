@@ -1210,3 +1210,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .journeyPlanCard .journeyPaymentTrustText a:hover{color:#ab1425}
 .journeyPlanCard .journeyPaymentTrustText a:focus-visible{outline:2px solid #d72232;outline-offset:3px;border-radius:2px}
 @media(max-width:650px){.journeyPlanCard .journeyPaymentTrust{padding:14px 12px;gap:11px}.journeyPlanCard .journeyPaymentTrustText strong{font-size:14px}.journeyPlanCard .journeyPaymentTrustText span,.journeyPlanCard .journeyPaymentTrustText a{font-size:12px}}
+
+/* Keep the two legal credential entries on separate lines on every viewport. */
+.siteFooter .footerSingle .footerBrandCredentials{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;width:100%}
+.siteFooter .footerSingle .footerBrandCredentials>div{display:block;width:100%;white-space:normal;overflow-wrap:anywhere}

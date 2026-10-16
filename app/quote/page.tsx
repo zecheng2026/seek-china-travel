@@ -41,5 +41,6 @@ export default function Quote(){
  <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>
  {result==="error"&&<p className="quoteError full" role="alert">Your request could not be sent. Please try again later.</p>}
  <button type="submit" className="btn full quoteSubmit" disabled={sending}>{sending?"Sending your inquiry…":"Request My Trip Plan →"}</button>
+ <div className="quotePolicyNotice full"><span className="quotePolicyNoticeIntro">Clear booking terms and transparent refund policies.</span><a href="/payment-refund-policy">View Booking, Payment &amp; Refund Policy <span aria-hidden="true">→</span></a></div>
  </form>}</section></main>;
 }

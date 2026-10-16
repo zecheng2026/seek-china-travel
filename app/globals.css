@@ -1222,3 +1222,51 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .journeyPlanCard .journeyPaymentPolicyLink:hover{color:#ab1425}
 .journeyPlanCard .journeyPaymentPolicyLink:focus-visible{outline:2px solid #d72232;outline-offset:3px}
 @media(max-width:370px){.journeyPlanCard .journeyPaymentPolicyLink{font-size:11px}}
+
+
+/* Booking policy: minimal, accessible layout consistent with SCT. */
+.bookingPolicyPage{max-width:980px;margin:0 auto;padding:64px 24px 88px;color:#223247}
+.bookingPolicyHeader{margin-bottom:42px}
+.bookingPolicyEyebrow{font-size:11px;font-weight:750;letter-spacing:.18em;color:#d72232;margin:0 0 12px}
+.bookingPolicyHeader h1{font-size:clamp(29px,4vw,42px);line-height:1.18;color:#12385e;margin:0 0 14px}
+.bookingPolicyHeader>p:last-child{max-width:720px;color:#607188;font-size:15px;line-height:1.75}
+.bookingPolicySection{margin-top:36px}
+.bookingPolicySection>h2{font-size:24px;line-height:1.35;color:#12385e;margin:0 0 20px;display:flex;align-items:center;gap:10px}
+.bookingPolicySection>h2 svg{color:#d72232;flex:none}
+.bookingPolicySteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.bookingPolicyStep{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.bookingPolicyIcon{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:50%;background:#edf4fb;color:#1465a5}
+.bookingPolicyStep:nth-child(2) .bookingPolicyIcon{background:#fff0f0;color:#c92938}
+.bookingPolicyStep:nth-child(3) .bookingPolicyIcon{background:#eaf8f1;color:#16815a}
+.bookingPolicyStep:nth-child(4) .bookingPolicyIcon{background:#fff5e7;color:#b97820}
+.bookingPolicyNumber{font-size:12px;font-weight:750;color:#4a7da8}
+.bookingPolicyStep h3{font-size:14px;line-height:1.4;margin:3px 0 7px;color:#12385e}
+.bookingPolicyStep p{font-size:12px;line-height:1.6;color:#607188;margin:0}
+.bookingPolicyPayment{background:#f2f7fc;border:1px solid #e2edf7;border-radius:12px;padding:20px 26px}
+.bookingPolicyPayment ul{margin:0;padding-left:20px;line-height:1.85;font-size:14px}
+.bookingPolicyPayment li+li{margin-top:6px}
+.bookingPolicyRefundGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bookingPolicyRefundGrid>div{border:1px solid #e4eaf0;border-radius:11px;padding:18px;background:#fff}
+.bookingPolicyRefundGrid h3{font-size:14px;line-height:1.45;color:#12385e;margin:0 0 9px}
+.bookingPolicyRefundGrid p{font-size:13px;line-height:1.65;color:#607188;margin:0}
+.bookingPolicyProcessing{display:flex;gap:12px;align-items:flex-start;background:#f2f7fc;border-radius:10px;padding:15px 18px;font-size:13px;line-height:1.65;margin:14px 0 0}
+.bookingPolicyProcessing svg{color:#1465a5;flex:none}
+.bookingPolicyLegal{font-size:12px;color:#607188;line-height:1.75;margin:16px 0 0}
+@media(max-width:760px){.bookingPolicyPage{padding:40px 20px 64px}.bookingPolicySteps{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.bookingPolicyRefundGrid{grid-template-columns:1fr}.bookingPolicySection>h2{font-size:22px}}
+@media(max-width:420px){.bookingPolicySteps{grid-template-columns:1fr}.bookingPolicyStep p{font-size:13px}.bookingPolicyPayment{padding:16px 18px}}
+
+
+.bookingPolicyContact{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:26px;padding:17px 20px;border:1px solid #e2edf7;border-radius:10px;background:#f8fbfe}
+.bookingPolicyContact strong{display:block;color:#12385e;font-size:14px}
+.bookingPolicyContact p{font-size:13px;line-height:1.5;color:#607188;margin:4px 0 0}
+.bookingPolicyContact a{font-size:13px;line-height:1.5;font-weight:700;color:#d72232;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.bookingPolicyContact a:hover{color:#a91b29}
+.bookingPolicyContact a:focus-visible{outline:2px solid #d72232;outline-offset:4px;border-radius:2px}
+@media(max-width:650px){.bookingPolicyContact{align-items:flex-start;flex-direction:column;gap:12px}.bookingPolicyContact a{white-space:normal}}
+
+
+/* Quote form: unobtrusive booking policy link below the submit button. */
+.quoteForm .quotePolicyNotice{display:flex;flex-direction:column;align-items:center;gap:5px;margin:2px 0 0;text-align:center;font-size:12px;line-height:1.6;color:#607188}
+.quoteForm .quotePolicyNotice a{color:#d72232;font-weight:650;text-decoration:underline;text-underline-offset:3px}
+.quoteForm .quotePolicyNotice a:hover{color:#ab1425}
+.quoteForm .quotePolicyNotice a:focus-visible{outline:2px solid #d72232;outline-offset:3px;border-radius:2px}

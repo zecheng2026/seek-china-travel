@@ -1210,3 +1210,15 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .journeyPlanCard .journeyPaymentTrustText a:hover{color:#ab1425}
 .journeyPlanCard .journeyPaymentTrustText a:focus-visible{outline:2px solid #d72232;outline-offset:3px;border-radius:2px}
 @media(max-width:650px){.journeyPlanCard .journeyPaymentTrust{padding:14px 12px;gap:11px}.journeyPlanCard .journeyPaymentTrustText strong{font-size:14px}.journeyPlanCard .journeyPaymentTrustText span,.journeyPlanCard .journeyPaymentTrustText a{font-size:12px}}
+
+/* Payment reassurance refinement: readable two-row composition at narrow sidebar widths. */
+.journeyPlanCard .journeyPaymentTrust{display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:12px;row-gap:12px;align-items:start}
+.journeyPlanCard .journeyPaymentShield{grid-column:1;grid-row:1}
+.journeyPlanCard .journeyPaymentTrustText{grid-column:2;grid-row:1;gap:5px}
+.journeyPlanCard .journeyPaymentTrustText strong{font-size:14px;line-height:1.4}
+.journeyPlanCard .journeyPaymentTrustText span{font-size:12px;line-height:1.5}
+.journeyPlanCard .journeyPaymentPolicyLink{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;color:#d72232;font-size:12px;line-height:1.45;font-weight:650;text-decoration:underline;text-underline-offset:3px}
+.journeyPlanCard .journeyPaymentPolicyLink span{display:inline-block;flex-shrink:0;text-decoration:none}
+.journeyPlanCard .journeyPaymentPolicyLink:hover{color:#ab1425}
+.journeyPlanCard .journeyPaymentPolicyLink:focus-visible{outline:2px solid #d72232;outline-offset:3px}
+@media(max-width:380px){.journeyPlanCard .journeyPaymentTrust{column-gap:9px;padding:13px 10px}.journeyPlanCard .journeyPaymentPolicyLink{font-size:11px}}

@@ -45,6 +45,7 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  const [editDestination,setEditDestination]=useState("");
  const [editPurpose,setEditPurpose]=useState("");
  const [savingTag,setSavingTag]=useState(false);
+ const [deletingPath,setDeletingPath]=useState<string|null>(null);
  const [tagReady,setTagReady]=useState(false);
  const [query,setQuery]=useState("");
  const [destination,setDestination]=useState("全部目的地");
@@ -100,6 +101,26 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
   else {setTags(prev=>({...prev,[editingPath]:value}));setEditingPath(null);}
   setSavingTag(false);
  }
+ async function deleteImage(item:MediaItem){
+  if(deletingPath)return;
+  const confirmed=window.confirm("确定永久删除这张图片吗？\\n\\n"+item.path+"\\n\\n如果官网页面或其他栏目正在使用它，删除后图片会失效。请先确认不再使用。此操作无法撤销。");
+  if(!confirmed)return;
+  setDeletingPath(item.path);setError("");setNotice("");
+  try{
+   const {data:userData,error:userError}=await supabase.auth.getUser();
+   if(userError||!userData.user)throw new Error("登录状态已失效，请重新登录。");
+   const {error:removeError}=await supabase.storage.from(BUCKET).remove([item.path]);
+   if(removeError)throw removeError;
+   // Remove classification metadata only after the original file is deleted.
+   const {error:tagError}=await supabase.from("media_library_tags").delete().eq("bucket",BUCKET).eq("object_path",item.path);
+   setItems(prev=>prev.filter(x=>x.path!==item.path));
+   setTags(prev=>{const next={...prev};delete next[item.path];return next;});
+   setEditingPath(prev=>prev===item.path?null:prev);
+   setPage(0);
+   setNotice(tagError?"图片已删除，但分类记录清理失败："+tagError.message:"图片已从 Storage 永久删除。");
+  }catch(e){setError("删除失败："+(e instanceof Error?e.message:String(e))+"。请检查管理员 Storage 删除权限。");}
+  finally{setDeletingPath(null);}
+ }
  function openTag(item:MediaItem){
   setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose||inferPurpose(item.path));
  }
@@ -138,7 +159,7 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
       <img src={item.url} alt={item.name} loading="lazy" style={{width:"100%",height:100,objectFit:"cover",borderRadius:5}}/>
       <span style={{display:"block",fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.name}</span>
      </button><span style={{display:"block",fontSize:11,color:"#64748b",marginTop:4}}>{getDestination(item)} · {getPurpose(item)}</span>
-     <button type="button" disabled={!tagReady} onClick={()=>openTag(item)} style={{display:"inline-block",width:"auto",padding:"3px 9px",marginTop:5,border:"1px solid #b6c5d6",borderRadius:5,background:"#f1f5f9",fontSize:12}}>分类</button></div>)}
+     <div style={{display:"flex",gap:6,marginTop:5,flexWrap:"wrap"}}><button type="button" disabled={!tagReady||!!deletingPath} onClick={()=>openTag(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #b6c5d6",borderRadius:5,background:"#f1f5f9",fontSize:12}}>分类</button><button type="button" disabled={!!deletingPath} onClick={()=>void deleteImage(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #dc2626",borderRadius:5,background:"#fff1f2",color:"#b91c1c",fontSize:12}}>{deletingPath===item.path?"删除中…":"删除"}</button></div></div>)}
     </div>
     {editingPath&&<div role="group" aria-label="编辑图片分类" style={{position:"sticky",bottom:0,marginTop:12,padding:14,background:"#f1f5f9",border:"1px solid #94a3b8",borderRadius:8,boxShadow:"0 0 10px #cbd5e1"}}>
      <strong style={{display:"block",marginBottom:8}}>设置共享分类</strong>

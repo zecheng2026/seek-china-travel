@@ -1315,7 +1315,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){height:600px;min-height:600px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent{width:min(1320px,calc(100% - 76px));padding:82px 0 36px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyBack{margin-bottom:22px}
-  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:1100px;font-size:clamp(38px,4.2vw,60px);line-height:1.08;letter-spacing:-1.9px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:1200px;font-size:clamp(36px,3.35vw,50px);line-height:1.12;letter-spacing:-1.4px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent>p:not(.journeysKicker){margin:16px 0 22px;max-width:880px}
 }
 @media(min-width:681px) and (max-width:980px){
@@ -1330,3 +1330,68 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .adminCategoryFilters button.selected{background:#073d72;border-color:#073d72;color:#fff}
 .adminCategoryFilters button:focus-visible{outline:2px solid #d32630;outline-offset:2px}
 @media(max-width:680px){.adminCategoryFilters{gap:7px;margin:15px 0 20px}.adminCategoryFilters button{padding:9px 13px;font-size:11px}}
+
+/* Wider desktop itinerary cards, without changing the sticky booking sidebar. */
+@media(min-width:981px){
+  .journeyDetailLayout{max-width:1440px;grid-template-columns:minmax(0,1fr) 330px;gap:44px;padding-left:38px;padding-right:38px}
+  .journeyDetailLayout .journeyDay{grid-template-columns:64px minmax(0,1fr);gap:18px}
+  .journeyDetailLayout .journeyDay:before{left:29px}
+  .journeyDetailLayout .journeyDayContent{min-width:0;width:100%}
+  .journeyDetailLayout .journeyDayContent>img{height:350px;object-fit:cover}
+  .journeyDetailLayout .journeyDayContent>div{padding:34px}
+}
+
+/* Match the compact, single-line heading and balanced spacing of the approved booking card. */
+@media(min-width:981px){
+  .journeyDetailLayout .journeyPlanCard{padding:30px 28px}
+  .journeyDetailLayout .journeyPlanCard h3{font-size:23px;line-height:1.23;letter-spacing:-.65px;white-space:normal}
+  .journeyDetailLayout .journeyPlanCard>p:not(.journeysKicker){font-size:12px;line-height:1.65}
+  .journeyDetailLayout .journeyPaymentTrust{padding:17px 14px}
+  .journeyDetailLayout .journeyPaymentTrustText strong{font-size:12px;line-height:1.4}
+  .journeyDetailLayout .journeyPaymentTrustText span{font-size:11px;line-height:1.5}
+  .journeyDetailLayout .journeyPaymentPolicyLink{font-size:11px}
+}
+
+/* Tours and destinations catalog heroes: wider title measure, fewer wraps. */
+@media(min-width:981px){
+  .toursManagedHero .managedHeroContent,.destinationsManagedHero .managedHeroContent{width:min(1320px,calc(100% - 88px))}
+  .toursManagedHero.managedHero h1,.destinationsManagedHero.managedHero h1{max-width:1120px;font-size:clamp(42px,4.1vw,60px);line-height:1.1;letter-spacing:-1.8px;text-wrap:balance}
+  .toursManagedHero .managedHeroContent>p:not(.managedHeroEyebrow),.destinationsManagedHero .managedHeroContent>p:not(.managedHeroEyebrow){max-width:860px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .toursManagedHero.managedHero h1,.destinationsManagedHero.managedHero h1{max-width:100%;font-size:clamp(40px,5.4vw,54px);line-height:1.1;letter-spacing:-1.7px}
+}
+
+/* Consistent readable headings across the other primary catalog pages. */
+@media(min-width:981px){
+  .guideHero.managedHero .managedHeroContent,.aboutHero.managedHero .managedHeroContent,.contactHero.managedHero .managedHeroContent,.quoteHero.managedHero .managedHeroContent{width:min(1320px,calc(100% - 88px))}
+  .guideHero.managedHero h1,.aboutHero.managedHero h1,.contactHero.managedHero h1,.quoteHero.managedHero h1{max-width:1120px;font-size:clamp(42px,4.1vw,60px);line-height:1.1;letter-spacing:-1.8px;text-wrap:balance}
+  .guideHero.managedHero .managedHeroContent>p:not(.managedHeroEyebrow),.aboutHero.managedHero .managedHeroContent>p:not(.managedHeroEyebrow),.contactHero.managedHero .managedHeroContent>p:not(.managedHeroEyebrow),.quoteHero.managedHero .managedHeroContent>p:not(.managedHeroEyebrow){max-width:860px}
+  .managedHero:not(.homeManagedHero):not(.toursManagedHero):not(.destinationsManagedHero):not(.guideHero):not(.aboutHero):not(.contactHero):not(.quoteHero) .managedHeroContent{width:min(1320px,calc(100% - 88px))}
+  .managedHero:not(.homeManagedHero):not(.toursManagedHero):not(.destinationsManagedHero):not(.guideHero):not(.aboutHero):not(.contactHero):not(.quoteHero) h1{max-width:1120px;font-size:clamp(42px,4.1vw,60px);line-height:1.1;letter-spacing:-1.8px;text-wrap:balance}
+}
+@media(min-width:681px) and (max-width:980px){
+  .guideHero.managedHero h1,.aboutHero.managedHero h1,.contactHero.managedHero h1,.quoteHero.managedHero h1,.managedHero:not(.homeManagedHero):not(.toursManagedHero):not(.destinationsManagedHero) h1{max-width:100%;font-size:clamp(40px,5.4vw,54px);line-height:1.1;letter-spacing:-1.7px}
+}
+
+/* Standardize catalog-page hero subtitles to the About Us visual scale. */
+@media(min-width:981px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:19px;line-height:1.7;font-weight:400;max-width:860px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:18px;line-height:1.65;font-weight:400}
+}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:16px;line-height:1.6;font-weight:400}
+}
+
+/* Primary catalog hero eyebrow labels: match subtitle font scale while retaining red uppercase styling. */
+@media(min-width:981px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:19px;line-height:1.45;letter-spacing:1.5px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:18px;line-height:1.45;letter-spacing:1.3px}
+}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:16px;line-height:1.45;letter-spacing:1px}
+}

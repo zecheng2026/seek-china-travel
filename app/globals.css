@@ -1315,7 +1315,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){height:600px;min-height:600px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent{width:min(1320px,calc(100% - 76px));padding:82px 0 36px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyBack{margin-bottom:22px}
-  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:1100px;font-size:clamp(38px,4.2vw,60px);line-height:1.08;letter-spacing:-1.9px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:1200px;font-size:clamp(36px,3.35vw,50px);line-height:1.12;letter-spacing:-1.4px}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent>p:not(.journeysKicker){margin:16px 0 22px;max-width:880px}
 }
 @media(min-width:681px) and (max-width:980px){
@@ -1330,3 +1330,21 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .adminCategoryFilters button.selected{background:#073d72;border-color:#073d72;color:#fff}
 .adminCategoryFilters button:focus-visible{outline:2px solid #d32630;outline-offset:2px}
 @media(max-width:680px){.adminCategoryFilters{gap:7px;margin:15px 0 20px}.adminCategoryFilters button{padding:9px 13px;font-size:11px}}
+
+/* Wider desktop itinerary cards, without changing the sticky booking sidebar. */
+@media(min-width:981px){
+  .journeyDetailLayout{max-width:1440px;grid-template-columns:minmax(0,1fr) 330px;gap:44px;padding-left:38px;padding-right:38px}
+  .journeyDetailLayout .journeyDay{grid-template-columns:64px minmax(0,1fr);gap:18px}
+  .journeyDetailLayout .journeyDay:before{left:29px}
+  .journeyDetailLayout .journeyDayContent{min-width:0;width:100%}
+  .journeyDetailLayout .journeyDayContent>img{height:350px;object-fit:cover}
+  .journeyDetailLayout .journeyDayContent>div{padding:34px}
+}
+
+/* Tour consultation card typography: maintain sticky behavior and all links. */
+.journeyDetailLayout .journeyPlanCard>.journeysKicker{font-size:10px;letter-spacing:1.8px;margin-bottom:12px}
+.journeyDetailLayout .journeyPlanCard>h3{font-size:clamp(24px,2vw,29px);line-height:1.2;letter-spacing:-.8px;max-width:270px;margin-bottom:16px}
+.journeyDetailLayout .journeyPlanCard>p:not(.journeysKicker){font-size:13px;line-height:1.75;color:#607587;margin-bottom:20px}
+.journeyDetailLayout .journeyPaymentTrustText strong{font-size:13px;line-height:1.45}
+.journeyDetailLayout .journeyPaymentTrustText span{font-size:12px;line-height:1.6}
+.journeyDetailLayout .journeyPaymentPolicyLink{font-size:12px;line-height:1.55;text-underline-offset:3px}

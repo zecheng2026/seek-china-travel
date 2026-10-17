@@ -22,11 +22,17 @@ const PURPOSES:[string,string[]][]=[
  ["目的地图片",["destinations/","destination/","destination-"]],
  ["攻略与正文",["content/","travel-guide","guides/","guide-","article"]]
 ];
-function classify(path:string,groups:[string,string[]][],fallback:string){
- const p=path.toLowerCase();
- return groups.find(([,terms])=>terms.some(t=>p.includes(t.toLowerCase())))?.[0]??fallback;
+// Prefer the actual Storage folder used by the upload flow. Never guess from an image's appearance.
+function inferPurpose(path:string):string {
+ const p=path.toLowerCase().replace(/^\/+/, "");
+ const folder=p.split("/")[0];
+ if(folder==="about"||folder==="branding")return "团队与公司";
+ if(folder==="heroes"||folder==="hero"||folder==="home")return "首页与横幅";
+ if(folder==="tours"||folder==="tour")return "线路图片";
+ if(folder==="destinations"||folder==="destination")return "目的地图片";
+ if(folder==="travel-guides"||folder==="travel-guide"||folder==="content"||folder==="guides")return "攻略与正文";
+ return "未分类";
 }
-
 
 /** Reuse an existing Storage object URL without uploading a duplicate. */
 export default function MediaPicker({onSelect,label="从素材库选择"}:{onSelect:(url:string)=>void;label?:string}){
@@ -95,11 +101,11 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
   setSavingTag(false);
  }
  function openTag(item:MediaItem){
-  setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose??"");
+  setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose||inferPurpose(item.path));
  }
  function openPicker(){setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
  const getDestination=(x:MediaItem)=>tags[x.path]?.destination||"未分类";
- const getPurpose=(x:MediaItem)=>tags[x.path]?.purpose||"未分类";
+ const getPurpose=(x:MediaItem)=>tags[x.path]?.purpose||inferPurpose(x.path);
  const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||getDestination(x)===destination)&&(purpose==="全部用途"||getPurpose(x)===purpose));
  const shown=filtered.slice(page*36,(page+1)*36);
  return <>
@@ -122,7 +128,7 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
      </label>
      <button type="button" onClick={()=>{setQuery("");setDestination("全部目的地");setPurpose("全部用途");setPage(0)}}>重置筛选</button>
     </div>
-    <p style={{fontSize:12,color:"#64748b"}}>点击图片下方的“分类”可手动设置目的地和用途，分类由所有管理员共享。原图和 URL 保持不变。</p>
+    <p style={{fontSize:12,color:"#64748b"}}>目的地由管理员手动设置；图片用途优先按上传文件夹自动分类，也可以手动调整。修改后的分类由所有管理员共享，原图 URL 不变。</p>
     {loading&&<p>正在读取已上传图片，请稍候…</p>}
     {error&&<p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {notice&&<p>{notice}</p>}

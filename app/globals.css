@@ -1384,3 +1384,14 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 @media(max-width:680px){
   .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:16px;line-height:1.6;font-weight:400}
 }
+
+/* Primary catalog hero eyebrow labels: match subtitle font scale while retaining red uppercase styling. */
+@media(min-width:981px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:19px;line-height:1.45;letter-spacing:1.5px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:18px;line-height:1.45;letter-spacing:1.3px}
+}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero) .managedHeroEyebrow{font-size:16px;line-height:1.45;letter-spacing:1px}
+}

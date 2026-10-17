@@ -1322,3 +1322,11 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){min-height:600px;height:auto}
   .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:100%;font-size:clamp(36px,5vw,52px)}
 }
+
+/* Admin-only content category filter tabs */
+.adminCategoryFilters{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 24px;padding:0}
+.adminCategoryFilters button{appearance:none;border:1px solid #d9e4eb;background:#fff;color:#35546b;border-radius:999px;padding:10px 17px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.adminCategoryFilters button:hover{border-color:#7ea2bc;background:#f1f7fa}
+.adminCategoryFilters button.selected{background:#073d72;border-color:#073d72;color:#fff}
+.adminCategoryFilters button:focus-visible{outline:2px solid #d32630;outline-offset:2px}
+@media(max-width:680px){.adminCategoryFilters{gap:7px;margin:15px 0 20px}.adminCategoryFilters button{padding:9px 13px;font-size:11px}}

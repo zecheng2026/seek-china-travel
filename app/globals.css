@@ -1351,3 +1351,13 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .journeyDetailLayout .journeyPaymentTrustText span{font-size:11px;line-height:1.5}
   .journeyDetailLayout .journeyPaymentPolicyLink{font-size:11px}
 }
+
+/* Tours and destinations catalog heroes: wider title measure, fewer wraps. */
+@media(min-width:981px){
+  .toursManagedHero .managedHeroContent,.destinationsManagedHero .managedHeroContent{width:min(1320px,calc(100% - 88px))}
+  .toursManagedHero.managedHero h1,.destinationsManagedHero.managedHero h1{max-width:1120px;font-size:clamp(42px,4.1vw,60px);line-height:1.1;letter-spacing:-1.8px;text-wrap:balance}
+  .toursManagedHero .managedHeroContent>p:not(.managedHeroEyebrow),.destinationsManagedHero .managedHeroContent>p:not(.managedHeroEyebrow){max-width:860px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .toursManagedHero.managedHero h1,.destinationsManagedHero.managedHero h1{max-width:100%;font-size:clamp(40px,5.4vw,54px);line-height:1.1;letter-spacing:-1.7px}
+}

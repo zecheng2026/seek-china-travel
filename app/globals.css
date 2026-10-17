@@ -1273,3 +1273,52 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 
 /* Consistent desktop hero heights; preserve flexible mobile content. */
 @media(min-width:681px){.journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){height:600px;min-height:600px}.destinationDetailHero,.guideDetailHero{height:560px;min-height:560px}}
+
+/* Tour detail visual refinement: scoped to tour detail layout only. */
+@media(min-width:981px){
+  .journeyDetailLayout{max-width:1320px;grid-template-columns:minmax(0,1fr) 340px;gap:56px;padding:76px 38px 110px}
+  .journeyDetailLayout .journeyMain{max-width:none}
+  .journeyDetailLayout .journeyOverview .tourHtml{max-width:790px}
+}
+.journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroShade{
+  background:linear-gradient(90deg,rgba(4,29,49,.68) 0%,rgba(4,29,49,.42) 38%,rgba(4,29,49,.07) 78%),linear-gradient(0deg,rgba(4,29,49,.28),transparent 48%)
+}
+.journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:760px;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.13)}
+.journeyDetailLayout .journeySection h2{letter-spacing:-.65px}
+.journeyDetailLayout .journeyHighlightBox{padding:36px 34px;background:#f0f5f7}
+.journeyDetailLayout .journeyHighlightList{gap:12px}
+.journeyDetailLayout .journeyHighlightList>div{padding:17px 17px;min-height:64px;border:1px solid #e8eef1}
+.journeyDetailLayout .journeyHighlightList p{line-height:1.65}
+.journeyDetailLayout .journeyDayContent{border-color:#dce6eb;box-shadow:0 14px 36px rgba(10,46,70,.065);transition:box-shadow .2s ease}
+.journeyDetailLayout .journeyDayContent>img{height:320px;display:block}
+.journeyDetailLayout .journeyDayContent>div{padding:32px}
+.journeyDetailLayout .journeyDayContent h3{font-size:24px;line-height:1.32}
+.journeyDetailLayout .journeyDayContent>div>p{font-size:14px;line-height:1.85}
+.journeyDetailLayout .journeyDayMarker{box-shadow:0 0 0 5px #fff}
+.journeyDetailLayout .journeyPlanCard{padding:32px;box-shadow:0 18px 46px rgba(10,46,70,.095)}
+.journeyDetailLayout .journeyPlanCard .btn{min-height:48px}
+@media(max-width:980px){
+  .journeyDetailLayout .journeyHighlightBox{padding:28px}
+  .journeyDetailLayout .journeyDayContent>img{height:280px}
+}
+@media(max-width:680px){
+  .journeyDetailLayout .journeyHighlightBox{padding:24px 20px}
+  .journeyDetailLayout .journeyHighlightList>div{min-height:0;padding:14px}
+  .journeyDetailLayout .journeyDayContent>img{height:220px}
+  .journeyDetailLayout .journeyDayContent>div{padding:22px}
+  .journeyDetailLayout .journeyDayContent h3{font-size:21px}
+  .journeyDetailLayout .journeyPlanCard{padding:26px}
+}
+
+/* Long tour titles: prevent content from stretching desktop hero beyond 600px. */
+@media(min-width:981px){
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){height:600px;min-height:600px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent{width:min(1320px,calc(100% - 76px));padding:82px 0 36px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyBack{margin-bottom:22px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:1100px;font-size:clamp(38px,4.2vw,60px);line-height:1.08;letter-spacing:-1.9px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent>p:not(.journeysKicker){margin:16px 0 22px;max-width:880px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){min-height:600px;height:auto}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:100%;font-size:clamp(36px,5vw,52px)}
+}

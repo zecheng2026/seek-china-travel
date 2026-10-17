@@ -3,6 +3,7 @@ import {useMemo,useState} from "react";
 import {createClient} from "../../utils/supabase/client";
 
 type MediaItem={path:string;url:string;name:string};
+type MediaTag={destination:string;purpose:string};
 const BUCKET="website-media";
 const PAGE_SIZE=100;
 const MAX_IMAGES=3000;
@@ -33,6 +34,12 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  const [open,setOpen]=useState(false);
  const [loading,setLoading]=useState(false);
  const [items,setItems]=useState<MediaItem[]>([]);
+ const [tags,setTags]=useState<Record<string,MediaTag>>({});
+ const [editingPath,setEditingPath]=useState<string|null>(null);
+ const [editDestination,setEditDestination]=useState("");
+ const [editPurpose,setEditPurpose]=useState("");
+ const [savingTag,setSavingTag]=useState(false);
+ const [tagReady,setTagReady]=useState(false);
  const [query,setQuery]=useState("");
  const [destination,setDestination]=useState("全部目的地");
  const [purpose,setPurpose]=useState("全部用途");
@@ -40,7 +47,7 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  const [notice,setNotice]=useState("");
  const [page,setPage]=useState(0);
  async function load(){
-  setLoading(true);setError("");setNotice("");
+  setLoading(true);setError("");setNotice("");setTagReady(false);
   const found:MediaItem[]=[];
   const queue:[string,number][]=[["",0]];
   let truncated=false;
@@ -64,16 +71,39 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     }
    }
    setItems(found);
+   const {data:tagRows,error:tagError}=await supabase.from("media_library_tags").select("object_path,destination,purpose").eq("bucket",BUCKET).limit(5000);
+   if(tagError){setError("共享分类暂不可用："+tagError.message+"。请先执行 PR #207 的数据库迁移。");setTags({});}
+   else {setTags(Object.fromEntries((tagRows??[]).map(t=>[t.object_path,{destination:t.destination??"",purpose:t.purpose??""}])));setTagReady(true);}
+
    if(truncated||queue.length)setNotice("素材较多，目前仅显示前 "+MAX_IMAGES+" 张。请按名称搜索已加载的图片。");
    else if(!found.length)setNotice("素材库暂无可读取的图片。");
   }catch(e){setError("读取素材库失败："+(e instanceof Error?e.message:String(e))+"。请检查 Storage 的读取权限。");}
   finally{setLoading(false);}
  }
- function openPicker(){setOpen(true);setPage(0);setQuery("");setDestination("全部目的地");setPurpose("全部用途");void load();}
- const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||classify(x.path,DESTINATIONS,"其他目的地")===destination)&&(purpose==="全部用途"||classify(x.path,PURPOSES,"其他图片")===purpose));
+ async function saveTag(){
+  if(!editingPath)return;
+  setSavingTag(true);setError("");
+  const value={destination:editDestination,purpose:editPurpose};
+  const {data:userData,error:userError}=await supabase.auth.getUser();
+  if(userError||!userData.user){setError("登录状态已失效，请重新登录。");setSavingTag(false);return;}
+  const {error:saveError}=await supabase.from("media_library_tags").upsert({
+   bucket:BUCKET,object_path:editingPath,...value,updated_at:new Date().toISOString(),
+   updated_by:userData.user.id
+  },{onConflict:"bucket,object_path"});
+  if(saveError)setError("分类保存失败："+saveError.message);
+  else {setTags(prev=>({...prev,[editingPath]:value}));setEditingPath(null);}
+  setSavingTag(false);
+ }
+ function openTag(item:MediaItem){
+  setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose??"");
+ }
+ function openPicker(){setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
+ const getDestination=(x:MediaItem)=>tags[x.path]?.destination||"未分类";
+ const getPurpose=(x:MediaItem)=>tags[x.path]?.purpose||"未分类";
+ const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||getDestination(x)===destination)&&(purpose==="全部用途"||getPurpose(x)===purpose));
  const shown=filtered.slice(page*36,(page+1)*36);
  return <>
-  <button type="button" onClick={openPicker}>{label}</button>
+  <button type="button" onClick={openPicker} style={{display:"inline-flex",width:"auto",minWidth:0,flex:"0 0 auto",alignItems:"center",justifyContent:"center",padding:"7px 12px",border:"1px solid #cbd5e1",borderRadius:7,background:"#f8fafc",color:"#163b60",fontSize:13,cursor:"pointer"}}>{label}</button>
   {open&&<div role="dialog" aria-modal="true" aria-label="选择已上传图片" style={{position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,.6)",display:"flex",justifyContent:"center",alignItems:"center",padding:16}}>
    <div style={{background:"white",color:"#172b4d",borderRadius:12,width:"min(920px,100%)",maxHeight:"90vh",overflow:"auto",padding:20}}>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><h3>已上传图片素材库</h3><button type="button" onClick={()=>setOpen(false)}>关闭 ×</button></div>
@@ -82,17 +112,17 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
      <label style={{flex:"1 1 190px",fontSize:13}}>目的地分类
       <select aria-label="目的地分类" value={destination} onChange={e=>{setDestination(e.target.value);setPage(0)}} style={{display:"block",width:"100%",padding:9}}>
-       {["全部目的地",...DESTINATIONS.map(([name])=>name),"其他目的地"].map(name=><option key={name} value={name}>{name}（{name==="全部目的地"?items.length:items.filter(x=>classify(x.path,DESTINATIONS,"其他目的地")===name).length}）</option>)}
+       {["全部目的地",...DESTINATIONS.map(([name])=>name),"其他目的地","未分类"].map(name=><option key={name} value={name}>{name}（{name==="全部目的地"?items.length:items.filter(x=>getDestination(x)===name).length}）</option>)}
       </select>
      </label>
      <label style={{flex:"1 1 190px",fontSize:13}}>图片用途
       <select aria-label="图片用途" value={purpose} onChange={e=>{setPurpose(e.target.value);setPage(0)}} style={{display:"block",width:"100%",padding:9}}>
-       {["全部用途",...PURPOSES.map(([name])=>name),"其他图片"].map(name=><option key={name} value={name}>{name}（{name==="全部用途"?items.length:items.filter(x=>classify(x.path,PURPOSES,"其他图片")===name).length}）</option>)}
+       {["全部用途",...PURPOSES.map(([name])=>name),"其他图片","未分类"].map(name=><option key={name} value={name}>{name}（{name==="全部用途"?items.length:items.filter(x=>getPurpose(x)===name).length}）</option>)}
       </select>
      </label>
      <button type="button" onClick={()=>{setQuery("");setDestination("全部目的地");setPurpose("全部用途");setPage(0)}}>重置筛选</button>
     </div>
-    <p style={{fontSize:12,color:"#64748b"}}>分类根据原文件夹和文件名自动识别，不移动原图；无法识别的图片归入“其他”。</p>
+    <p style={{fontSize:12,color:"#64748b"}}>点击图片下方的“分类”可手动设置目的地和用途，分类由所有管理员共享。原图和 URL 保持不变。</p>
     {loading&&<p>正在读取已上传图片，请稍候…</p>}
     {error&&<p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {notice&&<p>{notice}</p>}

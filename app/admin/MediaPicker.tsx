@@ -128,11 +128,32 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     {notice&&<p>{notice}</p>}
     {!loading&&<p style={{fontSize:13}}>找到 {filtered.length} 张图片</p>}
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(125px,1fr))",gap:12}}>
-     {shown.map(item=><button type="button" key={item.path} title={item.path} onClick={()=>{onSelect(item.url);setOpen(false)}} style={{padding:6,border:"1px solid #ddd",borderRadius:8,background:"#fff",minWidth:0}}>
+     {shown.map(item=><div key={item.path} style={{padding:6,border:"1px solid #ddd",borderRadius:8,background:"#fff",minWidth:0}}><button type="button" title={"使用 "+item.path} onClick={()=>{onSelect(item.url);setOpen(false)}} style={{padding:0,border:0,background:"transparent",width:"100%",cursor:"pointer"}}>
       <img src={item.url} alt={item.name} loading="lazy" style={{width:"100%",height:100,objectFit:"cover",borderRadius:5}}/>
       <span style={{display:"block",fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.name}</span>
-     </button>)}
+     </button><span style={{display:"block",fontSize:11,color:"#64748b",marginTop:4}}>{getDestination(item)} · {getPurpose(item)}</span>
+     <button type="button" disabled={!tagReady} onClick={()=>openTag(item)} style={{display:"inline-block",width:"auto",padding:"3px 9px",marginTop:5,border:"1px solid #b6c5d6",borderRadius:5,background:"#f1f5f9",fontSize:12}}>分类</button></div>)}
     </div>
+    {editingPath&&<div role="group" aria-label="编辑图片分类" style={{position:"sticky",bottom:0,marginTop:12,padding:14,background:"#f1f5f9",border:"1px solid #94a3b8",borderRadius:8,boxShadow:"0 0 10px #cbd5e1"}}>
+     <strong style={{display:"block",marginBottom:8}}>设置共享分类</strong>
+     <p style={{fontSize:12,wordBreak:"break-all"}}>{editingPath}</p>
+     <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+      <label style={{flex:"1 1 180px"}}>目的地
+       <select value={editDestination} onChange={e=>setEditDestination(e.target.value)} style={{display:"block",width:"100%",padding:8}}>
+        {["",...DESTINATIONS.map(([name])=>name),"其他目的地"].map(x=><option key={x} value={x}>{x||"未分类"}</option>)}
+       </select>
+      </label>
+      <label style={{flex:"1 1 180px"}}>图片用途
+       <select value={editPurpose} onChange={e=>setEditPurpose(e.target.value)} style={{display:"block",width:"100%",padding:8}}>
+        {["",...PURPOSES.map(([name])=>name),"其他图片"].map(x=><option key={x} value={x}>{x||"未分类"}</option>)}
+       </select>
+      </label>
+     </div>
+     <div style={{display:"flex",gap:10,marginTop:10}}>
+      <button type="button" disabled={savingTag} onClick={()=>void saveTag()} style={{width:"auto",padding:"7px 14px",background:"#164e81",color:"#fff",borderRadius:6}}>{savingTag?"保存中…":"保存分类"}</button>
+      <button type="button" onClick={()=>setEditingPath(null)} style={{width:"auto",padding:"7px 14px"}}>取消</button>
+     </div>
+    </div>}
     {!loading&&filtered.length>36&&<div style={{display:"flex",gap:12,alignItems:"center",justifyContent:"center",marginTop:16}}>
      <button type="button" disabled={page===0} onClick={()=>setPage(p=>Math.max(0,p-1))}>上一页</button><span>{page+1} / {Math.ceil(filtered.length/36)}</span><button type="button" disabled={(page+1)*36>=filtered.length} onClick={()=>setPage(p=>p+1)}>下一页</button>
     </div>}

@@ -6,6 +6,26 @@ type MediaItem={path:string;url:string;name:string};
 const BUCKET="website-media";
 const PAGE_SIZE=100;
 const MAX_IMAGES=3000;
+const DESTINATIONS:[string,string[]][]=[
+ ["北京",["beijing","北京"]],["上海",["shanghai","上海"]],["西安",["xian","xi-an","西安"]],
+ ["张家界",["zhangjiajie","张家界","tianmen","天门山","fenghuang","凤凰","furong","芙蓉"]],
+ ["重庆",["chongqing","重庆","wulong","武隆"]],["成都·四川",["chengdu","sichuan","成都","四川","jiuzhai","九寨"]],
+ ["桂林",["guilin","yangshuo","桂林","阳朔"]],["云南",["yunnan","dali","lijiang","shangrila","shangri-la","云南","大理","丽江","香格里拉"]],
+ ["贵州",["guizhou","贵州"]],["杭州·苏州",["hangzhou","suzhou","杭州","苏州"]],
+ ["哈尔滨",["harbin","哈尔滨"]],["新疆",["xinjiang","新疆"]],["西藏",["tibet","xizang","西藏"]]
+];
+const PURPOSES:[string,string[]][]=[
+ ["团队与公司",["about/","team-","staff","company","logo","brand"]],
+ ["首页与横幅",["hero","banner","homepage","home/","slider"]],
+ ["线路图片",["tours/","tour/","tour-","tour_","day-","itinerary"]],
+ ["目的地图片",["destinations/","destination/","destination-"]],
+ ["攻略与正文",["content/","travel-guide","guides/","guide-","article"]]
+];
+function classify(path:string,groups:[string,string[]][],fallback:string){
+ const p=path.toLowerCase();
+ return groups.find(([,terms])=>terms.some(t=>p.includes(t.toLowerCase())))?.[0]??fallback;
+}
+
 
 /** Reuse an existing Storage object URL without uploading a duplicate. */
 export default function MediaPicker({onSelect,label="从素材库选择"}:{onSelect:(url:string)=>void;label?:string}){
@@ -14,6 +34,8 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  const [loading,setLoading]=useState(false);
  const [items,setItems]=useState<MediaItem[]>([]);
  const [query,setQuery]=useState("");
+ const [destination,setDestination]=useState("全部目的地");
+ const [purpose,setPurpose]=useState("全部用途");
  const [error,setError]=useState("");
  const [notice,setNotice]=useState("");
  const [page,setPage]=useState(0);
@@ -47,8 +69,8 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
   }catch(e){setError("读取素材库失败："+(e instanceof Error?e.message:String(e))+"。请检查 Storage 的读取权限。");}
   finally{setLoading(false);}
  }
- function openPicker(){setOpen(true);setPage(0);void load();}
- const filtered=items.filter(x=>(x.path.toLowerCase().includes(query.trim().toLowerCase())));
+ function openPicker(){setOpen(true);setPage(0);setQuery("");setDestination("全部目的地");setPurpose("全部用途");void load();}
+ const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||classify(x.path,DESTINATIONS,"其他目的地")===destination)&&(purpose==="全部用途"||classify(x.path,PURPOSES,"其他图片")===purpose));
  const shown=filtered.slice(page*36,(page+1)*36);
  return <>
   <button type="button" onClick={openPicker}>{label}</button>
@@ -57,6 +79,20 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><h3>已上传图片素材库</h3><button type="button" onClick={()=>setOpen(false)}>关闭 ×</button></div>
     <p style={{fontSize:13}}>直接使用原图片地址，不会重复上传。选择后仍需保存当前编辑页面。</p>
     <input aria-label="搜索素材名称或文件夹" placeholder="搜索文件名或文件夹…" value={query} onChange={e=>{setQuery(e.target.value);setPage(0)}} style={{width:"100%",padding:10,marginBottom:12}}/>
+    <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
+     <label style={{flex:"1 1 190px",fontSize:13}}>目的地分类
+      <select aria-label="目的地分类" value={destination} onChange={e=>{setDestination(e.target.value);setPage(0)}} style={{display:"block",width:"100%",padding:9}}>
+       {["全部目的地",...DESTINATIONS.map(([name])=>name),"其他目的地"].map(name=><option key={name} value={name}>{name}（{name==="全部目的地"?items.length:items.filter(x=>classify(x.path,DESTINATIONS,"其他目的地")===name).length}）</option>)}
+      </select>
+     </label>
+     <label style={{flex:"1 1 190px",fontSize:13}}>图片用途
+      <select aria-label="图片用途" value={purpose} onChange={e=>{setPurpose(e.target.value);setPage(0)}} style={{display:"block",width:"100%",padding:9}}>
+       {["全部用途",...PURPOSES.map(([name])=>name),"其他图片"].map(name=><option key={name} value={name}>{name}（{name==="全部用途"?items.length:items.filter(x=>classify(x.path,PURPOSES,"其他图片")===name).length}）</option>)}
+      </select>
+     </label>
+     <button type="button" onClick={()=>{setQuery("");setDestination("全部目的地");setPurpose("全部用途");setPage(0)}}>重置筛选</button>
+    </div>
+    <p style={{fontSize:12,color:"#64748b"}}>分类根据原文件夹和文件名自动识别，不移动原图；无法识别的图片归入“其他”。</p>
     {loading&&<p>正在读取已上传图片，请稍候…</p>}
     {error&&<p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {notice&&<p>{notice}</p>}

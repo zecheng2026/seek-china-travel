@@ -1,5 +1,6 @@
 "use client";
-import {useMemo,useState} from "react";
+import {useEffect,useMemo,useState} from "react";
+import {createPortal} from "react-dom";
 import {createClient} from "../../utils/supabase/client";
 
 type MediaItem={path:string;url:string;name:string};
@@ -38,6 +39,8 @@ function inferPurpose(path:string):string {
 export default function MediaPicker({onSelect,label="从素材库选择"}:{onSelect:(url:string)=>void;label?:string}){
  const supabase=useMemo(()=>createClient(),[]);
  const [open,setOpen]=useState(false);
+ const [fullscreen,setFullscreen]=useState(false);
+ useEffect(()=>{if(!open)return;const previous=document.body.style.overflow;document.body.style.overflow="hidden";const onKey=(event:KeyboardEvent)=>{if(event.key==="Escape"){setOpen(false);setFullscreen(false);}};window.addEventListener("keydown",onKey);return ()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",onKey)};},[open]);
  const [loading,setLoading]=useState(false);
  const [items,setItems]=useState<MediaItem[]>([]);
  const [tags,setTags]=useState<Record<string,MediaTag>>({});
@@ -124,16 +127,16 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  function openTag(item:MediaItem){
   setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose||inferPurpose(item.path));
  }
- function openPicker(){setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
+ function openPicker(){setFullscreen(false);setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
  const getDestination=(x:MediaItem)=>tags[x.path]?.destination||"未分类";
  const getPurpose=(x:MediaItem)=>tags[x.path]?.purpose||inferPurpose(x.path);
  const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||getDestination(x)===destination)&&(purpose==="全部用途"||getPurpose(x)===purpose));
  const shown=filtered.slice(page*36,(page+1)*36);
  return <>
   <button type="button" onClick={openPicker} style={{display:"inline-flex",width:"auto",minWidth:0,flex:"0 0 auto",alignItems:"center",justifyContent:"center",padding:"7px 12px",border:"1px solid #cbd5e1",borderRadius:7,background:"#f8fafc",color:"#163b60",fontSize:13,cursor:"pointer"}}>{label}</button>
-  {open&&<div role="dialog" aria-modal="true" aria-label="选择已上传图片" style={{position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,.6)",display:"flex",justifyContent:"center",alignItems:"center",padding:16}}>
-   <div style={{background:"white",color:"#172b4d",borderRadius:12,width:"min(920px,100%)",maxHeight:"90vh",overflow:"auto",padding:20}}>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><h3>已上传图片素材库</h3><button type="button" onClick={()=>setOpen(false)}>关闭 ×</button></div>
+  {open&&createPortal(<div role="dialog" aria-modal="true" aria-label="选择已上传图片" style={{position:"fixed",inset:0,zIndex:2147483647,background:"rgba(0,0,0,.6)",display:"flex",justifyContent:"center",alignItems:"center",padding:fullscreen?0:16,boxSizing:"border-box"}}>
+   <div style={{background:"white",color:"#172b4d",borderRadius:fullscreen?0:12,width:fullscreen?"100%":"min(920px,100%)",height:fullscreen?"100dvh":"auto",maxHeight:fullscreen?"100dvh":"calc(100dvh - 32px)",overflowY:"auto",overflowX:"hidden",overscrollBehavior:"contain",padding:fullscreen?24:20,boxSizing:"border-box"}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><h3>已上传图片素材库</h3><div style={{display:"flex",gap:8,alignItems:"center"}}><button type="button" aria-pressed={fullscreen} onClick={()=>setFullscreen(v=>!v)} style={{width:"auto",padding:"8px 12px",border:"1px solid #b6c5d6",borderRadius:7,background:"#f1f5f9",color:"#163b60",cursor:"pointer"}}>{fullscreen?"退出全屏":"⛶ 全屏查看"}</button><button type="button" onClick={()=>{setOpen(false);setFullscreen(false)}}>关闭 ×</button></div></div>
     <p style={{fontSize:13}}>直接使用原图片地址，不会重复上传。选择后仍需保存当前编辑页面。</p>
     <input aria-label="搜索素材名称或文件夹" placeholder="搜索文件名或文件夹…" value={query} onChange={e=>{setQuery(e.target.value);setPage(0)}} style={{width:"100%",padding:10,marginBottom:12}}/>
     <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}}>
@@ -154,9 +157,9 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     {error&&<p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {notice&&<p>{notice}</p>}
     {!loading&&<p style={{fontSize:13}}>找到 {filtered.length} 张图片</p>}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(125px,1fr))",gap:12}}>
+    <div style={{display:"grid",gridTemplateColumns:`repeat(auto-fill,minmax(${fullscreen?165:125}px,1fr))`,gap:12}}>
      {shown.map(item=><div key={item.path} style={{padding:6,border:"1px solid #ddd",borderRadius:8,background:"#fff",minWidth:0}}><button type="button" title={"使用 "+item.path} onClick={()=>{onSelect(item.url);setOpen(false)}} style={{padding:0,border:0,background:"transparent",width:"100%",cursor:"pointer"}}>
-      <img src={item.url} alt={item.name} loading="lazy" style={{width:"100%",height:100,objectFit:"cover",borderRadius:5}}/>
+      <img src={item.url} alt={item.name} loading="lazy" style={{width:"100%",height:fullscreen?140:100,objectFit:"cover",borderRadius:5}}/>
       <span style={{display:"block",fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.name}</span>
      </button><span style={{display:"block",fontSize:11,color:"#64748b",marginTop:4}}>{getDestination(item)} · {getPurpose(item)}</span>
      <div style={{display:"flex",gap:6,marginTop:5,flexWrap:"wrap"}}><button type="button" disabled={!tagReady||!!deletingPath} onClick={()=>openTag(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #b6c5d6",borderRadius:5,background:"#f1f5f9",fontSize:12}}>分类</button><button type="button" disabled={!!deletingPath} onClick={()=>void deleteImage(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #dc2626",borderRadius:5,background:"#fff1f2",color:"#b91c1c",fontSize:12}}>{deletingPath===item.path?"删除中…":"删除"}</button></div></div>)}
@@ -185,6 +188,6 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
      <button type="button" disabled={page===0} onClick={()=>setPage(p=>Math.max(0,p-1))}>上一页</button><span>{page+1} / {Math.ceil(filtered.length/36)}</span><button type="button" disabled={(page+1)*36>=filtered.length} onClick={()=>setPage(p=>p+1)}>下一页</button>
     </div>}
    </div>
-  </div>}
+  </div>,document.body)}
  </>;
 }

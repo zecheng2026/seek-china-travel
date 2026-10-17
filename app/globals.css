@@ -1373,3 +1373,14 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 @media(min-width:681px) and (max-width:980px){
   .guideHero.managedHero h1,.aboutHero.managedHero h1,.contactHero.managedHero h1,.quoteHero.managedHero h1,.managedHero:not(.homeManagedHero):not(.toursManagedHero):not(.destinationsManagedHero) h1{max-width:100%;font-size:clamp(40px,5.4vw,54px);line-height:1.1;letter-spacing:-1.7px}
 }
+
+/* Standardize catalog-page hero subtitles to the About Us visual scale. */
+@media(min-width:981px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:19px;line-height:1.7;font-weight:400;max-width:860px}
+}
+@media(min-width:681px) and (max-width:980px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:18px;line-height:1.65;font-weight:400}
+}
+@media(max-width:680px){
+  .managedHero:not(.homeManagedHero) .managedHeroContent>p:not(.managedHeroEyebrow){font-size:16px;line-height:1.6;font-weight:400}
+}

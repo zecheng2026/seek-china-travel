@@ -1340,3 +1340,14 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
   .journeyDetailLayout .journeyDayContent>img{height:350px;object-fit:cover}
   .journeyDetailLayout .journeyDayContent>div{padding:34px}
 }
+
+/* Match the compact, single-line heading and balanced spacing of the approved booking card. */
+@media(min-width:981px){
+  .journeyDetailLayout .journeyPlanCard{padding:30px 28px}
+  .journeyDetailLayout .journeyPlanCard h3{font-size:23px;line-height:1.23;letter-spacing:-.65px;white-space:normal}
+  .journeyDetailLayout .journeyPlanCard>p:not(.journeysKicker){font-size:12px;line-height:1.65}
+  .journeyDetailLayout .journeyPaymentTrust{padding:17px 14px}
+  .journeyDetailLayout .journeyPaymentTrustText strong{font-size:12px;line-height:1.4}
+  .journeyDetailLayout .journeyPaymentTrustText span{font-size:11px;line-height:1.5}
+  .journeyDetailLayout .journeyPaymentPolicyLink{font-size:11px}
+}

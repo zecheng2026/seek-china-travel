@@ -258,7 +258,7 @@ function RichTextEditor({ label, value, onChange, compact = false }: { label: st
     <span className="richLabel">{label}</span>
     <div className="richEditor" ref={richEditorRef}>
       {floatingToolbar && <div className="richToolbarSpacer" />}
-      <div ref={toolbarRef} className={"richToolbar"+(floatingToolbar?" richToolbarFloating":"")} style={floatingToolbar?{left:floatingToolbar.left,width:floatingToolbar.width}:undefined} onMouseDown={(e) => { if ((e.target as HTMLElement).tagName !== "INPUT") e.preventDefault(); }}>
+      <div ref={toolbarRef} className={"richToolbar"+(floatingToolbar?" richToolbarFloating":"")} style={floatingToolbar?{left:floatingToolbar.left,width:floatingToolbar.width}:undefined} onMouseDown={(e) => { if (e.currentTarget.contains(e.target as Node) && !(e.target as HTMLElement).closest("input, select")) e.preventDefault(); }}>
         <select aria-label="段落样式" defaultValue="p" onChange={(e) => command("formatBlock", e.target.value)}>
           <option value="p">正文</option><option value="h2">标题 2</option><option value="h3">标题 3</option><option value="blockquote">引用</option>
         </select>

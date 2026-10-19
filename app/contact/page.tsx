@@ -15,7 +15,7 @@ export default function ContactPage(){const supabase=useMemo(()=>createClient(),
  const {error}=await supabase.from("inquiries").insert({
  full_name:get("name"),email:get("email"),phone:get("whatsapp"),whatsapp:get("whatsapp"),
  destination:get("destinations"),
- message:[get("message"),"Travelers: "+adults+" adults, "+children+" children",get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("nationality")&&"Nationality: "+get("nationality")].filter(Boolean).join("\\n\\n"),
+ message:[get("message"),"Travelers: "+adults+" adults, "+children+" children",get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("nationality")&&"Nationality: "+get("nationality")].filter(Boolean).join("\n\n"),
  source:"website",status:"new"
  });
  setSending(false);if(error){setResult("error");return;}setResult("success");form.reset();setAdults(2);setChildren(0);

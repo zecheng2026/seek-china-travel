@@ -45,6 +45,33 @@ function DeferredImageLink({href,className,image,position,gradient,children,...r
 
 export default function Home() {
   const supabase=useMemo(()=>createClient(),[]); const [liveTours,setLiveTours]=useState<Record<string,unknown>[]>([]); const [liveDestinations,setLiveDestinations]=useState<Record<string,unknown>[]>([]); const [liveGuides,setLiveGuides]=useState<Record<string,unknown>[]>([]); const [reviews,setReviews]=useState<Record<string,unknown>[]>([]); const [contentLoaded,setContentLoaded]=useState(false); const [toursError,setToursError]=useState(false); const [destinationsError,setDestinationsError]=useState(false);
+  const destinationCarouselRef=useRef<HTMLDivElement>(null);
+  useEffect(()=>{
+   const el=destinationCarouselRef.current;
+   if(!el||liveDestinations.length<2)return;
+   const mobile=window.matchMedia("(max-width:600px)");
+   const placeInMiddle=()=>{
+    if(!mobile.matches)return;
+    const cards=el.querySelectorAll<HTMLElement>(".v1Destination");
+    if(cards.length<liveDestinations.length*3)return;
+    el.scrollTo({left:cards[liveDestinations.length].offsetLeft-cards[0].offsetLeft,behavior:"instant"});
+   };
+   const frame=requestAnimationFrame(placeInMiddle);
+   const onResize=()=>placeInMiddle();
+   window.addEventListener("resize",onResize);
+   return()=>{cancelAnimationFrame(frame);window.removeEventListener("resize",onResize)};
+  },[liveDestinations]);
+  const onDestinationScroll=()=>{
+   const el=destinationCarouselRef.current;
+   if(!el||window.innerWidth>600||liveDestinations.length<2)return;
+   const cards=el.querySelectorAll<HTMLElement>(".v1Destination");
+   const n=liveDestinations.length;
+   if(cards.length!==n*3)return;
+   const stride=cards[n].offsetLeft-cards[0].offsetLeft;
+   if(!stride)return;
+   if(el.scrollLeft<stride*.5)el.scrollLeft+=stride;
+   else if(el.scrollLeft>stride*1.5)el.scrollLeft-=stride;
+  };
   useEffect(()=>{Promise.all([supabase.from("tours").select("*").eq("is_published",true).eq("is_featured",true).order("sort_order",{ascending:true}).limit(3),supabase.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}).limit(6),supabase.from("travel_guides").select("*").eq("is_featured",true).eq("is_published",true).limit(3),supabase.from("homepage_sections").select("content").eq("section_key","home:reviews").maybeSingle(),supabase.from("traveler_reviews").select("id,name,body,rating,featured_home,created_at,avatar_url").eq("status","approved").eq("featured_home",true).order("created_at",{ascending:false}).limit(3)]).then(([t,d,g,r,featured])=>{setToursError(Boolean(t.error));setDestinationsError(Boolean(d.error));setLiveTours((t.data as Record<string,unknown>[]|null)??[]);setLiveDestinations((d.data as Record<string,unknown>[]|null)??[]);setLiveGuides((g.data as Record<string,unknown>[]|null)??[]);try{const x=typeof r.data?.content==="string"?JSON.parse(r.data.content):r.data?.content;setReviews([...(featured.data??[]).map((v:any)=>({name:v.name,text:v.body,rating:v.rating,avatar_url:v.avatar_url,published:true,images:[]})),...(Array.isArray(x?.reviews)?x.reviews.filter((v:any)=>v?.published!==false&&String(v?.text??"").trim()):[])].slice(0,3))}catch{}finally{setContentLoaded(true)}}).catch(()=>{setToursError(true);setDestinationsError(true);setContentLoaded(true)});},[supabase]);
   return <main>
     <ManagedHero pageKey="home" className="homeManagedHero" defaults={{eyebrow:"DISCOVER CHINA. YOUR WAY.",title:"Explore Real China",subtitle:"Tailor-made China journeys designed around your pace, interests and travel style.",image:"",overlay:48,button_text:"Plan Your China Trip",button_link:"/quote"}} />
@@ -55,7 +82,7 @@ export default function Home() {
     <section className="v1Section">
       <style>{`@media(max-width:650px){.homeMobileWideHead{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important}.homeMobileWideHead>div{display:block!important;flex:none!important;width:100%!important;max-width:100%!important;min-width:0!important}.homeMobileWideHead h2{width:100%!important;max-width:100%!important;overflow-wrap:normal!important;white-space:normal!important}.homeMobileWideHead>a{align-self:flex-start!important;margin-top:0!important}}`}</style>
       <header className="v1SectionHead homeMobileWideHead homeDestinationsHead"><div><p className="v1Eyebrow red">POPULAR DESTINATIONS</p><h2 className="homeDestinationsDesktopTitle">Where will China take you?</h2><h2 className="homeDestinationsMobileTitle">China Top Destinations</h2><p className="homeDestinationsMobileSubtitle">Discover the enchanting landscapes of China — towering sandstone pillars, mist-shrouded peaks, and breathtaking natural wonders.</p></div><Link href="/destinations">View all destinations →</Link></header>
-      <div className="v1DestinationGrid">{contentLoaded&&destinationsError&&<p role="status">Destinations are temporarily unavailable. Please refresh the page to try again.</p>}{!contentLoaded&&Array.from({length:6},(_,i)=><div key={i} className="v1Destination" aria-hidden="true" style={{background:"#e8edf1"}}/>)}{(contentLoaded&&!destinationsError?liveDestinations:[]).map((item:any,index:number)=>{const name=String(item.name??item.title??"China");const image=String(item.hero_image_url??item.image_url??item.cover_image_url??item.image??"");return <DeferredImageLink href={"/destinations/"+encodeURIComponent(String(item.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className="v1Destination" key={String(item.id??name??index)} image={image} gradient="180deg,transparent 35%,rgba(3,31,57,.88)" position={`${Number(item.image_position_x??50)}% ${Number(item.image_position_y??50)}%`}><span>Explore</span><h3>{name}</h3></DeferredImageLink>})}</div><Link href="/destinations" className="homeDestinationMobileAll">View All Destinations <span aria-hidden="true">→</span></Link>
+      <div className="v1DestinationGrid" ref={destinationCarouselRef} onScroll={onDestinationScroll}>{contentLoaded&&destinationsError&&<p role="status">Destinations are temporarily unavailable. Please refresh the page to try again.</p>}{!contentLoaded&&Array.from({length:6},(_,i)=><div key={i} className="v1Destination" aria-hidden="true" style={{background:"#e8edf1"}}/>)}{(contentLoaded&&!destinationsError?(liveDestinations.length>1?[...liveDestinations,...liveDestinations,...liveDestinations]:liveDestinations):[]).map((item:any,index:number)=>{const name=String(item.name??item.title??"China");const image=String(item.hero_image_url??item.image_url??item.cover_image_url??item.image??"");const description=String(item.subtitle??item.short_description??item.description??item.overview??"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim();return <DeferredImageLink href={"/destinations/"+encodeURIComponent(String(item.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className={"v1Destination"+(index>=liveDestinations.length&&liveDestinations.length>1?" homeDestinationClone":"")} key={String(item.id??name)+"-"+index} image={image} gradient="180deg,transparent 35%,rgba(3,31,57,.88)" position={`${Number(item.image_position_x??50)}% ${Number(item.image_position_y??50)}%`}><span>Explore</span><h3>{name}</h3>{description&&<p className="homeDestinationDescription">{description}</p>}</DeferredImageLink>})}</div><Link href="/destinations" className="homeDestinationMobileAll">View All Destinations <span aria-hidden="true">→</span></Link>
     </section>
 
     <section className="v1Section v1Soft">

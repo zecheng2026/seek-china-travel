@@ -45,6 +45,9 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  const [items,setItems]=useState<MediaItem[]>([]);
  const [tags,setTags]=useState<Record<string,MediaTag>>({});
  const [editingPath,setEditingPath]=useState<string|null>(null);
+ const [selectedPaths,setSelectedPaths]=useState<string[]>([]);
+ const [bulkEditing,setBulkEditing]=useState(false);
+ const [bulkSaving,setBulkSaving]=useState(false);
  const [editDestination,setEditDestination]=useState("");
  const [editPurpose,setEditPurpose]=useState("");
  const [savingTag,setSavingTag]=useState(false);
@@ -104,6 +107,28 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
   else {setTags(prev=>({...prev,[editingPath]:value}));setEditingPath(null);}
   setSavingTag(false);
  }
+ async function saveBulkTags(){
+  if(!selectedPaths.length||bulkSaving)return;
+  setBulkSaving(true);setError("");setNotice("");
+  try{
+   const {data:userData,error:userError}=await supabase.auth.getUser();
+   if(userError||!userData.user)throw new Error("登录状态已失效，请重新登录。");
+   // Preserve existing metadata when the administrator chooses to leave a field unchanged.
+   const now=new Date().toISOString();
+   const rows=selectedPaths.map(path=>({
+    bucket:BUCKET,object_path:path,
+    destination:editDestination==="__keep__"?(tags[path]?.destination??""):editDestination,
+    purpose:editPurpose==="__keep__"?(tags[path]?.purpose??inferPurpose(path)):editPurpose,
+    updated_at:now,updated_by:userData.user!.id
+   }));
+   const {error:saveError}=await supabase.from("media_library_tags").upsert(rows,{onConflict:"bucket,object_path"});
+   if(saveError)throw saveError;
+   setTags(prev=>({...prev,...Object.fromEntries(rows.map(row=>[row.object_path,{destination:row.destination,purpose:row.purpose}]))}));
+   setNotice("已成功为 "+rows.length+" 张图片保存共享分类，图片地址未改变。");
+   setSelectedPaths([]);setBulkEditing(false);
+  }catch(e){setError("批量分类失败："+(e instanceof Error?e.message:String(e)));}
+  finally{setBulkSaving(false);}
+ }
  async function deleteImage(item:MediaItem){
   if(deletingPath)return;
   const confirmed=window.confirm("确定永久删除这张图片吗？\\n\\n"+item.path+"\\n\\n如果官网页面或其他栏目正在使用它，删除后图片会失效。请先确认不再使用。此操作无法撤销。");
@@ -117,6 +142,7 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
    // Remove classification metadata only after the original file is deleted.
    const {error:tagError}=await supabase.from("media_library_tags").delete().eq("bucket",BUCKET).eq("object_path",item.path);
    setItems(prev=>prev.filter(x=>x.path!==item.path));
+   setSelectedPaths(prev=>prev.filter(path=>path!==item.path));
    setTags(prev=>{const next={...prev};delete next[item.path];return next;});
    setEditingPath(prev=>prev===item.path?null:prev);
    setPage(0);
@@ -127,11 +153,12 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
  function openTag(item:MediaItem){
   setEditingPath(item.path);setEditDestination(tags[item.path]?.destination??"");setEditPurpose(tags[item.path]?.purpose||inferPurpose(item.path));
  }
- function openPicker(){setFullscreen(false);setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
+ function openPicker(){setSelectedPaths([]);setBulkEditing(false);setFullscreen(false);setOpen(true);setPage(0);setQuery("");setEditingPath(null);setDestination("全部目的地");setPurpose("全部用途");void load();}
  const getDestination=(x:MediaItem)=>tags[x.path]?.destination||"未分类";
  const getPurpose=(x:MediaItem)=>tags[x.path]?.purpose||inferPurpose(x.path);
  const filtered=items.filter(x=>x.path.toLowerCase().includes(query.trim().toLowerCase())&&(destination==="全部目的地"||getDestination(x)===destination)&&(purpose==="全部用途"||getPurpose(x)===purpose));
  const shown=filtered.slice(page*36,(page+1)*36);
+ const allShownSelected=shown.length>0&&shown.every(item=>selectedPaths.includes(item.path));
  return <>
   <button type="button" onClick={openPicker} style={{display:"inline-flex",width:"auto",minWidth:0,flex:"0 0 auto",alignItems:"center",justifyContent:"center",padding:"7px 12px",border:"1px solid #cbd5e1",borderRadius:7,background:"#f8fafc",color:"#163b60",fontSize:13,cursor:"pointer"}}>{label}</button>
   {open&&createPortal(<div role="dialog" aria-modal="true" aria-label="选择已上传图片" style={{position:"fixed",inset:0,zIndex:2147483647,background:"rgba(0,0,0,.6)",display:"flex",justifyContent:"center",alignItems:"center",padding:fullscreen?0:16,boxSizing:"border-box"}}>
@@ -156,14 +183,31 @@ export default function MediaPicker({onSelect,label="从素材库选择"}:{onSel
     {loading&&<p>正在读取已上传图片，请稍候…</p>}
     {error&&<p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {notice&&<p>{notice}</p>}
-    {!loading&&<p style={{fontSize:13}}>找到 {filtered.length} 张图片</p>}
+    {!loading&&<div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap",margin:"10px 0",fontSize:13}}>
+     <span>找到 {filtered.length} 张图片 · 已选 {selectedPaths.length} 张</span>
+     <label style={{display:"inline-flex",alignItems:"center",gap:5,cursor:"pointer"}}><input type="checkbox" checked={allShownSelected} disabled={!shown.length||bulkSaving} onChange={e=>setSelectedPaths(prev=>e.target.checked?Array.from(new Set([...prev,...shown.map(x=>x.path)])):prev.filter(path=>!shown.some(x=>x.path===path)))}/>全选当前页</label>
+     <button type="button" disabled={!selectedPaths.length||!tagReady||bulkSaving} onClick={()=>{setEditingPath(null);setEditDestination("__keep__");setEditPurpose("__keep__");setBulkEditing(true)}} style={{width:"auto",padding:"7px 12px",borderRadius:6,background:"#164e81",color:"white"}}>批量分类</button>
+     <button type="button" disabled={!selectedPaths.length||bulkSaving} onClick={()=>{setSelectedPaths([]);setBulkEditing(false)}} style={{width:"auto",padding:"7px 12px"}}>取消选择</button>
+    </div>}
     <div style={{display:"grid",gridTemplateColumns:`repeat(auto-fill,minmax(${fullscreen?165:125}px,1fr))`,gap:12}}>
-     {shown.map(item=><div key={item.path} style={{padding:6,border:"1px solid #ddd",borderRadius:8,background:"#fff",minWidth:0}}><button type="button" title={"使用 "+item.path} onClick={()=>{onSelect(item.url);setOpen(false)}} style={{padding:0,border:0,background:"transparent",width:"100%",cursor:"pointer"}}>
+     {shown.map(item=><div key={item.path} style={{padding:6,border:selectedPaths.includes(item.path)?"2px solid #2563eb":"1px solid #ddd",borderRadius:8,background:"#fff",minWidth:0,position:"relative"}}><label title="勾选图片用于批量分类" style={{display:"flex",alignItems:"center",gap:4,fontSize:11,marginBottom:5,cursor:"pointer"}}><input type="checkbox" aria-label={"批量选择 "+item.name} checked={selectedPaths.includes(item.path)} disabled={bulkSaving} onChange={e=>setSelectedPaths(prev=>e.target.checked?Array.from(new Set([...prev,item.path])):prev.filter(path=>path!==item.path))}/>选择</label><button type="button" title={"使用 "+item.path} onClick={()=>{onSelect(item.url);setOpen(false)}} style={{padding:0,border:0,background:"transparent",width:"100%",cursor:"pointer"}}>
       <img src={item.url} alt={item.name} loading="lazy" style={{width:"100%",height:fullscreen?140:100,objectFit:"cover",borderRadius:5}}/>
       <span style={{display:"block",fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{item.name}</span>
      </button><span style={{display:"block",fontSize:11,color:"#64748b",marginTop:4}}>{getDestination(item)} · {getPurpose(item)}</span>
      <div style={{display:"flex",gap:6,marginTop:5,flexWrap:"wrap"}}><button type="button" disabled={!tagReady||!!deletingPath} onClick={()=>openTag(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #b6c5d6",borderRadius:5,background:"#f1f5f9",fontSize:12}}>分类</button><button type="button" disabled={!!deletingPath} onClick={()=>void deleteImage(item)} style={{width:"auto",padding:"3px 9px",border:"1px solid #dc2626",borderRadius:5,background:"#fff1f2",color:"#b91c1c",fontSize:12}}>{deletingPath===item.path?"删除中…":"删除"}</button></div></div>)}
     </div>
+    {bulkEditing&&<div role="group" aria-label="批量设置图片分类" style={{position:"sticky",bottom:0,zIndex:2,marginTop:12,padding:14,background:"#eff6ff",border:"1px solid #93c5fd",borderRadius:8,boxShadow:"0 0 10px #cbd5e1"}}>
+     <strong>批量设置分类 · {selectedPaths.length} 张图片</strong>
+     <p style={{fontSize:12}}>未修改的字段保持原分类。只更新分类记录，不移动或删除图片。</p>
+     <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+      <label style={{flex:"1 1 180px"}}>目的地<select value={editDestination} onChange={e=>setEditDestination(e.target.value)} style={{display:"block",width:"100%",padding:8}}>{[["__keep__","保持原分类"],["","未分类"],...DESTINATIONS.map(([name])=>[name,name]),["其他目的地","其他目的地"]].map(([v,l])=><option key={v} value={v}>{l}</option>)}</select></label>
+      <label style={{flex:"1 1 180px"}}>图片用途<select value={editPurpose} onChange={e=>setEditPurpose(e.target.value)} style={{display:"block",width:"100%",padding:8}}>{[["__keep__","保持原分类"],["","未分类"],...PURPOSES.map(([name])=>[name,name]),["其他图片","其他图片"]].map(([v,l])=><option key={v} value={v}>{l}</option>)}</select></label>
+     </div>
+     <div style={{display:"flex",gap:10,marginTop:10}}>
+      <button type="button" disabled={bulkSaving||!selectedPaths.length||(editDestination==="__keep__"&&editPurpose==="__keep__")} onClick={()=>void saveBulkTags()} style={{width:"auto",padding:"8px 14px",background:"#164e81",color:"#fff",borderRadius:6}}>{bulkSaving?"保存中…":"保存 "+selectedPaths.length+" 张图片分类"}</button>
+      <button type="button" disabled={bulkSaving} onClick={()=>setBulkEditing(false)}>取消</button>
+     </div>
+    </div>}
     {editingPath&&<div role="group" aria-label="编辑图片分类" style={{position:"sticky",bottom:0,marginTop:12,padding:14,background:"#f1f5f9",border:"1px solid #94a3b8",borderRadius:8,boxShadow:"0 0 10px #cbd5e1"}}>
      <strong style={{display:"block",marginBottom:8}}>设置共享分类</strong>
      <p style={{fontSize:12,wordBreak:"break-all"}}>{editingPath}</p>

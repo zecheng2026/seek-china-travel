@@ -1504,3 +1504,156 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .tourQuickSuccess{padding:14px;border-radius:9px;background:#ecfdf3;color:#135e3b;font-size:13px}
 .tourQuickSuccess button{padding:9px 12px;border:1px solid #c6dfd1;border-radius:7px;background:white;cursor:pointer}
 .journeyPlanCard:has(.tourQuickInquiry){max-height:none}
+
+/* Home destination carousel: centered portrait cards with neighboring previews on mobile. */
+.homeDestinationMobileAll{display:none}
+@media(max-width:600px){
+ main .v1DestinationGrid{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:12px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline:14%;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+  padding:12px 14% 22px;
+  scrollbar-width:none;
+ }
+ main .v1DestinationGrid::-webkit-scrollbar{display:none}
+ main .v1DestinationGrid .v1Destination{
+  flex:0 0 72%;
+  width:72%;
+  max-width:none;
+  min-width:0;
+  height:390px;
+  border-radius:9px;
+  padding:20px;
+  scroll-snap-align:center;
+  scroll-snap-stop:normal;
+  box-shadow:0 8px 20px #0b31531a;
+ }
+ main .v1DestinationGrid .v1Destination h3{font-size:26px;line-height:1.2}
+ main .v1DestinationGrid .v1Destination span{font-size:12px}
+ .homeDestinationMobileAll{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  width:max-content;
+  max-width:calc(100% - 24px);
+  min-height:48px;
+  margin:18px auto 4px;
+  padding:12px 25px;
+  border-radius:30px;
+  background:#e92a2f;
+  color:#fff;
+  font:700 14px/1.4 "Manrope",sans-serif;
+  text-decoration:none;
+  box-shadow:0 7px 16px #e92a2f2b;
+ }
+ .homeDestinationMobileAll span{font-size:20px;line-height:1}
+ .homeDestinationMobileAll:focus-visible{outline:3px solid #073d72;outline-offset:3px}
+}
+
+/* Reference-style mobile destinations heading and CTA. Desktop unchanged. */
+.homeDestinationsMobileTitle,.homeDestinationsMobileSubtitle{display:none}
+@media(max-width:600px){
+ main .homeDestinationsHead{display:block!important;text-align:center!important;margin-bottom:22px!important}
+ main .homeDestinationsHead>div{width:100%!important;max-width:100%!important}
+ main .homeDestinationsHead .v1Eyebrow,
+ main .homeDestinationsHead .homeDestinationsDesktopTitle,
+ main .homeDestinationsHead>a{display:none!important}
+ main .homeDestinationsHead .homeDestinationsMobileTitle{
+  display:block!important;
+  color:#171717!important;
+  font:750 clamp(25px,7vw,34px)/1.2 "Manrope",sans-serif!important;
+  letter-spacing:-.8px!important;
+  text-align:center!important;
+  margin:0 0 18px!important;
+  max-width:none!important;
+ }
+ main .homeDestinationsHead .homeDestinationsMobileSubtitle{
+  display:block!important;
+  max-width:380px;
+  margin:0 auto!important;
+  color:#737373;
+  font-size:15px;
+  font-weight:400;
+  line-height:1.8;
+  text-align:center;
+ }
+ main .v1DestinationGrid{
+  margin-inline:calc(-1 * var(--mobile-destination-overflow, 0px));
+  gap:12px;
+  scroll-padding-inline:13%;
+  padding:12px 13% 24px;
+ }
+ main .v1DestinationGrid .v1Destination{
+  box-sizing:border-box;
+  flex:0 0 74%;
+  width:74%;
+  height:350px;
+  border-radius:4px;
+ }
+ main .homeDestinationMobileAll{
+  display:flex!important;
+  width:max-content!important;
+  max-width:calc(100% - 24px)!important;
+  margin:24px auto 6px!important;
+  padding:13px 25px!important;
+  border-radius:100px!important;
+  background:#dc2536!important;
+  color:#fff!important;
+  text-decoration:none!important;
+  box-shadow:0 6px 16px #dc253626;
+  font-size:14px!important;
+ }
+}
+
+/* Loop clones are only shown in the mobile destination carousel. */
+.v1DestinationGrid .homeDestinationClone{display:none}
+.v1DestinationGrid .homeDestinationDescription{display:none}
+@media(max-width:600px){
+ main .v1DestinationGrid .homeDestinationClone{display:flex}
+ main .v1DestinationGrid .v1Destination{justify-content:flex-end}
+ main .v1DestinationGrid .homeDestinationDescription{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+  margin:8px 0 0;
+  color:#fff;
+  font-size:13px;
+  font-weight:400;
+  line-height:1.55;
+  text-shadow:0 1px 3px #0008;
+ }
+}
+
+/* Subtle visual emphasis for the centered mobile destination card. */
+@media(max-width:600px){
+ main .v1DestinationGrid{align-items:center;padding-top:24px;padding-bottom:30px}
+ main .v1DestinationGrid .v1Destination{
+  transform:scale(.94);
+  transform-origin:center center;
+  transition:transform 240ms ease,box-shadow 240ms ease;
+  will-change:transform;
+ }
+ main .v1DestinationGrid .v1Destination.homeDestinationCentered{
+  transform:scale(1.025);
+  box-shadow:0 12px 26px #0b31532b;
+  z-index:1;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ main .v1DestinationGrid .v1Destination{transition:none}
+}
+
+/* Keep centered card visibly prominent; disable motion during seamless wrap. */
+@media(max-width:600px){
+ main .v1DestinationGrid .v1Destination{transform:scale(.92);transition:transform 220ms ease,box-shadow 220ms ease}
+ main .v1DestinationGrid .v1Destination.homeDestinationCentered{transform:scale(1.035);box-shadow:0 14px 30px #0b315335}
+}

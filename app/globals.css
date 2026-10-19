@@ -1476,3 +1476,31 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .contactInquiryForm .contactFormSubmit:focus-visible{outline:3px solid #f99aaa;outline-offset:3px}
 .contactInquiryForm .contactFormSubmit:disabled{opacity:.65;cursor:wait}
 @media(prefers-reduced-motion:reduce){.contactInquiryForm .contactFormSubmit{transition:none}.contactInquiryForm .contactFormSubmit:hover:not(:disabled){transform:none}}
+
+/* Tour detail: inline quick inquiry above existing booking trust and service guarantees */
+.journeyPlanCard .tourQuickInquiry{padding-bottom:18px}
+.journeyPlanCard .tourQuickInquiry h3{font:700 22px/1.3 "Manrope",sans-serif;margin:0 0 5px;color:var(--blue)}
+.journeyPlanCard .tourQuickInquiry>p{font-size:13px;color:#72808c;margin:0 0 18px}
+.tourQuickInquiry form{display:flex;flex-direction:column;gap:13px}
+.tourQuickInquiry label{display:block;font-size:12px;font-weight:750;color:#3c4a55}
+.tourQuickInquiry label>span,.tourQuickInquiry legend span{color:var(--red)}
+.tourQuickInquiry label small{display:inline;font-size:11px;font-weight:400;color:#8a96a1}
+.tourQuickInquiry input,.tourQuickInquiry select,.tourQuickInquiry textarea{display:block;width:100%;min-width:0;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid #dce3e9;border-radius:7px;background:#fff;color:#183c58;font:400 13px/1.4 "DM Sans",sans-serif}
+.tourQuickInquiry input:focus,.tourQuickInquiry select:focus,.tourQuickInquiry textarea:focus{outline:2px solid #91bad8;outline-offset:1px}
+.tourQuickInquiry .tourQuickHint{font-size:11px;color:#8292a0;margin:-8px 0 2px;line-height:1.5}
+.tourQuickInquiry fieldset{border:0;padding:0;margin:0;min-width:0}
+.tourQuickInquiry legend{font-size:12px;font-weight:750;color:#3c4a55;margin-bottom:7px}
+.tourQuickCounters{display:grid;gap:8px;background:#f7f9fa;border:1px solid #e4e9ee;border-radius:10px;padding:10px}
+.tourQuickCounters>div{display:flex;align-items:center;gap:9px;padding:10px 9px;background:#fff;border:1px solid #e3e7eb;border-radius:8px}
+.tourQuickCounters>div>span{flex:1;min-width:0;font-size:13px;font-weight:700;color:#253d50}
+.tourQuickCounters small{display:block;font-size:10px;font-weight:400;color:#8594a0;margin-top:2px}
+.tourQuickCounters button{width:31px;height:32px;flex-shrink:0;border:1px solid #e0e6ec;border-radius:6px;background:#fff;color:#29445c;cursor:pointer}
+.tourQuickCounters button:disabled{opacity:.4;cursor:not-allowed}
+.tourQuickCounters b{font-size:13px;min-width:12px;text-align:center}
+.tourQuickInquiry .tourQuickPrivacy{font-size:10px;line-height:1.5;color:#81909d;margin:0}
+.tourQuickInquiry .tourQuickSubmit{width:100%;min-height:45px;border:0;border-radius:24px;background:#d91f34;color:white;font:700 13px "Manrope",sans-serif;cursor:pointer;box-shadow:0 6px 14px #d91f3420}
+.tourQuickInquiry .tourQuickSubmit:hover:not(:disabled){background:#bc1729}
+.tourQuickInquiry .tourQuickSubmit:disabled{opacity:.65;cursor:wait}
+.tourQuickSuccess{padding:14px;border-radius:9px;background:#ecfdf3;color:#135e3b;font-size:13px}
+.tourQuickSuccess button{padding:9px 12px;border:1px solid #c6dfd1;border-radius:7px;background:white;cursor:pointer}
+.journeyPlanCard:has(.tourQuickInquiry){max-height:none}

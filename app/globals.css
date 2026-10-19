@@ -1505,33 +1505,54 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .tourQuickSuccess button{padding:9px 12px;border:1px solid #c6dfd1;border-radius:7px;background:white;cursor:pointer}
 .journeyPlanCard:has(.tourQuickInquiry){max-height:none}
 
-/* Home popular destinations: swipeable single-row large cards on phones only. */
+/* Home destination carousel: centered portrait cards with neighboring previews on mobile. */
+.homeDestinationMobileAll{display:none}
 @media(max-width:600px){
  main .v1DestinationGrid{
   display:flex;
   flex-wrap:nowrap;
-  gap:14px;
+  gap:12px;
   overflow-x:auto;
   overflow-y:hidden;
   scroll-snap-type:x mandatory;
-  scroll-padding-inline:4px;
+  scroll-padding-inline:14%;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior-x:contain;
-  padding:4px 4px 20px;
+  padding:12px 14% 22px;
   scrollbar-width:none;
  }
  main .v1DestinationGrid::-webkit-scrollbar{display:none}
  main .v1DestinationGrid .v1Destination{
-  flex:0 0 86%;
-  width:86%;
+  flex:0 0 72%;
+  width:72%;
   max-width:none;
   min-width:0;
-  height:285px;
-  border-radius:16px;
-  padding:22px;
-  scroll-snap-align:start;
+  height:390px;
+  border-radius:9px;
+  padding:20px;
+  scroll-snap-align:center;
   scroll-snap-stop:normal;
+  box-shadow:0 8px 20px #0b31531a;
  }
  main .v1DestinationGrid .v1Destination h3{font-size:26px;line-height:1.2}
- main .v1DestinationGrid .v1Destination span{font-size:11px}
+ main .v1DestinationGrid .v1Destination span{font-size:12px}
+ .homeDestinationMobileAll{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  width:max-content;
+  max-width:calc(100% - 24px);
+  min-height:48px;
+  margin:18px auto 4px;
+  padding:12px 25px;
+  border-radius:30px;
+  background:#e92a2f;
+  color:#fff;
+  font:700 14px/1.4 "Manrope",sans-serif;
+  text-decoration:none;
+  box-shadow:0 7px 16px #e92a2f2b;
+ }
+ .homeDestinationMobileAll span{font-size:20px;line-height:1}
+ .homeDestinationMobileAll:focus-visible{outline:3px solid #073d72;outline-offset:3px}
 }

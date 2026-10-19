@@ -1651,3 +1651,9 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 @media(prefers-reduced-motion:reduce){
  main .v1DestinationGrid .v1Destination{transition:none}
 }
+
+/* Keep centered card visibly prominent; disable motion during seamless wrap. */
+@media(max-width:600px){
+ main .v1DestinationGrid .v1Destination{transform:scale(.92);transition:transform 220ms ease,box-shadow 220ms ease}
+ main .v1DestinationGrid .v1Destination.homeDestinationCentered{transform:scale(1.035);box-shadow:0 14px 30px #0b315335}
+}

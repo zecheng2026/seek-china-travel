@@ -1504,3 +1504,34 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .tourQuickSuccess{padding:14px;border-radius:9px;background:#ecfdf3;color:#135e3b;font-size:13px}
 .tourQuickSuccess button{padding:9px 12px;border:1px solid #c6dfd1;border-radius:7px;background:white;cursor:pointer}
 .journeyPlanCard:has(.tourQuickInquiry){max-height:none}
+
+/* Home popular destinations: swipeable single-row large cards on phones only. */
+@media(max-width:600px){
+ main .v1DestinationGrid{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:14px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline:4px;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+  padding:4px 4px 20px;
+  scrollbar-width:none;
+ }
+ main .v1DestinationGrid::-webkit-scrollbar{display:none}
+ main .v1DestinationGrid .v1Destination{
+  flex:0 0 86%;
+  width:86%;
+  max-width:none;
+  min-width:0;
+  height:285px;
+  border-radius:16px;
+  padding:22px;
+  scroll-snap-align:start;
+  scroll-snap-stop:normal;
+ }
+ main .v1DestinationGrid .v1Destination h3{font-size:26px;line-height:1.2}
+ main .v1DestinationGrid .v1Destination span{font-size:11px}
+}

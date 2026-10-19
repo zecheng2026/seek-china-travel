@@ -1437,3 +1437,32 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 .contactDirectBenefits small{display:block;font-size:12px;color:#718096;margin-top:16px}
 @media(max-width:850px){.contactFormLayout{grid-template-columns:1fr}.contactDirectCard{position:static}}
 @media(max-width:600px){.contactFormSection{padding:38px 16px 26px}.contactFormCard,.contactDirectCard{padding:20px}.contactTravelerCounters,.contactFormTwo{grid-template-columns:1fr}.contactFormHeading{margin-bottom:24px}.contactFormHeading>p:last-child{font-size:14px}}
+
+/* Contact sidebar visual polish: photo accents, icon contact rows, destination postcards. */
+.contactFormLayout{grid-template-columns:minmax(0,1fr) 360px;gap:22px}
+.contactDirectCard{padding:22px;text-align:left;overflow:hidden}
+.contactDirectHeader{position:relative;min-height:108px;display:flex;align-items:flex-start}
+.contactDirectHeader>div:first-child{position:relative;z-index:1;width:65%}
+.contactDirectHeader h2{font-size:22px;margin:6px 0 8px}
+.contactDirectHeader p{font-size:13px;line-height:1.65;color:#64748b;margin:0}
+.contactTempleImage{position:absolute;right:-22px;top:-22px;width:54%;height:145px;background:linear-gradient(90deg,#fff 0%,#ffffff00 40%),url("https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?auto=format&fit=crop&w=600&q=80") center/cover no-repeat;border-top-right-radius:12px;mask-image:linear-gradient(to right,transparent 0%,black 42%)}
+.contactDirectCard>a{display:flex;flex-direction:row;align-items:center;gap:12px;padding:15px 12px;border-radius:10px;margin:12px 0;min-height:72px}
+.contactDirectIcon{width:43px;height:43px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:50%;color:#fff;font-size:23px;font-weight:700}
+.contactWhatsAppIcon{background:#08b959}.contactEmailIcon{background:#1685dc}
+.contactDirectLinkText{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.contactDirectCard>a .contactDirectLinkText strong{font-size:13px}
+.contactDirectCard>a .contactDirectLinkText small{font-size:11px;color:#6e8295}
+.contactDirectCard>a .contactDirectLinkText b{font-size:12px;overflow-wrap:anywhere}
+.contactDirectArrow{font-size:22px;flex-shrink:0}
+.contactDirectEmail{background:#eef5ff}.contactDirectWhatsApp{background:#e9f9f0}
+.contactDirectBenefits{margin-top:16px;padding-top:15px}
+.contactDirectBenefits p{font-size:12px;margin:8px 0}
+.contactTravelPhotos{display:flex;justify-content:center;align-items:center;gap:0;margin:24px 0 4px;min-height:116px;padding:5px 10px 10px;background:linear-gradient(180deg,#fff,#edf7ff);border-radius:12px}
+.contactTravelPhoto{width:34%;height:96px;background-size:cover;background-position:center;border:3px solid white;border-radius:9px;box-shadow:0 5px 12px #163b5a25;transform:rotate(-7deg)}
+.contactTravelPhoto:nth-child(2){transform:rotate(4deg) translateY(-5px);z-index:1}
+.contactTravelPhoto:nth-child(3){transform:rotate(8deg)}
+.contactTravelPhotoWall{background-image:url("https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=500&q=80")}
+.contactTravelPhotoTemple{background-image:url("https://images.unsplash.com/photo-1513415564515-763d91423bdd?auto=format&fit=crop&w=500&q=80")}
+.contactTravelPhotoCity{background-image:url("https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?auto=format&fit=crop&w=500&q=80")}
+@media(max-width:850px){.contactFormLayout{grid-template-columns:1fr}.contactDirectCard{position:static}}
+@media(max-width:600px){.contactDirectCard{padding:20px}.contactTempleImage{right:-20px;top:-20px}.contactTravelPhotos{min-height:100px}}

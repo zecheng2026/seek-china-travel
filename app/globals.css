@@ -1657,3 +1657,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  main .v1DestinationGrid .v1Destination{transform:scale(.92);transition:transform 220ms ease,box-shadow 220ms ease}
  main .v1DestinationGrid .v1Destination.homeDestinationCentered{transform:scale(1.035);box-shadow:0 14px 30px #0b315335}
 }
+
+/* Admin tour list: compact readable record identifier below title */
+.tourList .adminTourListId{margin:4px 0 5px;color:#657c90;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.tourList .adminTourListId code{font:inherit;color:#476783;user-select:all}

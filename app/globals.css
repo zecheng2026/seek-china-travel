@@ -1661,3 +1661,19 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 /* Admin tour list: compact readable record identifier below title */
 .tourList .adminTourListId{margin:4px 0 5px;color:#657c90;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
 .tourList .adminTourListId code{font:inherit;color:#476783;user-select:all}
+
+
+/* Destination catalog grid inspired by the compact all-destinations reference */
+.destinationCatalogPage{width:min(var(--max),calc(100% - 64px));margin:0 auto;padding:44px 0 76px}
+.destinationCatalogIntro{max-width:760px;margin:0 auto 42px;text-align:center}
+.destinationCatalogIntro h1{margin:0 0 14px;color:var(--blue);font:700 clamp(30px,3vw,38px)/1.12 "Manrope",sans-serif;letter-spacing:-1.25px}
+.destinationCatalogIntro p{max-width:700px;margin:0 auto;color:var(--muted);font-size:16px;line-height:1.75}
+.destinationCatalogGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.destinationCatalogCard{height:220px;min-width:0;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px 16px;background:#dce7ed center/cover no-repeat;color:#fff;text-decoration:none}
+.destinationCatalogShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,25,42,0) 35%,rgba(3,25,42,.72) 100%);transition:background .2s ease}
+.destinationCatalogCard:hover .destinationCatalogShade{background:linear-gradient(180deg,rgba(3,25,42,.06) 15%,rgba(3,25,42,.82) 100%)}
+.destinationCatalogCard h2{position:relative;z-index:1;margin:0;color:#fff;font:800 18px/1.25 "Manrope",sans-serif;letter-spacing:-.3px}
+.destinationFeaturedTours{padding-top:64px;padding-bottom:76px}
+@media(max-width:1050px){.destinationCatalogGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.destinationCatalogCard{height:210px}}
+@media(max-width:760px){.destinationCatalogPage{padding:38px 20px 54px}.destinationCatalogIntro{margin-bottom:28px}.destinationCatalogIntro p{font-size:14px;line-height:1.7}.destinationCatalogGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.destinationCatalogCard{height:180px;padding:14px 12px}.destinationCatalogCard h2{font-size:16px}.destinationFeaturedTours{padding-top:44px;padding-bottom:52px}}
+@media(max-width:380px){.destinationCatalogGrid{grid-template-columns:1fr}.destinationCatalogCard{height:210px}}

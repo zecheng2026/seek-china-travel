@@ -3,7 +3,7 @@ import Link from "next/link";
 
 type Row=Record<string,unknown>;
 const fallback=[["Beijing","Imperial history & the Great Wall"],["Xi'an","Ancient China & Terracotta Warriors"],["Zhangjiajie","Otherworldly mountains & nature"],["Chengdu","Pandas, tea houses & Sichuan life"],["Chongqing","Mountain-city energy & karst scenery"],["Guilin","Rivers, limestone peaks & countryside"]];
-function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim()}
+function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim()}
 export default function Destinations({initialItems,initialTours}:{initialItems:Row[];initialTours:Row[]}){
  const display:Row[]=initialItems.length?initialItems:fallback.map((d,i)=>({name:d[0],short_description:d[1],slug:String(d[0]).toLowerCase().replace(/[^a-z0-9]+/g,"-"),id:i}));
  return <main>

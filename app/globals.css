@@ -1677,3 +1677,19 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 @media(max-width:1050px){.destinationCatalogGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.destinationCatalogCard{height:210px}}
 @media(max-width:760px){.destinationCatalogPage{padding:38px 20px 54px}.destinationCatalogIntro{margin-bottom:28px}.destinationCatalogIntro p{font-size:14px;line-height:1.7}.destinationCatalogGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.destinationCatalogCard{height:180px;padding:14px 12px}.destinationCatalogCard h2{font-size:16px}.destinationFeaturedTours{padding-top:44px;padding-bottom:52px}}
 @media(max-width:380px){.destinationCatalogGrid{grid-template-columns:1fr}.destinationCatalogCard{height:210px}}
+
+
+/* Mobile tour detail hero: keep the cover image from taking over the viewport. */
+@media(max-width:680px){
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero){min-height:0;height:auto;align-items:flex-end}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent{width:calc(100% - 40px);padding:78px 0 26px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyBack{margin-bottom:18px;font-size:11px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeysKicker{font-size:9px;letter-spacing:1.5px;margin-bottom:10px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent h1{max-width:100%;font-size:clamp(30px,8vw,38px);line-height:1.08;letter-spacing:-1.1px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroContent>p:not(.journeysKicker){margin:12px 0 18px;font-size:14px;line-height:1.5}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroFacts{grid-template-columns:1fr 1fr}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroFacts span,
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroFacts span:first-child{min-width:0;padding:8px 10px;margin:0;border-left:1px solid #ffffff32}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroFacts small{font-size:8px;margin-bottom:4px}
+  .journeyDetailHero:not(.destinationDetailHero):not(.guideDetailHero) .journeyHeroFacts b{font-size:12px}
+}

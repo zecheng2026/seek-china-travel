@@ -349,7 +349,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
   const fields = editing ? Object.keys(draft).filter((key) => !["id","created_at","updated_at"].includes(key)) : [];
   const imageFields: string[] = fields.filter((field) => field === "hero_image_url");
   const toggleFields = fields.filter((field) => typeof draft[field] === "boolean" || /^(is_|featured$|published$)/.test(field));
-  const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url","image_position_x","image_position_y"];
+  const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url","image_position_x","image_position_y","best_time","recommended_days","highlights"];
   const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field) && !hiddenDestinationFields.includes(field));
   const seoFields = textFields.filter((field) => field === "seo_title" || field === "seo_description");
   const contentFields = textFields.filter((field) => field !== "seo_title" && field !== "seo_description");
@@ -382,7 +382,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
       const imageUrl = String(row.hero_image_url ?? row.image_url ?? row.cover_image_url ?? row.featured_image_url ?? "");
       
       const desc = String(row.short_description ?? row.description ?? "");
-      return <article key={String(row.id ?? index)}>{imageUrl ? <img src={imageUrl} alt="" /> : <div className="destinationThumb">{String(row.name ?? "?").slice(0,1)}</div>}<div className="destinationListBody"><div><h3>{row.slug ? <a href={"/destinations/"+encodeURIComponent(String(row.slug))} target="_blank" rel="noopener noreferrer" title="新窗口打开前台对应页面">{String(row.name ?? "未命名目的地")} ↗</a> : String(row.name ?? "未命名目的地")}</h3><span>{String(row.region ?? row.country ?? "China")}</span></div><p>{desc || "暂未填写目的地介绍。"}</p><small>/{String(row.slug ?? "")}</small></div><div className="destinationRowActions"><button onClick={() => openEditor(row)}>编辑</button><button className="danger" onClick={() => remove(row)}>删除</button></div></article>
+      return <article key={String(row.id ?? index)}>{imageUrl ? <img src={imageUrl} alt="" /> : <div className="destinationThumb">{String(row.name ?? "?").slice(0,1)}</div>}<div className="destinationListBody"><div><h3>{row.slug ? <a href={"/destinations/"+encodeURIComponent(String(row.slug))} target="_blank" rel="noopener noreferrer" title="新窗口打开前台对应页面">{String(row.name ?? "未命名目的地")} ↗</a> : String(row.name ?? "未命名目的地")}</h3><span>{String(row.region ?? row.country ?? "China")}</span></div><div className="adminTourListId">显示顺序：<strong>{row.display_order==null||String(row.display_order).trim()===""?(row.sort_order==null||String(row.sort_order).trim()===""?"未设置":String(row.sort_order)):String(row.display_order)}</strong></div><p>{desc || "暂未填写目的地介绍。"}</p><small>/{String(row.slug ?? "")}</small></div><div className="destinationRowActions"><button onClick={() => openEditor(row)}>编辑</button><button className="danger" onClick={() => remove(row)}>删除</button></div></article>
     })}</div>}
   </section>;
 }

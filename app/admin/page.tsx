@@ -343,7 +343,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
   const hiddenDestinationFields = ["image_url","cover_image_url","featured_image_url","image_position_x","image_position_y"];
   const textFields = fields.filter((field) => !imageFields.includes(field) && !toggleFields.includes(field) && !hiddenDestinationFields.includes(field));
   const seoFields = textFields.filter((field) => field === "seo_title" || field === "seo_description");
-  const contentFields = textFields.filter((field) => !seoFields.includes(field));
+  const contentFields = textFields.filter((field) => field !== "seo_title" && field !== "seo_description");
   const primaryFields = contentFields.filter((field) => !isLongField(field,draft[field]));
   const longFields = contentFields.filter((field) => isLongField(field,draft[field]));
 

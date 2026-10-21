@@ -1666,8 +1666,8 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 /* Destination catalog grid inspired by the compact all-destinations reference */
 .destinationCatalogPage{width:min(var(--max),calc(100% - 64px));margin:0 auto;padding:44px 0 76px}
 .destinationCatalogIntro{max-width:760px;margin:0 auto 42px;text-align:center}
-.destinationCatalogIntro h1{margin:0 0 12px;color:#171717;font:700 clamp(26px,2.2vw,32px)/1.25 "Manrope",sans-serif;letter-spacing:-.7px}
-.destinationCatalogIntro p{max-width:690px;margin:0 auto;color:#777;font-size:16px;line-height:1.8}
+.destinationCatalogIntro h1{margin:0 0 14px;color:var(--blue);font:700 clamp(30px,3vw,38px)/1.12 "Manrope",sans-serif;letter-spacing:-1.25px}
+.destinationCatalogIntro p{max-width:700px;margin:0 auto;color:var(--muted);font-size:16px;line-height:1.75}
 .destinationCatalogGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .destinationCatalogCard{height:220px;min-width:0;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px 16px;background:#dce7ed center/cover no-repeat;color:#fff;text-decoration:none}
 .destinationCatalogShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,25,42,0) 35%,rgba(3,25,42,.72) 100%);transition:background .2s ease}

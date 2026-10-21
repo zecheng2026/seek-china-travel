@@ -1664,7 +1664,7 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
 
 
 /* Destination catalog grid inspired by the compact all-destinations reference */
-.destinationCatalogPage{padding:44px max(5%,calc((100% - var(--max))/2)) 76px}
+.destinationCatalogPage{width:min(var(--max),calc(100% - 64px));margin:0 auto;padding:44px 0 76px}
 .destinationCatalogIntro{max-width:760px;margin:0 auto 42px;text-align:center}
 .destinationCatalogIntro h1{margin:0 0 12px;color:#171717;font:700 clamp(26px,2.2vw,32px)/1.25 "Manrope",sans-serif;letter-spacing:-.7px}
 .destinationCatalogIntro p{max-width:690px;margin:0 auto;color:#777;font-size:16px;line-height:1.8}

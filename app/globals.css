@@ -1567,9 +1567,9 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  main .homeDestinationsHead>a{display:none!important}
  main .homeDestinationsHead .homeDestinationsMobileTitle{
   display:block!important;
-  color:#171717!important;
-  font:750 clamp(25px,7vw,34px)/1.2 "Manrope",sans-serif!important;
-  letter-spacing:-.8px!important;
+  color:var(--blue,#073d72)!important;
+  font:700 clamp(28px,7vw,34px)/1.12 "Manrope",sans-serif!important;
+  letter-spacing:-1.2px!important;
   text-align:center!important;
   margin:0 0 18px!important;
   max-width:none!important;

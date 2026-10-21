@@ -1557,7 +1557,15 @@ main>.v1Why .v1Features article{background:#fff;box-shadow:0 12px 30px rgba(12,5
  .homeDestinationMobileAll:focus-visible{outline:3px solid #073d72;outline-offset:3px}
 }
 
-/* Reference-style mobile destinations heading and CTA. Desktop unchanged. */
+/* Keep the homepage destination heading consistent across desktop and mobile. */
+main .homeDestinationsHead .homeDestinationsDesktopTitle{
+ color:var(--blue,#073d72)!important;
+ font:700 clamp(28px,3vw,34px)/1.12 "Manrope",sans-serif!important;
+ letter-spacing:-1.2px!important;
+}
+
+/* Reference-style mobile destinations heading and CTA. */
+
 .homeDestinationsMobileTitle,.homeDestinationsMobileSubtitle{display:none}
 @media(max-width:600px){
  main .homeDestinationsHead{display:block!important;text-align:center!important;margin-bottom:22px!important}

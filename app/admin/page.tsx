@@ -296,7 +296,7 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     const inferred = rows[0] ? Object.fromEntries(Object.entries(rows[0])
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
       .map(([key,value]) => [key, typeof value === "boolean" ? false : key==="author"||key==="author_name" ? "seekchinatravel" : ""])) : {};
-    const template: RecordRow = {...inferred,name:"",slug:"",country:String(inferred.country??"China")||"China",short_description:String(inferred.short_description??""),description:String(inferred.description??""),highlights:inferred.highlights??[],hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
+    const template: RecordRow = {...inferred,name:"",slug:"",country:String(inferred.country??"China")||"China",short_description:String(inferred.short_description??""),description:String(inferred.description??""),highlights:inferred.highlights??[],hero_image_url:String(inferred.hero_image_url??""),sort_order:Number(inferred.sort_order??0),image_position_x:Number(inferred.image_position_x??50),image_position_y:Number(inferred.image_position_y??50),is_active:typeof inferred.is_active==="boolean"?inferred.is_active:true};
     setEditing({}); setDraft(template);
   }
 
@@ -321,9 +321,18 @@ function DestinationManager({ rows, loading, message, onRefresh }: { rows: Recor
     if(!slug){setActionMessage("请先填写 URL 标识（slug）。");setSaving(false);return;}
     const country=String(draft.country??"China").trim()||"China";
     const normalizedDraft={...draft,name,slug,country,highlights:draft.highlights??[]};
+    const numericFields = new Set(["sort_order","image_position_x","image_position_y"]);
     const payload = Object.fromEntries(Object.entries(normalizedDraft)
       .filter(([key]) => !["id","created_at","updated_at"].includes(key))
-      .map(([key,value]) => [key, key==="highlights" && (value===""||value==null) ? [] : value]));
+      .map(([key,value]) => {
+        if (key === "highlights" && (value === "" || value == null)) return [key, []];
+        if (numericFields.has(key)) {
+          if (value === "" || value == null) return [key, key === "sort_order" ? 0 : 50];
+          const numeric = Number(value);
+          return [key, Number.isFinite(numeric) ? numeric : (key === "sort_order" ? 0 : 50)];
+        }
+        return [key, value];
+      }));
     const id = editing?.id;
     const query = id == null ? supabase.from("destinations").insert(payload) : supabase.from("destinations").update(payload).eq("id", id);
     const { error } = await query;

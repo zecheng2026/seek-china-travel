@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import ManagedHero from "../components/ManagedHero";
 
 type Row=Record<string,unknown>;
 const fallback=[["Beijing","Imperial history & the Great Wall"],["Xi'an","Ancient China & Terracotta Warriors"],["Zhangjiajie","Otherworldly mountains & nature"],["Chengdu","Pandas, tea houses & Sichuan life"],["Chongqing","Mountain-city energy & karst scenery"],["Guilin","Rivers, limestone peaks & countryside"]];

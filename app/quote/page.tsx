@@ -14,7 +14,7 @@ export default function Quote(){
   const get=(key:string)=>String(fd.get(key)??"").trim();
   if(get("website"))return;
   if(Date.now()-startedAt<2500){setResult("error");return;}
-  if(!get("name")||!get("phone")||!get("country")||!get("message"))return;
+  if(!get("name")||!get("phone")||!get("country"))return;
   const normalizedPhone=get("phone").replace(/[\s().-]/g,"");
   if(!/^\+[1-9]\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}
   if(get("email")&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))){setResult("error");return;}
@@ -41,7 +41,7 @@ export default function Quote(){
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
  {isTourInquiry ? <label className="full">Tour name<input name="tour_name" value={tour} readOnly /></label> : <><label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
  <label className="full">Interested tour<select name="tour_name" value={tour} onChange={e=>setTour(e.target.value)}><option value="">Please select</option><option value="Historical & Cultural">Historical & Cultural</option><option value="Natural Scenery">Natural Scenery</option><option value="Geological Wonders">Geological Wonders</option><option value="Folk & Ethnic Culture">Folk & Ethnic Culture</option><option value="Museum & Exhibition">Museum & Exhibition</option><option value="Theme & Amusement">Theme & Amusement</option><option value="Wellness Resort">Wellness Resort</option><option value="City Landmark">City Landmark</option><option value="Others">Others</option></select></label></>}
- <label className="full">What kind of trip are you imagining? *<textarea name="message" rows={5} required maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
+ <label className="full">What kind of trip are you imagining? <span className="contactOptional">(Optional)</span><textarea name="message" rows={5} maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
  <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>
  {result==="error"&&<p className="quoteError full" role="alert">Please enter a valid WhatsApp number with your country calling code (e.g. +65 8123 4567), then try again.</p>}
  <button type="submit" className="btn full quoteSubmit" disabled={sending}>{sending?"Sending your inquiry…":"Request My Trip Plan →"}</button>

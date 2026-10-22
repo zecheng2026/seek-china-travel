@@ -1712,3 +1712,55 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .destinationPlanningModule .btn{display:inline-flex;align-items:center;justify-content:center;margin-top:4px;padding:12px 20px;border-radius:999px;background:#c9272d;color:#fff;font-weight:750;text-decoration:none;transition:background .2s,transform .2s}
 .destinationPlanningModule .btn:hover{background:#a91e25;transform:translateY(-1px)}
 @media(max-width:600px){.destinationPlanningModule{margin:24px 0;padding:23px 20px;border-radius:15px}.destinationPlanningModule h2{font-size:25px}.destinationPlanningModule p:not(.journeysKicker){font-size:14px}}
+
+
+/* Keep all detail-page hero covers compact on mobile, not just tour pages. */
+@media(max-width:680px){
+  .journeyDetailHero{
+    min-height:0!important;
+    height:auto!important;
+    align-items:flex-end;
+  }
+  .journeyDetailHero .journeyHeroContent{
+    width:calc(100% - 40px);
+    padding:76px 0 28px;
+  }
+  .journeyDetailHero .journeyBack{margin-bottom:20px}
+  .journeyDetailHero .journeyHeroContent h1{
+    font-size:clamp(30px,8vw,38px);
+    line-height:1.08;
+    letter-spacing:-1.1px;
+  }
+  .journeyDetailHero .journeyHeroContent>p:not(.journeysKicker){
+    margin:12px 0 18px;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .destinationDetailHero,
+  .guideDetailHero{
+    min-height:0!important;
+    height:auto!important;
+    align-items:flex-end;
+  }
+  .destinationDetailHero .journeyHeroContent,
+  .guideDetailHero .journeyHeroContent{
+    width:calc(100% - 40px);
+    padding:76px 0 30px;
+  }
+  .destinationDetailHero .journeyBack,
+  .guideDetailHero .journeyBack{margin-bottom:20px}
+  .destinationDetailHero .journeyHeroContent h1,
+  .guideDetailHero .journeyHeroContent h1{
+    font-size:clamp(30px,8vw,38px);
+    line-height:1.08;
+    letter-spacing:-1.1px;
+  }
+  .destinationDetailHero .journeyHeroContent>p:not(.journeysKicker),
+  .guideDetailHero .journeyHeroContent>p:not(.journeysKicker){
+    margin:12px 0 18px;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .destinationDetailHero .btn,
+  .guideDetailHero .btn{margin-top:14px}
+}

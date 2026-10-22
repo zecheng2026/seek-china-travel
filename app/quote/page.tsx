@@ -14,12 +14,12 @@ export default function Quote(){
   const get=(key:string)=>String(fd.get(key)??"").trim();
   if(get("website"))return;
   if(Date.now()-startedAt<2500){setResult("error");return;}
-  if(!get("name")||!get("email")||!get("message"))return;
+  if(!get("name")||!get("email")||!get("country")||!get("message"))return;
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
    full_name:get("name"),email:get("email"),phone:get("phone"),whatsapp:get("phone"),
    destination:isTourInquiry ? "Tour: "+get("tour_name") : [get("destinations"),get("tour_name")&&"Interested tour: "+get("tour_name")].filter(Boolean).join(" · "),
-   message:[get("message"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
+   message:[get("message"),"Country: "+get("country"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
    source:"website",status:"new"
   });
   setSending(false);
@@ -31,7 +31,7 @@ export default function Quote(){
  {result==="success"?<div className="quoteSuccess" role="status"><h2>Thank you for your inquiry!</h2><p>We've received your trip details. Our team will be in touch using your contact information.</p><button type="button" className="btn" onClick={()=>setResult("idle")}>Plan another trip →</button></div>:
  <form className="quoteForm" onSubmit={submit}><label className="quoteTrap" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>
  <label>Your name *<input name="name" required maxLength={120} placeholder="Your full name"/></label>
- <label>Email *<input name="email" type="email" required maxLength={254} placeholder="you@example.com"/></label>
+ <label>Email *<input name="email" type="email" required maxLength={254} placeholder="you@example.com"/></label>\n <label>Country *<input name="country" type="text" required maxLength={100} autoComplete="country-name" placeholder="e.g. United Kingdom"/></label>
  <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>
  <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>

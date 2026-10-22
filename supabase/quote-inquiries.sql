@@ -5,7 +5,6 @@
 
 ALTER TABLE public.inquiries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.inquiries ALTER COLUMN email DROP NOT NULL;
-
 GRANT INSERT ON public.inquiries TO anon, authenticated;
 
 -- Remove both permissive public policies so an older policy cannot bypass validation.
@@ -26,12 +25,7 @@ WITH CHECK (
     length(trim(coalesce(email, ''))) = 0
     OR length(trim(email)) BETWEEN 3 AND 254
   )
-  AND phone ~ '^\+[1-9][0-9]{6,14}  AND length(trim(coalesce(message, ''))) BETWEEN 1 AND 5000
-);
-
--- Anonymous website visitors receive INSERT permission only.
--- Do not grant anonymous SELECT, UPDATE or DELETE access.
-
+  AND phone ~ '^\+[1-9][0-9]{6,14}$'
   AND position('Country: ' IN coalesce(message, '')) > 0
   AND length(trim(coalesce(message, ''))) BETWEEN 1 AND 5000
 );

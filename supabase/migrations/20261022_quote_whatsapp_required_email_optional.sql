@@ -22,6 +22,9 @@ WITH CHECK (
     length(trim(coalesce(email, ''))) = 0
     OR length(trim(email)) BETWEEN 3 AND 254
   )
-  AND phone ~ '^\\+[1-9][0-9]{6,14}$'
+  AND phone ~ '^\+[1-9][0-9]{6,14}  AND length(trim(coalesce(message, ''))) BETWEEN 1 AND 5000
+);
+
+  AND position('Country: ' IN coalesce(message, '')) > 0
   AND length(trim(coalesce(message, ''))) BETWEEN 1 AND 5000
 );

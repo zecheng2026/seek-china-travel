@@ -36,7 +36,7 @@ export default function Quote(){
  <label>Your name *<input name="name" required maxLength={120} placeholder="Your full name"/></label>
  <label>Email (Optional)<input name="email" type="email" maxLength={254} placeholder="you@example.com"/></label>
  <label>Country *<input name="country" type="text" required maxLength={100} autoComplete="country-name" placeholder="e.g. United Kingdom"/></label>
- <label>WhatsApp / Phone *<input name="phone" required maxLength={80} inputMode="tel" autoComplete="tel" placeholder="e.g. +65 8123 4567"/><small>Include your country calling code, starting with +.</small></label>
+ <label>WhatsApp / Phone *<input name="phone" required maxLength={80} inputMode="tel" autoComplete="tel" placeholder="e.g. +65 8123 4567"/><small className="phoneCountryHint">Include your country calling code, starting with + (e.g., +65 8123 4567).</small></label>
  <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
  {isTourInquiry ? <label className="full">Tour name<input name="tour_name" value={tour} readOnly /></label> : <><label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>

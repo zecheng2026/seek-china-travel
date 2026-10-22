@@ -14,12 +14,15 @@ export default function Quote(){
   const get=(key:string)=>String(fd.get(key)??"").trim();
   if(get("website"))return;
   if(Date.now()-startedAt<2500){setResult("error");return;}
-  if(!get("name")||!get("email")||!get("message"))return;
+  if(!get("name")||!get("phone")||!get("country"))return;
+  const normalizedPhone=get("phone").replace(/[\s().-]/g,"");
+  if(!/^\+[1-9]\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}
+  if(get("email")&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))){setResult("error");return;}
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
-   full_name:get("name"),email:get("email"),phone:get("phone"),whatsapp:get("phone"),
+   full_name:get("name"),email:get("email")||null,phone:normalizedPhone,whatsapp:normalizedPhone,
    destination:isTourInquiry ? "Tour: "+get("tour_name") : [get("destinations"),get("tour_name")&&"Interested tour: "+get("tour_name")].filter(Boolean).join(" · "),
-   message:[get("message"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
+   message:[get("message"),"Country: "+get("country"),get("travel_dates")&&"Travel dates: "+get("travel_dates"),get("travelers")&&"Travelers: "+get("travelers")].filter(Boolean).join("\\n\\n"),
    source:"website",status:"new"
   });
   setSending(false);
@@ -31,15 +34,16 @@ export default function Quote(){
  {result==="success"?<div className="quoteSuccess" role="status"><h2>Thank you for your inquiry!</h2><p>We've received your trip details. Our team will be in touch using your contact information.</p><button type="button" className="btn" onClick={()=>setResult("idle")}>Plan another trip →</button></div>:
  <form className="quoteForm" onSubmit={submit}><label className="quoteTrap" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>
  <label>Your name *<input name="name" required maxLength={120} placeholder="Your full name"/></label>
- <label>Email *<input name="email" type="email" required maxLength={254} placeholder="you@example.com"/></label>
- <label>WhatsApp / Phone<input name="phone" maxLength={80} placeholder="+65 ..."/></label>
+ <label>Email (Optional)<input name="email" type="email" maxLength={254} placeholder="you@example.com"/></label>
+ <label>Country *<input name="country" type="text" required maxLength={100} autoComplete="country-name" placeholder="e.g. United Kingdom"/></label>
+ <label>WhatsApp / Phone *<input name="phone" required maxLength={80} inputMode="tel" autoComplete="tel" placeholder="e.g. +65 8123 4567"/><small className="phoneCountryHint">Include your country calling code, starting with + (e.g., +65 8123 4567).</small></label>
  <label>Travel dates<input name="travel_dates" maxLength={120} placeholder="e.g. March 10–18, 2027"/></label>
  <label>Travelers<select name="travelers" defaultValue="2 travelers"><option>1 traveler</option><option>2 travelers</option><option>3–5 travelers</option><option>6+ travelers</option></select></label>
  {isTourInquiry ? <label className="full">Tour name<input name="tour_name" value={tour} readOnly /></label> : <><label>Destinations<input name="destinations" value={destination} onChange={e=>setDestination(e.target.value)} maxLength={250} placeholder="Beijing, Xi'an, Zhangjiajie..."/></label>
  <label className="full">Interested tour<select name="tour_name" value={tour} onChange={e=>setTour(e.target.value)}><option value="">Please select</option><option value="Historical & Cultural">Historical & Cultural</option><option value="Natural Scenery">Natural Scenery</option><option value="Geological Wonders">Geological Wonders</option><option value="Folk & Ethnic Culture">Folk & Ethnic Culture</option><option value="Museum & Exhibition">Museum & Exhibition</option><option value="Theme & Amusement">Theme & Amusement</option><option value="Wellness Resort">Wellness Resort</option><option value="City Landmark">City Landmark</option><option value="Others">Others</option></select></label></>}
- <label className="full">What kind of trip are you imagining? *<textarea name="message" rows={5} required maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
+ <label className="full">What kind of trip are you imagining? <span className="contactOptional">(Optional)</span><textarea name="message" rows={5} maxLength={5000} placeholder="Tell us about your interests, hotel preference, pace, special needs or anything else."/></label>
  <p className="quotePrivacy full">We use your details only to respond to your travel inquiry. Please do not include passport numbers or payment information.</p>
- {result==="error"&&<p className="quoteError full" role="alert">Your request could not be sent. Please try again later.</p>}
+ {result==="error"&&<p className="quoteError full" role="alert">⚠ WhatsApp number needed: enter your country calling code, starting with + (e.g. +65 8123 4567), then try again.</p>}
  <button type="submit" className="btn full quoteSubmit" disabled={sending}>{sending?"Sending your inquiry…":"Request My Trip Plan →"}</button>
  <div className="quotePolicyNotice full"><span className="quotePolicyNoticeIntro">Clear booking terms and transparent refund policies.</span><a href="/payment-refund-policy">View Booking, Payment &amp; Refund Policy <span aria-hidden="true">→</span></a></div>
  </form>}</section></main>;

@@ -1,24 +1,33 @@
--- SEEK CHINA TRAVEL inquiry form policy
--- The website now writes to the existing inquiries schema:
+-- SEEK CHINA TRAVEL public website inquiry policy.
+-- Website forms write to the existing inquiries schema:
 -- full_name, email, phone, whatsapp, destination, message, source, status.
--- No duplicate name/travel_dates/travelers/tour_name columns are required.
+-- Country and trip details are stored in message; no extra columns are required.
 
-alter table public.inquiries enable row level security;
+ALTER TABLE public.inquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inquiries ALTER COLUMN email DROP NOT NULL;
+GRANT INSERT ON public.inquiries TO anon, authenticated;
 
-grant insert on public.inquiries to anon, authenticated;
+-- Remove both permissive public policies so an older policy cannot bypass validation.
+DROP POLICY IF EXISTS "Public can submit inquiries" ON public.inquiries;
+DROP POLICY IF EXISTS "Public can submit travel inquiries" ON public.inquiries;
 
-drop policy if exists "Public can submit travel inquiries" on public.inquiries;
-
-create policy "Public can submit travel inquiries"
-on public.inquiries
-for insert
-to anon, authenticated
-with check (
+CREATE POLICY "Public can submit travel inquiries"
+ON public.inquiries
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (
   source = 'website'
-  and status = 'new'
-  and length(trim(coalesce(full_name, ''))) between 1 and 120
-  and length(trim(coalesce(email, ''))) between 3 and 254
-  and length(trim(coalesce(message, ''))) between 1 and 5000
+  AND status = 'new'
+  AND assigned_to IS NULL
+  AND internal_notes IS NULL
+  AND length(trim(coalesce(full_name, ''))) BETWEEN 1 AND 120
+  AND (
+    length(trim(coalesce(email, ''))) = 0
+    OR length(trim(email)) BETWEEN 3 AND 254
+  )
+  AND phone ~ '^\+[1-9][0-9]{6,14}$'
+  AND position('Country: ' IN coalesce(message, '')) > 0
+  AND length(trim(coalesce(message, ''))) BETWEEN 1 AND 5000
 );
 
 -- Anonymous website visitors receive INSERT permission only.

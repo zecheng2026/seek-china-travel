@@ -17,7 +17,14 @@ with check (
   source = 'website'
   and status = 'new'
   and length(trim(coalesce(full_name, ''))) between 1 and 120
-  and length(trim(coalesce(email, ''))) between 3 and 254
+  and (length(trim(coalesce(email, ''))) = 0 or length(trim(email)) between 3 and 254)
+  and phone ~ '^\\+[1-9][0-9]{6,14}
+  and length(trim(coalesce(message, ''))) between 1 and 5000
+);
+
+-- Anonymous website visitors receive INSERT permission only.
+-- Do not grant anonymous SELECT, UPDATE or DELETE access.
+
   and length(trim(coalesce(message, ''))) between 1 and 5000
 );
 

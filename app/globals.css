@@ -1764,3 +1764,15 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
   .destinationDetailHero .btn,
   .guideDetailHero .btn{margin-top:14px}
 }
+
+/* Clear, consistent country-calling-code guidance beneath every inquiry phone field. */
+.contactInquiryForm .phoneCountryHint,
+.quoteForm .phoneCountryHint,
+.tourQuickInquiry .phoneCountryHint {
+  display: block;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-top: 5px;
+}

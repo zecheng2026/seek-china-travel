@@ -11,7 +11,10 @@ export default function ContactPage(){const supabase=useMemo(()=>createClient(),
  const form=e.currentTarget,fd=new FormData(form),get=(key:string)=>String(fd.get(key)??"").trim();
  if(get("website"))return;
  if(Date.now()-startedAt<2500||!get("name")||!get("whatsapp")||!get("country")||!get("message")){setResult("error");return;}
- const normalizedPhone=get("whatsapp").replace(/[\\s().-]/g,"");\n if(!/^\\+[1-9]\\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}\n if(get("email")&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(get("email"))){setResult("error");return;}\n setSending(true);setResult("idle");
+ const normalizedPhone=get("whatsapp").replace(/[\s().-]/g,"");
+ if(!/^\+[1-9]\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}
+ if(get("email")&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))){setResult("error");return;}
+ setSending(true);setResult("idle");
  const {error}=await supabase.from("inquiries").insert({
  full_name:get("name"),email:get("email")||null,phone:normalizedPhone,whatsapp:normalizedPhone,
  destination:get("destinations"),

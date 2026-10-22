@@ -14,7 +14,9 @@ function TourQuickInquiry({tourTitle,supabase}:{tourTitle:string;supabase:Return
   e.preventDefault();if(sending)return;
   const form=e.currentTarget,fd=new FormData(form),get=(key:string)=>String(fd.get(key)??"").trim();
   if(get("website"))return;
-  if(Date.now()-startedAt<2500||!get("phone")||!get("country")){setResult("error");return;}\n  const normalizedPhone=get("phone").replace(/[\\s().-]/g,"");\n  if(!/^\\+[1-9]\\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}\n  if(get("email")&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(get("email"))){setResult("error");return;}
+  if(Date.now()-startedAt<2500||!get("phone")||!get("country")){setResult("error");return;}
+  const normalizedPhone=get("phone").replace(/[\s().-]/g,"");
+  if(!/^\+[1-9]\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}\n  if(get("email")&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))){setResult("error");return;}
   setSending(true);setResult("idle");
   const {error}=await supabase.from("inquiries").insert({
    full_name:"Tour inquiry",email:get("email")||null,phone:normalizedPhone,whatsapp:normalizedPhone,

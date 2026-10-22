@@ -13,9 +13,9 @@ export default function QuickInquiry({ contextType, contextTitle, supabase }: { 
   const form=e.currentTarget,fd=new FormData(form),get=(key:string)=>String(fd.get(key)??"").trim();
   if(get("website"))return;
   if(Date.now()-startedAt<2500||!get("phone")||!get("country")){setResult("error");return;}
-  const normalizedPhone=get("phone").replace(/[\\s().-]/g,"");
-  if(!/^\\+[1-9]\\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}
-  if(get("email")&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(get("email"))){setResult("error");return;}
+  const normalizedPhone=get("phone").replace(/[\s().-]/g,"");
+  if(!/^\+[1-9]\d{6,14}$/.test(normalizedPhone)){setResult("error");return;}
+  if(get("email")&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email"))){setResult("error");return;}
   setSending(true);setResult("idle");
   const context=contextType+": "+contextTitle;
   const {error}=await supabase.from("inquiries").insert({

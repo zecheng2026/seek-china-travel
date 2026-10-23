@@ -46,7 +46,7 @@ export default function TourDetailClient({slug:slugProp,initialTour,initialDays}
     {duration&&<div className="journeySummaryDuration"><span className="journeySummaryIcon" aria-hidden="true">▦</span><div><small>DURATION</small><strong>{duration} Days</strong></div></div>}
    </div>
    <div className="journeySummarySecondary"><div><span className="journeySummaryIcon" aria-hidden="true">♧</span><div><small>TRAVEL STYLE</small><strong>Private &amp; Flexible</strong></div></div><div><span className="journeySummaryIcon" aria-hidden="true">▣</span><div><small>DEPARTURE</small><strong>Your Dates</strong></div></div></div>
-  </section></div></section>
+  </section>
   <section className="journeyDetailLayout"><article className="journeyMain">
    <section className="journeySection journeyOverview"><p className="journeysKicker">THE JOURNEY</p><h2>Overview</h2><Html value={tour.description??tour.content??tour.overview??tour.short_description}/></section>
    {Boolean(tour.highlights)&&<section className="journeySection journeyHighlightBox"><p className="journeysKicker">WHY YOU'LL LOVE IT</p><h2>Trip highlights</h2><div className="journeyHighlightList">{String(tour.highlights).split("\n").filter(Boolean).map((item,index)=><div key={index}><span>✓</span><p>{item}</p></div>)}</div></section>}

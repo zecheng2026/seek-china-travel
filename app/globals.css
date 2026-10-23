@@ -1834,3 +1834,18 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 @media(max-width:1180px){.journeySummaryCard{margin-left:24px;margin-right:24px}}
 @media(max-width:700px){.journeyDetailHero{padding-bottom:95px}.journeySummaryCard{margin:-42px 16px 0;padding:22px 20px;border-radius:15px}.journeySummaryPrimary{align-items:flex-start}.journeySummaryDuration{gap:7px}.journeySummaryDuration .journeySummaryIcon{display:none}.journeySummarySecondary{gap:16px;justify-content:space-between}.journeySummarySecondary>div{gap:8px}.journeySummarySecondary .journeySummaryIcon{width:34px;height:34px;font-size:18px}.journeySummarySecondary strong{font-size:13px}.journeySummaryAmount{font-size:29px}.journeySummaryCard+.journeyDetailLayout{padding-top:55px}}
 @media(max-width:390px){.journeySummaryPrimary{flex-wrap:wrap}.journeySummarySecondary{flex-direction:column;gap:18px}}
+
+/* PR 233: slim, integrated itinerary summary strip (replaces floating card) */
+.journeyDetailHero{padding-bottom:0!important}
+.journeySummaryCard.journeySummaryStrip{position:relative!important;z-index:3;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;max-width:none!important;width:100%!important;margin:0!important;padding:20px max(24px,calc((100vw - 1240px)/2))!important;background:#fff!important;border:0!important;border-bottom:1px solid #e4eaf0!important;border-radius:0!important;box-shadow:none!important;min-height:112px!important}
+.journeySummaryStrip .journeyStripPrice{flex:1.2;min-width:220px;position:relative}
+.journeySummaryStrip .journeySummaryAmount{font-size:clamp(25px,2.2vw,31px)!important;margin:2px 0!important}
+.journeySummaryStrip .journeyStripItem{flex:1;min-width:130px;display:flex;align-items:center;gap:10px}
+.journeySummaryStrip small{display:block;color:#728395;font-size:10px;font-weight:750;letter-spacing:.8px}
+.journeySummaryStrip strong{display:block;color:#173b59;font-size:14px;margin-top:5px;white-space:nowrap}
+.journeySummaryStrip .journeySummaryIcon{width:35px;height:35px;font-size:19px;background:#f3f7fa}
+.journeySummaryStrip .journeyPriceDetails{margin-top:2px}
+.journeySummaryStrip .journeyPriceDetails summary{font-size:12px}
+.journeySummaryStrip+.journeyDetailLayout{padding-top:42px!important}
+@media(max-width:850px){.journeySummaryCard.journeySummaryStrip{padding:18px 24px!important;flex-wrap:wrap!important;gap:18px!important}.journeySummaryStrip .journeyStripPrice{flex-basis:100%}.journeySummaryStrip .journeyStripItem{flex:1;min-width:120px}}
+@media(max-width:520px){.journeySummaryCard.journeySummaryStrip{padding:17px 18px!important;gap:16px 10px!important}.journeySummaryStrip .journeyStripItem{flex:0 0 calc(50% - 5px);min-width:0}.journeySummaryStrip .journeySummaryIcon{display:none}.journeySummaryStrip strong{white-space:normal;font-size:13px}.journeySummaryStrip+.journeyDetailLayout{padding-top:32px!important}}

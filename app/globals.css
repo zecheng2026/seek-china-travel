@@ -1867,3 +1867,9 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .tourGroupedPriceFooter>span b{font-size:21px;line-height:1.2;color:#db2834}
 .tourGroupedPriceFooter em,.regionTourCard footer em{font-size:12px;font-weight:500;font-style:normal;color:#6d7f8e}
 .regionTourCard footer b{color:#db2834}
+
+/* Tour catalog: prominent destination links and consistent red starting prices */
+.tourRegionGroupHead>a{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px!important;font-weight:750!important;line-height:1.35;padding:11px 16px;border:1px solid #f0b9bf;border-radius:9px;color:#d92735!important;background:#fff7f8;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+.tourRegionGroupHead>a:hover,.tourRegionGroupHead>a:focus-visible{background:#ffe9ec;border-color:#d92735;transform:translateY(-1px)}
+.tourGroupedPriceFooter>span b,.regionTourCard footer span b{color:#dc2735!important}
+@media(max-width:767px){.tourRegionGroupHead>a{font-size:14px!important;padding:11px 14px;min-height:44px;max-width:100%;white-space:normal;text-align:center}.tourGroupedPriceFooter>span b{font-size:19px}}

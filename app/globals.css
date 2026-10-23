@@ -1801,3 +1801,17 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
     font-size: 13px;
   }
 }
+
+/* Tour starting price: accessible details on desktop and mobile */
+.journeyHeroFacts .journeyHeroPrice{position:relative;min-width:250px}
+.journeyHeroPrice>b{display:block;color:#fff;font-size:clamp(25px,2.8vw,36px);font-weight:800;line-height:1.2;white-space:nowrap}
+.journeyHeroPrice>b em{font-style:normal;font-size:14px;font-weight:600;color:#e9f0f7}
+.journeyPriceDetails{position:relative;margin-top:8px}
+.journeyPriceDetails summary{display:inline-block;cursor:pointer;color:#fff;text-decoration:underline;text-underline-offset:3px;font-size:13px;list-style:none}
+.journeyPriceDetails summary::-webkit-details-marker{display:none}
+.journeyPriceDetails summary:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.journeyPricePopover{position:absolute;z-index:30;top:calc(100% + 8px);right:0;width:min(330px,calc(100vw - 40px));padding:18px 20px;border-radius:12px;background:#fff;color:#213b50;box-shadow:0 12px 36px #001d3270;font-size:13px;line-height:1.55}
+.journeyPricePopover strong{font-size:15px}
+.journeyPricePopover ol{padding-left:18px;margin:10px 0 0}
+.journeyPricePopover li+li{margin-top:8px}
+@media(max-width:700px){.journeyHeroFacts .journeyHeroPrice{width:100%;padding:14px 0 0;border-left:0}.journeyHeroPrice>b{font-size:28px}.journeyPricePopover{left:0;right:auto}}

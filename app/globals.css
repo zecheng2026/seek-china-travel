@@ -1892,3 +1892,15 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .homeTourPrice em{font-size:12px;color:#6d7f8e;font-weight:500;font-style:normal}
 .homeTourPriceFooter>a{margin:0!important;align-self:flex-end;white-space:nowrap}
 @media(max-width:600px){.homeTourPrice>strong{font-size:19px}.homeTourPriceFooter{gap:10px}}
+
+/* Global breadcrumbs */
+.siteBreadcrumb{background:#fff;border-bottom:1px solid #e8edf2;color:#273f54;font-size:12px;line-height:1.5}
+.siteBreadcrumbInner{max-width:1240px;margin:0 auto;padding:11px 20px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.siteBreadcrumb ol{list-style:none;display:flex;align-items:baseline;flex-wrap:wrap;gap:5px;margin:0;padding:0;min-width:0}
+.siteBreadcrumb li{display:inline-flex;align-items:baseline;gap:5px;min-width:0;overflow-wrap:anywhere}
+.siteBreadcrumb a{color:#1668a5;text-decoration:none}
+.siteBreadcrumb a:hover,.siteBreadcrumb a:focus-visible{text-decoration:underline;color:#d92735}
+.siteBreadcrumb [aria-current="page"]{color:#273f54;font-weight:600}
+.breadcrumbIntro{white-space:nowrap}
+.breadcrumbSeparator{color:#8b9aa8}
+@media(max-width:600px){.siteBreadcrumbInner{padding:9px 16px;font-size:11px;gap:5px}}

@@ -1859,3 +1859,11 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .journeySummaryStrip .journeyPricePopover ol{list-style:decimal outside!important;display:block;padding-left:22px!important;margin:0!important;text-align:left!important}
 .journeySummaryStrip .journeyPricePopover li{display:list-item!important;text-align:left!important;padding-left:3px;line-height:1.6;margin:0 0 10px!important}
 .journeySummaryStrip .journeyPricePopover li:last-child{margin-bottom:0!important}
+
+/* Catalog starting prices */
+.tourGroupedPriceFooter{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:auto}
+.tourGroupedPriceFooter>span{display:flex;flex-direction:column;gap:4px}
+.tourGroupedPriceFooter>span small{color:#728395;font-size:10px;letter-spacing:.8px;font-weight:750}
+.tourGroupedPriceFooter>span b{font-size:21px;line-height:1.2;color:#db2834}
+.tourGroupedPriceFooter em,.regionTourCard footer em{font-size:12px;font-weight:500;font-style:normal;color:#6d7f8e}
+.regionTourCard footer b{color:#db2834}

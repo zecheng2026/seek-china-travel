@@ -1849,3 +1849,6 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .journeySummaryStrip+.journeyDetailLayout{padding-top:42px!important}
 @media(max-width:850px){.journeySummaryCard.journeySummaryStrip{padding:18px 24px!important;flex-wrap:wrap!important;gap:18px!important}.journeySummaryStrip .journeyStripPrice{flex-basis:100%}.journeySummaryStrip .journeyStripItem{flex:1;min-width:120px}}
 @media(max-width:520px){.journeySummaryCard.journeySummaryStrip{padding:17px 18px!important;gap:16px 10px!important}.journeySummaryStrip .journeyStripItem{flex:0 0 calc(50% - 5px);min-width:0}.journeySummaryStrip .journeySummaryIcon{display:none}.journeySummaryStrip strong{white-space:normal;font-size:13px}.journeySummaryStrip+.journeyDetailLayout{padding-top:32px!important}}
+
+/* PR 233: right aligned price and hover disclosure */
+@media(min-width:851px){.journeySummaryStrip .journeyStripPrice{order:4;flex:0 0 auto;min-width:220px;text-align:right;margin-left:auto}.journeySummaryStrip .journeyStripItem{flex:0 1 auto;min-width:145px}.journeySummaryStrip .journeyPricePopover{left:auto;right:0}}

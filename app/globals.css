@@ -1815,3 +1815,22 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .journeyPricePopover ol{padding-left:18px;margin:10px 0 0}
 .journeyPricePopover li+li{margin-top:8px}
 @media(max-width:700px){.journeyHeroFacts .journeyHeroPrice{width:100%;padding:14px 0 0;border-left:0}.journeyHeroPrice>b{font-size:28px}.journeyPricePopover{left:0;right:auto}}
+
+/* PR 233 - elevated tour summary card below the hero */
+.journeyDetailHero{padding-bottom:115px}
+.journeyHeroContent>p:not(.journeysKicker){margin-bottom:0}
+.journeySummaryCard{position:relative;z-index:2;max-width:1116px;margin:-58px auto 0;padding:26px 36px 24px;background:#fff;border:1px solid #e5ebf0;border-radius:18px;box-shadow:0 16px 40px #082e4a1c;color:#102f49}
+.journeySummaryPrimary{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-bottom:22px;border-bottom:1px solid #e5ebf0}
+.journeySummaryPrice>small,.journeySummaryDuration small,.journeySummarySecondary small{display:block;font-size:11px;letter-spacing:1.1px;font-weight:800;color:#6b8090}
+.journeySummaryAmount{font-size:clamp(28px,3vw,38px);font-weight:850;color:#df2731;line-height:1.2;margin:4px 0}
+.journeySummaryAmount span{font-size:15px;font-weight:600;color:#657786;white-space:nowrap}
+.journeySummaryDuration,.journeySummarySecondary>div{display:flex;align-items:center;gap:13px}
+.journeySummaryDuration strong,.journeySummarySecondary strong{display:block;font-size:15px;margin-top:5px}
+.journeySummaryIcon{display:grid;place-items:center;width:43px;height:43px;border-radius:12px;background:#f0f5f8;color:#16456a;font-size:23px}
+.journeySummarySecondary{display:flex;gap:60px;padding-top:21px}
+.journeySummaryCard .journeyPriceDetails summary{color:#315e82}
+.journeySummaryCard .journeyPricePopover{left:0;right:auto;border:1px solid #e5ebf0}
+.journeySummaryCard+.journeyDetailLayout{padding-top:75px}
+@media(max-width:1180px){.journeySummaryCard{margin-left:24px;margin-right:24px}}
+@media(max-width:700px){.journeyDetailHero{padding-bottom:95px}.journeySummaryCard{margin:-42px 16px 0;padding:22px 20px;border-radius:15px}.journeySummaryPrimary{align-items:flex-start}.journeySummaryDuration{gap:7px}.journeySummaryDuration .journeySummaryIcon{display:none}.journeySummarySecondary{gap:16px;justify-content:space-between}.journeySummarySecondary>div{gap:8px}.journeySummarySecondary .journeySummaryIcon{width:34px;height:34px;font-size:18px}.journeySummarySecondary strong{font-size:13px}.journeySummaryAmount{font-size:29px}.journeySummaryCard+.journeyDetailLayout{padding-top:55px}}
+@media(max-width:390px){.journeySummaryPrimary{flex-wrap:wrap}.journeySummarySecondary{flex-direction:column;gap:18px}}

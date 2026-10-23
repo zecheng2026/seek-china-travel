@@ -1904,3 +1904,8 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .breadcrumbIntro{white-space:nowrap}
 .breadcrumbSeparator{color:#8b9aa8}
 @media(max-width:600px){.siteBreadcrumbInner{padding:9px 16px;font-size:11px;gap:5px}}
+
+/* PR 234: Align tour-detail breadcrumbs with the summary strip's 1240px grid. */
+@media(min-width:851px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{max-width:1240px;padding-left:0;padding-right:0;width:calc(100% - 48px)}.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumb,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumb{border-bottom:1px solid #edf0f3}}
+@media(max-width:850px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{padding-left:24px;padding-right:24px}}
+@media(max-width:520px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{padding-left:18px;padding-right:18px}}

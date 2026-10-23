@@ -1852,3 +1852,10 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 
 /* PR 233: right aligned price and hover disclosure */
 @media(min-width:851px){.journeySummaryStrip .journeyStripPrice{order:4;flex:0 0 auto;min-width:220px;text-align:right;margin-left:auto}.journeySummaryStrip .journeyStripItem{flex:0 1 auto;min-width:145px}.journeySummaryStrip .journeyPricePopover{left:auto;right:0}}
+
+/* Price tooltip typography: reset inherited right alignment from price column */
+.journeySummaryStrip .journeyPricePopover{box-sizing:border-box;text-align:left!important;direction:ltr;white-space:normal;overflow-wrap:break-word;line-height:1.6}
+.journeySummaryStrip .journeyPricePopover strong{display:block;text-align:left;font-size:15px;line-height:1.4;margin:0 0 10px}
+.journeySummaryStrip .journeyPricePopover ol{list-style:decimal outside!important;display:block;padding-left:22px!important;margin:0!important;text-align:left!important}
+.journeySummaryStrip .journeyPricePopover li{display:list-item!important;text-align:left!important;padding-left:3px;line-height:1.6;margin:0 0 10px!important}
+.journeySummaryStrip .journeyPricePopover li:last-child{margin-bottom:0!important}

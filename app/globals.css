@@ -1873,3 +1873,11 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 .tourRegionGroupHead>a:hover,.tourRegionGroupHead>a:focus-visible{background:#ffe9ec;border-color:#d92735;transform:translateY(-1px)}
 .tourGroupedPriceFooter>span b,.regionTourCard footer span b{color:#dc2735!important}
 @media(max-width:767px){.tourRegionGroupHead>a{font-size:14px!important;padding:11px 14px;min-height:44px;max-width:100%;white-space:normal;text-align:center}.tourGroupedPriceFooter>span b{font-size:19px}}
+
+/* Separate the tour description from its pricing/action footer */
+.tourGroupedBody{min-height:260px}
+.tourGroupedBody .tourGroupedPriceFooter{margin-top:auto!important;padding-top:17px;border-top:1px solid #e5ebf0;gap:12px;align-items:flex-end}
+.tourGroupedBody>p{margin-bottom:18px!important}
+.tourGroupedBody .tourGroupedPriceFooter strong{margin:0!important;padding:0!important;align-self:flex-end;font-size:12px!important;white-space:nowrap}
+.tourGroupedBody .tourGroupedPriceFooter>span{gap:5px}
+@media(max-width:600px){.tourGroupedBody{min-height:240px}.tourGroupedBody .tourGroupedPriceFooter{padding-top:15px}.tourGroupedBody>p{margin-bottom:16px!important}}

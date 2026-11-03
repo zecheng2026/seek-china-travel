@@ -2009,3 +2009,13 @@ main .v1Section .homeDestinationsHead{display:flex!important;flex-direction:colu
 main .v1Section .homeDestinationsHead>div{width:100%!important;max-width:100%!important;text-align:center!important;margin-inline:auto!important}
 main .v1Section .homeDestinationsHead h2{width:100%!important;max-width:100%!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important}
 main .v1Section .homeDestinationsHead .homeDestinationsMobileSubtitle{margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+
+/* PR 240: tighten transition from featured tours to why SCT. */
+@media(min-width:601px){
+ main>.v1Section.v1Soft:has(.homeTourActions){padding-bottom:36px}
+ main>.v1Why{padding-top:36px}
+}
+@media(max-width:600px){
+ main>.v1Section.v1Soft:has(.homeTourActions){padding-bottom:34px}
+ main>.v1Why{padding-top:38px}
+}

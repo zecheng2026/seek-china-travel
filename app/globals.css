@@ -1949,3 +1949,14 @@ main .homeTourActions p{margin:0;color:#667789;font-size:13px}
  main .homeDestinationsStaticGrid .v1Destination{box-sizing:border-box!important;flex:0 0 74%!important;width:74%!important;height:350px!important;border-radius:4px!important;transform:scale(.94)!important;transform-origin:center center!important;transition:transform 240ms ease,box-shadow 240ms ease!important;scroll-snap-align:center!important}
  main .homeDestinationsStaticGrid .v1Destination:hover{transform:scale(.94)!important}
 }
+
+/* Restore PR-236-before centered, continuously swipeable mobile carousel. */
+@media(max-width:600px){
+ main .homeDestinationsStaticGrid .v1Destination.homeDestinationClone{display:flex!important}
+ main .homeDestinationsStaticGrid .v1Destination.homeDestinationCentered,
+ main .homeDestinationsStaticGrid .v1Destination.homeDestinationCentered:hover{transform:scale(1.035)!important;box-shadow:0 14px 30px #0b315335!important;z-index:1!important}
+ main .homeDestinationsStaticGrid .v1Destination:not(.homeDestinationCentered){transform:scale(.92)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ main .homeDestinationsStaticGrid .v1Destination{transition:none!important}
+}

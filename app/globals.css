@@ -1960,3 +1960,23 @@ main .homeTourActions p{margin:0;color:#667789;font-size:13px}
 @media(prefers-reduced-motion:reduce){
  main .homeDestinationsStaticGrid .v1Destination{transition:none!important}
 }
+
+/* Distinct contact CTA in the global header; no language-picker replacement. */
+.siteHeader .mainNav .navContactLink{display:inline-flex;align-items:center;justify-content:center;padding:10px 17px;border-radius:9px;background:#d82332;color:#fff!important;font-weight:750;white-space:nowrap;border:1px solid #d82332;transition:background .2s ease}
+.siteHeader .mainNav .navContactLink:hover,.siteHeader .mainNav .navContactLink:focus-visible{background:#b51f2b;color:#fff!important}
+.siteHeader .mobileHeaderContact{display:none}
+@media(max-width:1000px){
+ .siteHeader .mobileHeaderContact{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;white-space:nowrap;min-height:39px;padding:8px 13px;border-radius:8px;background:#d82332;color:#fff;font-size:12px;font-weight:750;text-decoration:none}
+ .siteHeader .mobileHeaderContact:hover,.siteHeader .mobileHeaderContact:focus-visible{background:#b51f2b;color:#fff}
+ .siteHeader .mobileMenu nav .navContactLink{color:#d82332;font-weight:750}
+}
+@media(max-width:390px){.siteHeader{gap:6px!important}.siteHeader .mobileHeaderContact{padding:8px 10px;font-size:11px}.siteHeader .mobileMenu summary{width:36px;padding:8px}}
+
+/* Mobile header ordering: compact Contact Us CTA left of rightmost menu. */
+@media(max-width:1000px){
+ .siteHeader .mobileHeaderContact{margin-left:auto;min-height:34px;padding:7px 11px;font-size:11px;border-radius:7px;line-height:1.2}
+ .siteHeader .mobileMenu{margin-left:0;flex:0 0 auto}
+}
+@media(max-width:390px){
+ .siteHeader .mobileHeaderContact{min-height:32px;padding:6px 9px;font-size:10.5px}
+}

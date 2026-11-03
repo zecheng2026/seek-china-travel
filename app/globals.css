@@ -1980,3 +1980,13 @@ main .homeTourActions p{margin:0;color:#667789;font-size:13px}
 @media(max-width:390px){
  .siteHeader .mobileHeaderContact{min-height:32px;padding:6px 9px;font-size:10.5px}
 }
+
+/* Homepage section headings: screenshot copy with SCT's existing palette. */
+main .homeDestinationsHead .homeDestinationsMobileSubtitle{display:block;color:#60758a;max-width:570px;margin:10px auto 0;font-size:14px;line-height:1.65;text-align:center}
+main .v1SectionHead:has(.homeToursSectionSubtitle){text-align:center;justify-content:center}
+main .v1SectionHead:has(.homeToursSectionSubtitle)>div{width:100%}
+main .homeToursSectionSubtitle{max-width:640px;margin:10px auto 0;color:#60758a;font-size:14px;line-height:1.65;text-align:center}
+@media(max-width:600px){
+ main .homeDestinationsHead .homeDestinationsMobileSubtitle,
+ main .homeToursSectionSubtitle{font-size:12px;line-height:1.6;padding:0 10px}
+}

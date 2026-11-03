@@ -1980,3 +1980,42 @@ main .homeTourActions p{margin:0;color:#667789;font-size:13px}
 @media(max-width:390px){
  .siteHeader .mobileHeaderContact{min-height:32px;padding:6px 9px;font-size:10.5px}
 }
+
+/* Homepage section headings: screenshot copy with SCT's existing palette. */
+main .homeDestinationsHead .homeDestinationsMobileSubtitle{display:block;color:#60758a;max-width:570px;margin:10px auto 0;font-size:14px;line-height:1.65;text-align:center}
+main .v1SectionHead:has(.homeToursSectionSubtitle){text-align:center;justify-content:center}
+main .v1SectionHead:has(.homeToursSectionSubtitle)>div{width:100%}
+main .homeToursSectionSubtitle{max-width:640px;margin:10px auto 0;color:#60758a;font-size:14px;line-height:1.65;text-align:center}
+@media(max-width:600px){
+ main .homeDestinationsHead .homeDestinationsMobileSubtitle,
+ main .homeToursSectionSubtitle{font-size:12px;line-height:1.6;padding:0 10px}
+}
+
+/* PR 240 refinement: section typography, spacing and card balance. */
+@media(min-width:601px){
+ main .homeDestinationsHead .homeDestinationsMobileSubtitle,
+ main .homeToursSectionSubtitle{font-size:15px;line-height:1.65;max-width:650px}
+ main .v1Section:has(.homeDestinationsStaticGrid){padding-bottom:54px}
+ main .v1Section:has(.homeDestinationsStaticGrid) .homeSectionActions{margin-top:22px}
+ main .homeDestinationsStaticGrid .v1Destination{height:calc(175px * 1.12)}
+}
+main .v1Section:has(.homeTourActions) .v1TourBody h3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+main .v1Section:has(.homeTourActions) .v1TourBody>p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;min-height:0}
+main .v1Section:has(.homeTourActions) .v1TourBody{display:flex;flex-direction:column}
+main .v1Section:has(.homeTourActions) .homeTourPriceFooter{margin-top:auto}
+
+/* PR 240: center destinations heading itself, not just the subtitle. */
+main .v1Section .homeDestinationsHead{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;width:100%!important}
+main .v1Section .homeDestinationsHead>div{width:100%!important;max-width:100%!important;text-align:center!important;margin-inline:auto!important}
+main .v1Section .homeDestinationsHead h2{width:100%!important;max-width:100%!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+main .v1Section .homeDestinationsHead .homeDestinationsMobileSubtitle{margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+
+/* PR 240: tighten transition from featured tours to why SCT. */
+@media(min-width:601px){
+ main>.v1Section.v1Soft:has(.homeTourActions){padding-bottom:36px}
+ main>.v1Why{padding-top:36px}
+}
+@media(max-width:600px){
+ main>.v1Section.v1Soft:has(.homeTourActions){padding-bottom:34px}
+ main>.v1Why{padding-top:38px}
+}

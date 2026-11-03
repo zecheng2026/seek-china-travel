@@ -1909,3 +1909,36 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 @media(min-width:851px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{max-width:1240px;padding-left:0;padding-right:0;width:calc(100% - 48px)}.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumb,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumb{border-bottom:1px solid #edf0f3}}
 @media(max-width:850px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{padding-left:24px;padding-right:24px}}
 @media(max-width:520px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{padding-left:18px;padding-right:18px}}
+
+/* Homepage destination/tour merchandising refresh. Scoped to homepage only. */
+main .homeDestinationsStaticGrid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important;overflow:visible!important;padding:0!important;margin:24px 0 0!important;scroll-snap-type:none!important;align-items:stretch!important}
+main .homeDestinationsStaticGrid .v1Destination{display:flex!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;flex:auto!important;height:210px!important;min-height:0!important;transform:none!important;box-shadow:none!important;scroll-snap-align:none!important;border-radius:12px!important}
+main .homeDestinationsStaticGrid .v1Destination:hover{transform:none!important;box-shadow:0 10px 24px #0b31532b!important}
+main .homeDestinationsStaticGrid .homeDestinationClone{display:none!important}
+main .v1Section:has(.homeDestinationsStaticGrid) .homeDestinationMobileAll{display:none!important}
+main .v1Section:has(.homeDestinationsStaticGrid) .homeDestinationsHead{margin-bottom:0}
+main .v1Section:has(.homeDestinationsStaticGrid) .homeDestinationsHead>a{display:none!important}
+main .v1Section:has(.homeTourActions) .v1SectionHead>a{display:none!important}
+main .v1Section:has(.homeTourActions) .v1TourGrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+main .v1Section:has(.homeTourActions) .v1Tour{min-width:0;display:flex;flex-direction:column}
+main .v1Section:has(.homeTourActions) .v1TourImage{height:175px}
+main .v1Section:has(.homeTourActions) .v1TourBody{padding:18px;display:flex;flex:1;flex-direction:column}
+main .v1Section:has(.homeTourActions) .v1TourBody h3{font-size:18px}
+main .v1Section:has(.homeTourActions) .homeTourPriceFooter{margin-top:auto}
+main .homeSectionActions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px;text-align:center}
+main .homeActionButtons{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+main .homeActionPrimary,main .homeActionSecondary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:210px;padding:12px 22px;border-radius:9px;font-weight:700;font-size:14px;text-decoration:none;transition:background-color .2s,border-color .2s}
+main .homeActionPrimary{background:#d82332;color:white}
+main .homeActionPrimary:hover{background:#b91e2b;color:white}
+main .homeActionSecondary{background:transparent;color:#d82332;border:2px solid #d82332}
+main .homeActionSecondary:hover{background:#fff1f2}
+main .homeTourActions p{margin:0;color:#667789;font-size:13px}
+@media(max-width:900px){main .homeDestinationsStaticGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}main .v1Section:has(.homeTourActions) .v1TourGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){main .homeDestinationsStaticGrid{gap:12px!important;margin-top:18px!important}main .homeDestinationsStaticGrid .v1Destination{height:165px!important;transform:none!important}main .homeDestinationsStaticGrid .v1Destination.homeDestinationCentered{transform:none!important}main .v1Section:has(.homeTourActions) .v1TourGrid{grid-template-columns:minmax(0,1fr)}main .v1Section:has(.homeTourActions) .v1TourImage{height:210px}main .homeActionButtons{width:100%;gap:10px}main .homeActionButtons>a{flex:1 1 160px;min-width:0}main .homeSectionActions{margin-top:24px}}
+
+/* PR 236: Keep the original single-card horizontal swipe experience on phones. */
+@media(max-width:600px){
+ main .homeDestinationsStaticGrid{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x mandatory!important;scroll-padding-inline:18px!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;gap:14px!important;padding:12px 18px 22px!important;margin-left:-18px!important;margin-right:-18px!important;scrollbar-width:none!important}
+ main .homeDestinationsStaticGrid::-webkit-scrollbar{display:none}
+ main .homeDestinationsStaticGrid .v1Destination{flex:0 0 calc(100% - 36px)!important;width:calc(100% - 36px)!important;max-width:none!important;min-width:0!important;height:245px!important;scroll-snap-align:center!important;scroll-snap-stop:normal!important;transform:none!important}
+}

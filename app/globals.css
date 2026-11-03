@@ -1911,7 +1911,7 @@ main .homeDestinationsHead .homeDestinationsDesktopTitle{
 @media(max-width:520px){.breadcrumbAfterHero:has(+ .journeySummaryStrip) .siteBreadcrumbInner,.breadcrumbAfterHero:has(+ .journeySummaryCard) .siteBreadcrumbInner{padding-left:18px;padding-right:18px}}
 
 /* Homepage destination/tour merchandising refresh. Scoped to homepage only. */
-main .homeDestinationsStaticGrid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important;overflow:visible!important;padding:0!important;margin:24px 0 0!important;scroll-snap-type:none!important;align-items:stretch!important}
+main .homeDestinationsStaticGrid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important;overflow:visible!important;padding:0!important;margin:24px 0 0!important;scroll-snap-type:none!important;align-items:stretch!important}
 main .homeDestinationsStaticGrid .v1Destination{display:flex!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;flex:auto!important;height:210px!important;min-height:0!important;transform:none!important;box-shadow:none!important;scroll-snap-align:none!important;border-radius:12px!important}
 main .homeDestinationsStaticGrid .v1Destination:hover{transform:none!important;box-shadow:0 10px 24px #0b31532b!important}
 main .homeDestinationsStaticGrid .homeDestinationClone{display:none!important}

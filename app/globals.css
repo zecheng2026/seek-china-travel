@@ -1935,3 +1935,10 @@ main .homeActionSecondary:hover{background:#fff1f2}
 main .homeTourActions p{margin:0;color:#667789;font-size:13px}
 @media(max-width:900px){main .homeDestinationsStaticGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}main .v1Section:has(.homeTourActions) .v1TourGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){main .homeDestinationsStaticGrid{gap:12px!important;margin-top:18px!important}main .homeDestinationsStaticGrid .v1Destination{height:165px!important;transform:none!important}main .homeDestinationsStaticGrid .v1Destination.homeDestinationCentered{transform:none!important}main .v1Section:has(.homeTourActions) .v1TourGrid{grid-template-columns:minmax(0,1fr)}main .v1Section:has(.homeTourActions) .v1TourImage{height:210px}main .homeActionButtons{width:100%;gap:10px}main .homeActionButtons>a{flex:1 1 160px;min-width:0}main .homeSectionActions{margin-top:24px}}
+
+/* PR 236: Keep the original single-card horizontal swipe experience on phones. */
+@media(max-width:600px){
+ main .homeDestinationsStaticGrid{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x mandatory!important;scroll-padding-inline:18px!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;gap:14px!important;padding:12px 18px 22px!important;margin-left:-18px!important;margin-right:-18px!important;scrollbar-width:none!important}
+ main .homeDestinationsStaticGrid::-webkit-scrollbar{display:none}
+ main .homeDestinationsStaticGrid .v1Destination{flex:0 0 calc(100% - 36px)!important;width:calc(100% - 36px)!important;max-width:none!important;min-width:0!important;height:245px!important;scroll-snap-align:center!important;scroll-snap-stop:normal!important;transform:none!important}
+}

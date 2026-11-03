@@ -1971,3 +1971,12 @@ main .homeTourActions p{margin:0;color:#667789;font-size:13px}
  .siteHeader .mobileMenu nav .navContactLink{color:#d82332;font-weight:750}
 }
 @media(max-width:390px){.siteHeader{gap:6px!important}.siteHeader .mobileHeaderContact{padding:8px 10px;font-size:11px}.siteHeader .mobileMenu summary{width:36px;padding:8px}}
+
+/* Mobile header ordering: compact Contact Us CTA left of rightmost menu. */
+@media(max-width:1000px){
+ .siteHeader .mobileHeaderContact{margin-left:auto;min-height:34px;padding:7px 11px;font-size:11px;border-radius:7px;line-height:1.2}
+ .siteHeader .mobileMenu{margin-left:0;flex:0 0 auto}
+}
+@media(max-width:390px){
+ .siteHeader .mobileHeaderContact{min-height:32px;padding:6px 9px;font-size:10.5px}
+}

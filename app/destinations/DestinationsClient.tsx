@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import LazyBackgroundLink from "../components/LazyBackground";
 import {useEffect,useState} from "react";
 
 type Row=Record<string,unknown>;
@@ -27,9 +28,9 @@ export default function Destinations({initialItems,initialTours}:{initialItems:R
   <div className="destinationCatalogGrid">{visible.map((d,i)=>{
    const name=String(d.name??"China");
    const image=String(d.hero_image_url??d.image_url??d.cover_image_url??"");
-   return <Link href={"/destinations/"+encodeURIComponent(String(d.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className="destinationCatalogCard" key={String(d.id??i)} style={image?{backgroundImage:"url('"+image+"')",backgroundPosition:`${Number(d.image_position_x??50)}% ${Number(d.image_position_y??50)}%`}:undefined} aria-label={`Explore ${name}`}>
+   return <LazyBackgroundLink href={"/destinations/"+encodeURIComponent(String(d.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className="destinationCatalogCard" key={String(d.id??i)} image={image} position={`${Number(d.image_position_x??50)}% ${Number(d.image_position_y??50)}%`} label={`Explore ${name}`}> 
     <span className="destinationCatalogShade"/><h2>{name}</h2>
-   </Link>;
+   </LazyBackgroundLink>;
   })}</div>
   {totalPages>1&&<nav className="destinationCatalogPagination" aria-label="Destination pages">
    <button type="button" disabled={currentPage===1} onClick={()=>changePage(currentPage-1)}>Previous</button>

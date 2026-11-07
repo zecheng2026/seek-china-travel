@@ -1,24 +1,41 @@
 "use client";
 import Link from "next/link";
+import {useEffect,useState} from "react";
 
 type Row=Record<string,unknown>;
 const fallback=[["Beijing","Imperial history & the Great Wall"],["Xi'an","Ancient China & Terracotta Warriors"],["Zhangjiajie","Otherworldly mountains & nature"],["Chengdu","Pandas, tea houses & Sichuan life"],["Chongqing","Mountain-city energy & karst scenery"],["Guilin","Rivers, limestone peaks & countryside"]];
 function plain(v:unknown){return String(v??"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim()}
 export default function Destinations({initialItems,initialTours}:{initialItems:Row[];initialTours:Row[]}){
  const display:Row[]=initialItems.length?initialItems:fallback.map((d,i)=>({name:d[0],short_description:d[1],slug:String(d[0]).toLowerCase().replace(/[^a-z0-9]+/g,"-"),id:i}));
+ const [columns,setColumns]=useState(4);
+ const [page,setPage]=useState(1);
+ useEffect(()=>{
+  const update=()=>setColumns(window.innerWidth<=380?1:window.innerWidth<=760?2:window.innerWidth<=1050?3:4);
+  update();window.addEventListener("resize",update);return ()=>window.removeEventListener("resize",update);
+ },[]);
+ const pageSize=columns*6;
+ const totalPages=Math.ceil(display.length/pageSize);
+ const currentPage=Math.min(page,Math.max(1,totalPages));
+ const visible=display.slice((currentPage-1)*pageSize,currentPage*pageSize);
+ const changePage=(next:number)=>{setPage(next);document.getElementById("destination-catalog-heading")?.scrollIntoView({behavior:"smooth",block:"start"});};
  return <main>
  <section className="destinationIndex destinationIndexRich destinationCatalogPage">
   <header className="destinationCatalogIntro">
-   <h1>Most Popular Travel Destinations</h1>
+   <h1 id="destination-catalog-heading">Most Popular Travel Destinations</h1>
    <p>Below are beautiful and most famous Chinese tourist destinations in the list of must-check-in places when visiting China for the first time.</p>
   </header>
-  <div className="destinationCatalogGrid">{display.map((d,i)=>{
+  <div className="destinationCatalogGrid">{visible.map((d,i)=>{
    const name=String(d.name??"China");
    const image=String(d.hero_image_url??d.image_url??d.cover_image_url??"");
    return <Link href={"/destinations/"+encodeURIComponent(String(d.slug??name.toLowerCase().replace(/[^a-z0-9]+/g,"-")))} className="destinationCatalogCard" key={String(d.id??i)} style={image?{backgroundImage:"url('"+image+"')",backgroundPosition:`${Number(d.image_position_x??50)}% ${Number(d.image_position_y??50)}%`}:undefined} aria-label={`Explore ${name}`}>
     <span className="destinationCatalogShade"/><h2>{name}</h2>
    </Link>;
   })}</div>
+  {totalPages>1&&<nav className="destinationCatalogPagination" aria-label="Destination pages">
+   <button type="button" disabled={currentPage===1} onClick={()=>changePage(currentPage-1)}>Previous</button>
+   {Array.from({length:totalPages},(_,i)=>i+1).map(n=><button key={n} type="button" className={n===currentPage?"isActive":""} aria-label={`Page ${n}`} aria-current={n===currentPage?"page":undefined} onClick={()=>changePage(n)}>{n}</button>)}
+   <button type="button" disabled={currentPage===totalPages} onClick={()=>changePage(currentPage+1)}>Next</button>
+  </nav>}
  </section>
  <section className="v1Section v1Soft destinationFeaturedTours">
   <header className="v1SectionHead"><div><p className="v1Eyebrow red">HANDPICKED JOURNEYS</p><h2>China trips travelers love</h2></div><Link href="/tours">See all tours →</Link></header>

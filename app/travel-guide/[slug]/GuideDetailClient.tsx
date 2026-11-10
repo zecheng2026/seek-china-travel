@@ -26,8 +26,8 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
   let cancelled=false;
   const articleText=[guide.title,guide.name,guide.summary,guide.short_description,guide.content,guide.description].map(v=>value(v).replace(/<[^>]*>/g," ")).join(" ").toLowerCase();
   void Promise.all([
-   supabase.from("destinations").select("id,name,slug,hero_image_url,image_url,cover_image_url,image_position_x,image_position_y").eq("is_active",true),
-   supabase.from("tours").select("id,name,title,slug,destination,destination_id,hero_image_url,image_url,cover_image_url,image_position_x,image_position_y,duration_days,duration,days").eq("is_published",true)
+   supabase.from("destinations").select("*").eq("is_active",true),
+   supabase.from("tours").select("*").eq("is_published",true)
   ]).then(([destinationResult,tourResult])=>{
    if(cancelled)return;
    const allDestinations=((destinationResult.data as Row[]|null)??[]).filter(d=>value(d.slug)&&value(d.name));

@@ -11,7 +11,7 @@ function Html({value:html}:{value:unknown}){return html?<div className="tourHtml
 function matches(text:string,name:string){const n=normalize(name);if(n.length<4)return false;const pos=text.indexOf(n);if(pos<0)return false;const before=text[pos-1]??" ";const after=text[pos+n.length]??" ";return !/[a-z]/.test(before)&&!/[a-z]/.test(after);}
 function prioritize<T extends Row>(items:T[],score:(item:T)=>number,limit:number){return items.map((item,index)=>({item,index,score:score(item)})).sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,limit).map(x=>x.item);}
 
-export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;initialGuide?:Row|null}){
+export default function GuideDetail({slug:slugProp,initialGuide,initialDestinations=[],initialTours=[]}:{slug?:string;initialGuide?:Row|null;initialDestinations?:Row[];initialTours?:Row[]}){
  const supabase=useMemo(()=>createClient(),[]);
  const [runtimeSlug,setRuntimeSlug]=useState("");
  const slug=slugProp??runtimeSlug;
@@ -25,24 +25,23 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
   if(!guide)return;
   let cancelled=false;
   const articleText=[guide.title,guide.name,guide.summary,guide.short_description,guide.content,guide.description].map(v=>value(v).replace(/<[^>]*>/g," ")).join(" ").toLowerCase();
-  void Promise.all([
-   supabase.from("destinations").select("*").eq("is_active",true),
-   supabase.from("tours").select("*").eq("is_published",true)
-  ]).then(([destinationResult,tourResult])=>{
+  const applyRecommendations=(destinationRows:Row[],tourRows:Row[])=>{
    if(cancelled)return;
-   const allDestinations=((destinationResult.data as Row[]|null)??[]).filter(d=>value(d.slug)&&value(d.name));
+   const allDestinations=destinationRows.filter(d=>value(d.slug)&&value(d.name));
    const rankedDestinations=prioritize(allDestinations,d=>matches(articleText,value(d.name))?2:0,4);
    setDestinations(rankedDestinations);
    const relevantIds=new Set(rankedDestinations.filter(d=>matches(articleText,value(d.name))).map(d=>value(d.id)));
    const relevantNames=new Set(rankedDestinations.filter(d=>matches(articleText,value(d.name))).map(d=>normalize(d.name)));
-   const allTours=((tourResult.data as Row[]|null)??[]).filter(t=>value(t.slug)&&value(t.name??t.title));
+   const allTours=tourRows.filter(t=>value(t.slug)&&value(t.name??t.title));
    setTours(prioritize(allTours,t=>{
     const dest=normalize(t.destination);
     return (matches(articleText,value(t.name??t.title))?4:0)+(relevantIds.has(value(t.destination_id))||relevantNames.has(dest)?3:0)+(matches(articleText,dest)?2:0);
    },3));
-  });
+  };
+  if(initialDestinations.length||initialTours.length){applyRecommendations(initialDestinations,initialTours);return ()=>{cancelled=true;};}
+  void Promise.all([supabase.from("destinations").select("*").eq("is_active",true),supabase.from("tours").select("*").eq("is_published",true)]).then(([d,t])=>{if(d.error||t.error)console.error("Article recommendations fetch failed",d.error?.message,t.error?.message);applyRecommendations((d.data as Row[]|null)??[],(t.data as Row[]|null)??[]);});
   return ()=>{cancelled=true;};
- },[guide,supabase]);
+ },[guide,supabase,initialDestinations,initialTours]);
  if(loading)return <main className="tourLoading"><p>Loading travel guide…</p></main>;
  if(!guide)return <main className="tourLoading"><div><h1>Guide not found</h1><Link href="/travel-guide" className="btn">All Travel Guides →</Link></div></main>;
  const title=value(guide.title??guide.name)||"China Travel Guide";

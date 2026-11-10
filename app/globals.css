@@ -2028,3 +2028,26 @@ main .v1Section .homeDestinationsHead .homeDestinationsMobileSubtitle{margin-lef
 .destinationCatalogPagination button:disabled{opacity:.4;cursor:not-allowed}
 .destinationCatalogPagination button:focus-visible{outline:2px solid #d82332;outline-offset:2px}
 @media(max-width:600px){.destinationCatalogPagination{gap:6px;margin-top:24px}.destinationCatalogPagination button{min-width:36px;min-height:38px;padding:7px 10px}}
+
+
+/* Editorial recommendations below travel updates: scoped to the visual variant. */
+.guideRelatedVisual .guideRelatedSection+.guideRelatedSection{margin-top:42px}
+.guideRelatedDestinationGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.guideRelatedDestinationCard{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;min-height:175px;overflow:hidden;border-radius:13px;padding:13px;text-decoration:none;color:#fff!important;background:#26485d}
+.guideRelatedDestinationCard img,.guideRelatedTourVisual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.guideRelatedDestinationCard:hover img,.guideRelatedTourCard:hover img{transform:scale(1.045)}
+.guideRelatedDestinationShade{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(5,25,40,.03) 25%,rgba(5,25,40,.82) 100%)}
+.guideRelatedDestinationCard strong,.guideRelatedDestinationAction{position:relative;z-index:1}
+.guideRelatedDestinationCard strong{font-size:15px;line-height:1.3;text-shadow:0 1px 5px #123}
+.guideRelatedDestinationAction{font-size:11px;margin-top:7px;color:#fff;font-weight:650}
+.guideRelatedPhotoFallback{position:absolute;inset:0;background:linear-gradient(135deg,#3e718a,#123b57)}
+.guideRelatedTourGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.guideRelatedTourCard{display:flex;flex-direction:column;overflow:hidden;border:1px solid #dce5ea;border-radius:14px;background:#fff;text-decoration:none;color:#103b59;box-shadow:0 5px 16px rgba(16,59,89,.05);transition:box-shadow .2s,transform .2s}
+.guideRelatedTourCard:hover{box-shadow:0 10px 24px rgba(16,59,89,.12);transform:translateY(-2px)}
+.guideRelatedTourVisual{position:relative;height:126px;overflow:hidden;background:#e5edf1}
+.guideRelatedTourBody{display:flex;flex:1;flex-direction:column;gap:9px;padding:13px}
+.guideRelatedTourBody small{font-size:10px;letter-spacing:.04em;color:#708397;font-weight:700}
+.guideRelatedTourBody strong{font-size:13px;line-height:1.5;color:#103b59}
+.guideRelatedTourBody>span{margin-top:auto;color:#bd2934;font-size:11px;font-weight:700}
+@media(max-width:600px){.guideRelatedDestinationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.guideRelatedDestinationCard{min-height:160px}.guideRelatedTourGrid{grid-template-columns:minmax(0,1fr)}.guideRelatedTourCard{flex-direction:row;min-height:120px}.guideRelatedTourVisual{width:39%;height:auto;min-height:120px;flex-shrink:0}.guideRelatedTourBody{padding:12px}.guideRelatedVisual .guideRelatedSection+.guideRelatedSection{margin-top:34px}}
+@media(prefers-reduced-motion:reduce){.guideRelatedDestinationCard img,.guideRelatedTourVisual img,.guideRelatedTourCard{transition:none}}

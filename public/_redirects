@@ -3,6 +3,14 @@
 /index.html / 301
 /about.html /about 301
 
+# Renamed entry points reported as 404 in Search Console (2026-11-10).
+# Targets verified against the current published catalog.
+/guides /travel-guide 301
+/guides.html /travel-guide 301
+/destinations/beijing /destinations/beijing-travel-guide 301
+/destinations/guilin /destinations/guilin-travel-guide 301
+/tours/zhangjiajie-5-day /tours/zhangjiajie-5-day-tour 301
+
 # IMPORTANT: Do not redirect legacy query-ID detail pages to unrelated content.
 # /route-detail.html?id=R001, /dest-detail.html?id=D001, etc. need
 # verified ID -> published slug mappings before issuing 301 redirects.

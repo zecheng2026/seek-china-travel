@@ -26,8 +26,8 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
   let cancelled=false;
   const articleText=[guide.title,guide.name,guide.summary,guide.short_description,guide.content,guide.description].map(v=>value(v).replace(/<[^>]*>/g," ")).join(" ").toLowerCase();
   void Promise.all([
-   supabase.from("destinations").select("id,name,slug").eq("is_active",true),
-   supabase.from("tours").select("id,name,title,slug,destination,destination_id").eq("is_published",true)
+   supabase.from("destinations").select("id,name,slug,hero_image_url,image_url,cover_image_url,image_position_x,image_position_y").eq("is_active",true),
+   supabase.from("tours").select("id,name,title,slug,destination,destination_id,hero_image_url,image_url,cover_image_url,image_position_x,image_position_y,duration_days,duration,days").eq("is_published",true)
   ]).then(([destinationResult,tourResult])=>{
    if(cancelled)return;
    const allDestinations=((destinationResult.data as Row[]|null)??[]).filter(d=>value(d.slug)&&value(d.name));
@@ -59,14 +59,27 @@ export default function GuideDetail({slug:slugProp,initialGuide}:{slug?:string;i
 .newsDetailHeader{background:#EDF3F7!important;background-image:none!important;min-height:0!important;height:auto!important;padding:36px max(24px,calc((100vw - 1120px)/2)) 32px!important;color:#103b59!important;border-bottom:1px solid #dfe7ed}.newsDetailHeader .journeyHeroContent{position:static!important;transform:none!important;max-width:960px!important;padding:0!important;margin:0!important;color:#103b59!important}.newsDetailHeader .journeyHeroContent h1{color:#103b59!important;font-size:clamp(29px,4vw,45px)!important;line-height:1.24!important;margin:15px 0!important;text-shadow:none!important}.newsDetailHeader .journeyBack{color:#57758a!important;font-size:13px!important;text-decoration:none}.newsDetailHeader .journeysKicker{color:#d83b42!important;margin-top:34px!important}.newsDetailHeader .newsPublishedDate{color:#65798a!important;font-size:13px!important;margin:16px 0 0!important;text-shadow:none!important}.guideDetail:has(.newsDetailHeader){max-width:100%;overflow-x:clip}.guideDetail:has(.newsDetailHeader) .guideArticleLayout{grid-template-columns:minmax(0,1fr) 320px;gap:48px}.guideDetail:has(.newsDetailHeader) .guideArticle,.guideDetail:has(.newsDetailHeader) .journeySidebar,.guideDetail:has(.newsDetailHeader) .tourHtml,.guideDetail:has(.newsDetailHeader) .guideRelated{min-width:0;max-width:100%}.guideDetail:has(.newsDetailHeader) .tourHtml{overflow-wrap:anywhere;word-break:normal}.guideDetail:has(.newsDetailHeader) .tourHtml pre,.guideDetail:has(.newsDetailHeader) .tourHtml table{display:block;max-width:100%;overflow-x:auto}.guideDetail:has(.newsDetailHeader) .tourHtml img,.guideDetail:has(.newsDetailHeader) .tourHtml iframe,.guideDetail:has(.newsDetailHeader) .tourHtml video{max-width:100%;height:auto}.newsDetailHeader .journeyHeroContent{width:100%!important;min-width:0!important}.newsDetailHeader h1{overflow-wrap:anywhere}@media(max-width:900px){.guideDetail:has(.newsDetailHeader) .guideArticleLayout{grid-template-columns:minmax(0,1fr);gap:28px}}@media(max-width:600px){.newsDetailHeader{padding:26px 16px!important}.newsDetailHeader .journeyHeroContent h1{font-size:28px!important}.guideDetail:has(.newsDetailHeader) .guideArticleLayout{padding:38px 16px 70px!important}.guideDetail:has(.newsDetailHeader) .guideRelatedGrid{grid-template-columns:minmax(0,1fr)}.guideDetail:has(.newsDetailHeader) .journeyPlanCard{padding:22px}}`}</style>}
   <section className="guideArticleLayout"><article className="guideArticle">
    <Html value={guide.content??guide.description}/>
-   <nav aria-label="Continue exploring China" className="guideRelated">
+   <nav aria-label="Continue exploring China" className="guideRelated guideRelatedVisual">
     <section className="guideRelatedSection">
      <p className="journeysKicker">KEEP EXPLORING</p><h2>Explore Related Destinations</h2>
-     {destinations.length>0?<div className="guideRelatedGrid">{destinations.map(d=><Link className="guideRelatedCard" key={value(d.id??d.slug)} href={"/destinations/"+encodeURIComponent(value(d.slug))}><strong>{value(d.name)}</strong><span>Explore destination →</span></Link>)}</div>:<p><Link href="/destinations">Explore all China destinations →</Link></p>}
+     {destinations.length>0?<div className="guideRelatedDestinationGrid">{destinations.map(d=>{
+      const photo=value(d.hero_image_url??d.image_url??d.cover_image_url);
+      return <Link className="guideRelatedDestinationCard" key={value(d.id??d.slug)} href={"/destinations/"+encodeURIComponent(value(d.slug))}>
+       {photo?<img src={photo} alt={value(d.name)} loading="lazy" decoding="async" style={{objectPosition:`${Number(d.image_position_x??50)}% ${Number(d.image_position_y??50)}%`}}/>:<div className="guideRelatedPhotoFallback" aria-hidden="true"/>}
+       <span className="guideRelatedDestinationShade"/><strong>{value(d.name)}</strong><span className="guideRelatedDestinationAction">Explore destination ↗</span>
+      </Link>;
+     })}</div>:<p><Link href="/destinations">Explore all China destinations →</Link></p>}
     </section>
     <section className="guideRelatedSection">
      <p className="journeysKicker">PLAN YOUR JOURNEY</p><h2>Recommended China Tours</h2>
-     {tours.length>0?<div className="guideRelatedGrid">{tours.map(t=><Link className="guideRelatedCard" key={value(t.id??t.slug)} href={"/tours/"+encodeURIComponent(value(t.slug))}><strong>{value(t.name??t.title)}</strong><span>View tour itinerary →</span></Link>)}</div>:<p><Link href="/tours">Explore all private China tours →</Link></p>}
+     {tours.length>0?<div className="guideRelatedTourGrid">{tours.map(t=>{
+      const photo=value(t.hero_image_url??t.image_url??t.cover_image_url);
+      const days=value(t.duration_days??t.duration??t.days);
+      return <Link className="guideRelatedTourCard" key={value(t.id??t.slug)} href={"/tours/"+encodeURIComponent(value(t.slug))}>
+       <div className="guideRelatedTourVisual">{photo?<img src={photo} alt={value(t.name??t.title)} loading="lazy" decoding="async" style={{objectPosition:`${Number(t.image_position_x??50)}% ${Number(t.image_position_y??50)}%`}}/>:<div className="guideRelatedPhotoFallback" aria-hidden="true"/>}</div>
+       <div className="guideRelatedTourBody"><small>PRIVATE CHINA TOUR{days?` · ${days} DAYS`:""}</small><strong>{value(t.name??t.title)}</strong><span>View tour itinerary ↗</span></div>
+      </Link>;
+     })}</div>:<p><Link href="/tours">Explore all private China tours →</Link></p>}
     </section>
    </nav>
   </article><aside className="journeySidebar">{isNews?<div className="newsContactCard"><div className="newsContactVisual"><img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=700&q=80" alt="Historic Beijing landmark" loading="lazy"/><div><h3>Get in Touch</h3><p>We’re here to help you plan your perfect trip to China.</p></div></div><a className="newsContactMethod newsContactWhatsapp" href="https://wa.me/8618807449678" target="_blank" rel="noreferrer"><span className="newsContactIcon" aria-hidden="true">☎</span><span><strong>Chat on WhatsApp</strong><small>Quick response within 24 hours</small><b>+86 18807449678</b></span><span className="newsContactArrow" aria-hidden="true">→</span></a><a className="newsContactMethod newsContactEmail" href="mailto:feiwu2879@gmail.com"><span className="newsContactIcon" aria-hidden="true">✉</span><span><strong>Send us an email</strong><small>We’ll reply within 24 hours</small><b>feiwu2879@gmail.com</b></span><span className="newsContactArrow" aria-hidden="true">→</span></a><ul className="newsContactBenefits"><li>Private, tailor-made journeys</li><li>China-based travel specialists</li><li>No unnecessary shopping stops</li><li>Clear pricing, no hidden fees</li><li>We usually reply within 24 hours.</li></ul><Link href="/quote" className="newsContactQuote">Plan Your China Trip <span aria-hidden="true">→</span></Link></div>:<div className="journeyPlanCard"><QuickInquiry contextType="Travel Guide" contextTitle={title} supabase={supabase}/></div>}</aside></section>

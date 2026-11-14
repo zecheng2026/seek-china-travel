@@ -8,4 +8,75 @@ const guideDescription = (data: Record<string, unknown>) => firstText(data.seo_d
 
 export async function generateStaticParams(){const s=createBuildClient();const {data}=await s.from("travel_guides").select("slug").eq("is_published",true);return (data??[]).filter(x=>x.slug).map(x=>({slug:String(x.slug)}))}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const s=createBuildClient();const {data}=await s.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle();if(!data)return {title:"China Travel Guide | SEEK CHINA TRAVEL",robots:{index:false,follow:false}};const seoTitle=clean(data.seo_title);const title=firstText(seoTitle===slug?"":seoTitle,data.title,data.name,"China Travel Guide");const description=guideDescription(data);return {title:title.includes("SEEK CHINA TRAVEL")?title:title+" | SEEK CHINA TRAVEL",description,alternates:{canonical:siteUrl+"/travel-guide/"+slug},openGraph:{title,description,url:siteUrl+"/travel-guide/"+slug,type:"article"}}}
-export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const s=createBuildClient();const {data}=await s.from("travel_guides").select("*").eq("slug",slug).eq("is_published",true).maybeSingle();const [{data:relatedDestinations,error:destError},{data:relatedTours,error:tourError}]=await Promise.all([s.from("destinations").select("*").eq("is_active",true).order("sort_order",{ascending:true}),s.from("tours").select("*").eq("is_published",true).order("sort_order",{ascending:true})]);if(destError||tourError)console.error("Related article recommendations could not be pre-rendered",destError?.message,tourError?.message);const title=firstText(data?.title,data?.name,"China Travel Guide");const jsonLd={"@context":"https://schema.org","@type":"Article","headline":title,"description":data?guideDescription(data):"","url":siteUrl+"/travel-guide/"+slug,"author":{"@type":"Organization","name":"SEEK CHINA TRAVEL"},"publisher":{"@type":"Organization","name":"SEEK CHINA TRAVEL"}};return <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/><GuideDetail slug={slug} initialGuide={data??null} initialDestinations={relatedDestinations??[]} initialTours={relatedTours??[]}/></>}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const s = createBuildClient();
+
+  const { data } = await s
+    .from("travel_guides")
+    .select("*")
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .maybeSingle();
+
+  const [
+    { data: relatedDestinations, error: destError },
+    { data: relatedTours, error: tourError },
+  ] = await Promise.all([
+    s.from("destinations")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true }),
+    s.from("tours")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order", { ascending: true }),
+  ]);
+
+  if (destError || tourError) {
+    console.error(
+      "Related article recommendations could not be pre-rendered",
+      destError?.message,
+      tourError?.message
+    );
+  }
+
+  const title = firstText(data?.title, data?.name, "China Travel Guide");
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: data ? guideDescription(data) : "",
+    url: siteUrl + "/travel-guide/" + slug,
+    author: {
+      "@type": "Organization",
+      name: "SEEK CHINA TRAVEL",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SEEK CHINA TRAVEL",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <GuideDetail
+        slug={slug}
+        initialGuide={data ?? null}
+        initialDestinations={relatedDestinations ?? []}
+        initialTours={relatedTours ?? []}
+      />
+    </>
+  );
+}
+
